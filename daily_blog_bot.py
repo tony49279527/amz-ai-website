@@ -345,41 +345,53 @@ def save_to_supabase(post_data, source_link):
         print(f"DB Error (ignored): {e}")
 
 def save_to_json(post_data, source_link):
-    print("Saving to local JSON...")
-    json_path = "data/blog/posts_en.json"
+    """
+    Save the new post to blog_posts.js (JavaScript module format).
+    This is the file that blog.html actually reads from.
+    """
+    print("Saving to blog_posts.js...")
+    js_path = "data/blog/blog_posts.js"
     
     new_entry = {
         "id": post_data["slug"],
-        "slug": post_data["slug"],
         "title": post_data["title"],
-        "date": datetime.now().strftime("%Y-%m-%d"), 
+        "date": datetime.now().strftime("%B %d, %Y"),  # Human-readable format like existing posts
         "author": "Amz AI Agent",
-        "excerpt": post_data["excerpt"],
-        "content": post_data["content_html"],
-        "cover_image": post_data.get('cover_image', "images/blog_thumbs/default_news.png"),
+        "cover_image": post_data.get('cover_image', "assets/images/blog_thumbs/default_news.png"),
         "tags": post_data["tags"],
-        "source_link": source_link
+        "content": post_data["content_html"],
     }
 
     try:
-        if os.path.exists(json_path):
-            with open(json_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-        else:
-            data = []
+        # Read existing JS file and extract the JSON array
+        existing_posts = []
+        if os.path.exists(js_path):
+            with open(js_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                # Extract the blogPostsEN array
+                match = re.search(r'window\.blogPostsEN\s*=\s*(\[[\s\S]*?\]);', content)
+                if match:
+                    existing_posts = json.loads(match.group(1))
         
-        if any(d['slug'] == new_entry['slug'] for d in data):
-            print("Duplicate slug detected. Skipping JSON save.")
+        # Check for duplicates
+        if any(d.get('id') == new_entry['id'] for d in existing_posts):
+            print("Duplicate slug detected. Skipping save.")
             return
 
-        data.insert(0, new_entry)
+        # Insert new post at the beginning
+        existing_posts.insert(0, new_entry)
         
-        with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4, ensure_ascii=False)
-        print("Success: JSON updated.")
+        # Write back as JavaScript module
+        js_content = f"""
+window.blogPostsCN = [];
+window.blogPostsEN = {json.dumps(existing_posts, indent=2, ensure_ascii=False)};
+"""
+        with open(js_path, 'w', encoding='utf-8') as f:
+            f.write(js_content)
+        print("Success: blog_posts.js updated.")
         
     except Exception as e:
-        print(f"JSON Error: {e}")
+        print(f"JS Save Error: {e}")
 
 def main():
     candidates = fetch_and_filter_candidates()
