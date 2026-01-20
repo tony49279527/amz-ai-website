@@ -234,37 +234,51 @@ def generate_blog_post(news_item):
     print(f"Generating content for: {news_item['title']}...")
     
     prompt = f"""
-    You are an expert Amazon FBA consultant and SEO Specialist. Write a high-quality blog post.
+    You are an expert Amazon FBA consultant and SEO Strategist (E-E-A-T compliant). 
+    Your goal is to write a world-class blog post that ranks #1 on Google.
     
     Source Material:
     - Title: {news_item['title']}
     - Summary: {news_item['summary']}
     - Link: {news_item['link']}
     
-    MANDATORY REQUIREMENTS (Strict Enforement):
-    1. **SEO Optimization**:
-       - Title must be engaging but contain high-value keywords (e.g., "Amazon FBA 2026", "Seller Update").
-       - Provide a `meta_description` strictly under 160 characters.
-       - Use H2 and H3 tags for structure.
-       - Include 1-2 internal link suggestions if applicable.
+    ==================================================
+    MANDATORY SEO REQUIREMENTS (Strict Enforcement)
+    ==================================================
     
-    2. **Content Quality**:
-       - Tone: Professional, authoritative, actionable.
-       - Structure: 
-         - **Intro**: Hook the reader + Stats/Facts.
-         - **H2: The Core Update**: What happened?
-         - **H2: Impact on Sellers**: Why care?
-         - **H2: 3 Actionable Steps**: Bullet points on what to do.
-         - **Conclusion**: Brief wrap up.
+    1. 🔍 **Keyword Strategy**:
+       - Primary Keyword: Identify the most searchable term related to this news (e.g., "Amazon FBA Fee Change 2026").
+       - Placement: Must appear in the **First H1 Title**, **First Paragraph (first 100 words)**, and **at least one H2**.
     
-    3. **Images**:
-       - If you insert the article image, use: <img src="{news_item['image_url'] or 'PLACEHOLDER'}" alt="Descriptive SEO Alt Text" class="rounded-lg my-4 w-full object-cover">
+    2. 🔗 **Internal Linking Strategy**:
+       - You MUST contextually link to at least 2 internal pages if relevant:
+         - <a href="/index.html">Amz AI Agent Home</a> (for general tools)
+         - <a href="/faq.html">FBA FAQ</a> (for questions)
+         - <a href="/about.html">About Us</a>
+       - Do NOT force them; weave them naturally into the text (e.g., "Use tools like <a href='/index.html'>Amz AI Agent</a> to monitor these changes...").
+    
+    3. 🖼️ **Image Optimization**:
+       - If you insert the image, the `<img>` tag MUST have a descriptive `alt` attribute containing the Primary Keyword.
+       - Syntax: <img src="{news_item['image_url'] or 'PLACEHOLDER'}" alt="[Primary Keyword] - Descriptive Text" class="rounded-lg my-4 w-full object-cover">
+    
+    4. 🧩 **Structure & Readability**:
+       - **H1**: High-impact title.
+       - **Intro**: Hook the reader immediately. State the "What" and "Why".
+       - **H2**: Deep dive into the details.
+       - **H2**: Impact on Sellers (The "So What?").
+       - **H2**: 3 Actionable Steps (Bulleted list).
+       - **H2**: Frequently Asked Questions (FAQ) - **Crucial for SEO Snippets**.
+         - Write 3 Q&A pairs related to the news.
+       - **Conclusion**: Brief summary + Call to Action (CTA).
+    
+    5. 📣 **Engagement**:
+       - End with a question to encourage comments.
     
     Output JSON format ONLY:
     {{
         "title": "Optimized Title Here",
         "slug": "optimized-url-slug-contain-keywords",
-        "excerpt": "SEO Meta Description (Max 160 chars)",
+        "excerpt": "SEO Meta Description (Max 160 chars) - Must be click-worthy.",
         "content_html": "<div>...full html content...</div>",
         "tags": ["Tag1", "Tag2", "SEO Keyword"]
     }}
