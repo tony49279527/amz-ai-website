@@ -213,21 +213,96 @@ def select_best_article(candidates):
         print(f"AI Selection failed: {e}. Defaulting to first candidate.")
         return candidates[0]
 
-def get_fallback_image(title, tags):
+def generate_cover_image(title, slug):
     """
-    Return a relevant static placeholder if no real image found.
-    Simple keyword matching.
+    Generate a cover image using OpenRouter's gpt-5-image model.
+    Returns the relative path to the saved image.
     """
-    t = title.lower()
-    # These should exist in your project assets, or link to public placeholders
-    if "ai" in t or "tech" in t or "robot" in t or "automated" in t:
-        return "assets/images/blog/ai_tech_placeholder.jpg" # Example
-    if "logistic" in t or "ship" in t or "delivery" in t or "fba" in t:
-        return "assets/images/blog/logistics_placeholder.jpg"
-    if "policy" in t or "rule" in t or "law" in t or "ban" in t:
-        return "assets/images/blog/policy_placeholder.jpg"
+    print(f"Generating AI cover image for: {title}...")
     
-    return "images/blog_thumbs/default_news.png"
+    # Create a prompt for the image
+    image_prompt = f"""Create a professional, modern blog cover image for an Amazon FBA seller blog article titled: "{title}". 
+    
+    Style requirements:
+    - Clean, professional business/e-commerce aesthetic
+    - Modern gradient background (blue/purple tones)
+    - Abstract geometric shapes or subtle icons related to e-commerce
+    - No text in the image
+    - High contrast, suitable for web thumbnail
+    - 16:9 aspect ratio
+    - Minimalist design suitable for a tech/business blog
+    """
+    
+    try:
+        # Use gpt-5-image for image generation
+        response = client.chat.completions.create(
+            model="openai/gpt-5-image",
+            messages=[
+                {
+                    "role": "user",
+                    "content": image_prompt
+                }
+            ]
+        )
+        
+        # Extract the image URL or base64 from response
+        content = response.choices[0].message.content
+        
+        # Check if it's a base64 image
+        if content and "data:image" in content:
+            # Extract base64 data
+            import base64
+            base64_data = content.split(",")[1] if "," in content else content
+            image_data = base64.b64decode(base64_data)
+            
+            # Save to file
+            image_filename = f"{slug}.png"
+            image_path = f"assets/images/blog_thumbs/{image_filename}"
+            
+            os.makedirs("assets/images/blog_thumbs", exist_ok=True)
+            with open(image_path, 'wb') as f:
+                f.write(image_data)
+            
+            print(f"AI image saved to: {image_path}")
+            return image_path
+        
+        # If response contains a URL
+        elif content and content.startswith("http"):
+            import urllib.request
+            image_filename = f"{slug}.png"
+            image_path = f"assets/images/blog_thumbs/{image_filename}"
+            
+            os.makedirs("assets/images/blog_thumbs", exist_ok=True)
+            urllib.request.urlretrieve(content, image_path)
+            
+            print(f"AI image downloaded to: {image_path}")
+            return image_path
+            
+    except Exception as e:
+        print(f"AI Image generation failed: {e}")
+    
+    # Fallback to existing images if AI generation fails
+    print("Falling back to default images...")
+    t = title.lower()
+    if "ai" in t or "automation" in t or "agentic" in t:
+        return "assets/images/blog_thumbs/agentic.png"
+    if "algorithm" in t or "cosmo" in t or "rufus" in t or "ranking" in t:
+        return "assets/images/blog_thumbs/algo.png"
+    if "seo" in t or "keyword" in t or "search" in t or "intent" in t:
+        return "assets/images/blog_thumbs/seo_intent.png"
+    if "image" in t or "visual" in t or "photo" in t or "listing" in t:
+        return "assets/images/blog_thumbs/visual_opt.png"
+    if "package" in t or "return" in t or "fba" in t or "logistic" in t:
+        return "assets/images/blog_thumbs/packaging.png"
+    if "efficiency" in t or "cost" in t or "time" in t or "save" in t:
+        return "assets/images/blog_thumbs/efficiency.png"
+    if "sop" in t or "team" in t or "process" in t or "operation" in t:
+        return "assets/images/blog_thumbs/sop.png"
+    if "blue ocean" in t or "niche" in t or "opportunity" in t or "case" in t:
+        return "assets/images/blog_thumbs/blue_ocean.png"
+    
+    return "assets/images/blog_thumbs/agentic.png"  # Default
+
 
 def generate_blog_post(news_item):
     """Uses LLM to write a blog post based on the selected news."""
@@ -303,10 +378,8 @@ def generate_blog_post(news_item):
         
         data = json.loads(content)
         
-        # Handle Image Fallback
-        final_image = news_item.get('image_url')
-        if not final_image:
-            final_image = get_fallback_image(data['title'], data['tags'])
+        # Generate AI cover image (with fallback built-in)
+        final_image = generate_cover_image(data['title'], data['slug'])
             
         # Inject Image into HTML if bot didn't (or replace placeholder)
         if 'PLACEHOLDER' in data['content_html']:
