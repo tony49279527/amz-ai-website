@@ -24,8 +24,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # We need feedparser, openai, and supabase
-        pip install feedparser openai supabase
+        # Install dependencies from requirements.txt
+        pip install -r requirements.txt
 
     - name: Run Blog Bot
       env:
