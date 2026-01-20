@@ -28,7 +28,7 @@ RSS_FEEDS = [
 ]
 
 # 2. 只有最近 N 天的新闻才会被采用 (防止写出旧闻)
-NEWS_MAX_AGE_DAYS = 2
+NEWS_MAX_AGE_DAYS = 7
 
 # 3. 每天发布文章数量限制
 LIMIT_POSTS_PER_RUN = 1
