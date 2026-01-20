@@ -122,7 +122,30 @@ def generate_blog_post(news_item):
         response_format={"type": "json_object"}
     )
     
-    return json.loads(response.choices[0].message.content)
+    content = response.choices[0].message.content.strip()
+    
+    # Clean Markdown code blocks if present
+    if "```json" in content:
+        content = content.split("```json")[1].split("```")[0]
+    elif "```" in content:
+        content = content.split("```")[1].split("```")[0]
+        
+    # Attempt to fix common JSON issues (simple approach)
+    content = content.strip()
+    
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        print("Detailed JSON Error. Raw content received:")
+        print(content)
+        # Fallback: simple text cleanup
+        import re
+        content_clean = re.sub(r'[\x00-\x1f\x7f-\x9f]', '', content)
+        try:
+             return json.loads(content_clean)
+        except:
+            print("Failed to parse JSON even after cleanup.")
+            return None
 
 def save_to_supabase(post_data, source_link):
     """Saves the generated post to Supabase."""
