@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed | Amz AI Agent</title>
+    <meta name="description"
+        content="AI-powered Amazon competitor analysis tool. Generate professional reports and gain marketing insights.">
+
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://amzaiagent.com/failed.html">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">Amz AI Agent</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="create.html">Create Analysis</a>
+                <a href="cases.html">Cases</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="nav-actions">
+                <a href="create.html" class="btn btn-primary">Start Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="failed-page-wrapper">
+        <div class="container">
+            <div class="failed-layout">
+                <!-- Left: Main Content -->
+                <div class="failed-main">
+                    <!-- Failure Header -->
+                    <div class="failed-hero">
+                        <div class="failed-icon">
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="32" cy="32" r="32" fill="#EF4444" fill-opacity="0.15" />
+                                <circle cx="32" cy="32" r="24" fill="#EF4444" fill-opacity="0.3" />
+                                <path d="M24 24L40 40M40 24L24 40" stroke="#EF4444" stroke-width="4"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <h1 class="failed-title">Payment Failed</h1>
+                        <p class="failed-subtitle">No charges were made. Please try again.</p>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div class="error-message-card">
+                        <p class="error-text" id="error-message">
+                            We couldn't complete the payment. This can happen due to bank verification or card limits.
+                        </p>
+                        <p class="error-code" id="error-code" style="display: none;">
+                            Reason code: <span id="reason-code">—</span>
+                        </p>
+                    </div>
+
+                    <!-- Retry Payment Section -->
+                    <div class="retry-payment-card">
+                        <h2>Retry Payment</h2>
+                        <p class="retry-intro">Choose a payment method to complete your order:</p>
+
+                        <div class="payment-actions">
+                            <button class="btn btn-payment stripe disabled" id="btn-stripe" disabled
+                                title="Coming soon">
+                                Pay with Stripe (Coming Soon)
+                            </button>
+                            <button class="btn btn-payment paypal disabled" id="btn-paypal" disabled>
+                                Pay with PayPal (Unavailable)
+                            </button>
+                        </div>
+
+                        <p class="payment-redirect-note">You'll be redirected to PayPal to complete the payment.</p>
+                        <p class="payment-tip">
+                            💡 Tip: Try another payment method or contact your bank for verification.
+                        </p>
+                    </div>
+
+                    <!-- Navigation Links -->
+                    <div class="failed-links">
+                        <a href="#" id="back-to-order" class="btn btn-secondary">← Back to Order Page</a>
+                        <a href="cases.html">Return to Cases</a>
+                    </div>
+                </div>
+
+                <!-- Right: Sidebar -->
+                <div class="failed-sidebar">
+                    <!-- Order Summary Card -->
+                    <div class="summary-card">
+                        <h3>Order Summary</h3>
+                        <div class="summary-rows">
+                            <div class="summary-row" id="row-orderId">
+                                <span class="label">Order ID</span>
+                                <span class="value" id="val-orderId">—</span>
+                            </div>
+                            <div class="summary-row" id="row-reportId">
+                                <span class="label">Report ID</span>
+                                <span class="value" id="val-reportId">—</span>
+                            </div>
+                            <div class="summary-row" id="row-email">
+                                <span class="label">Email</span>
+                                <span class="value" id="val-email">—</span>
+                            </div>
+                            <div class="summary-row" id="row-amount">
+                                <span class="label">Amount</span>
+                                <span class="value amount" id="val-amount">—</span>
+                            </div>
+                            <div class="summary-row" id="row-provider">
+                                <span class="label">Last Attempt</span>
+                                <span class="value" id="val-provider">—</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="label">Timestamp</span>
+                                <span class="value" id="val-timestamp">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Help Card -->
+                    <div class="summary-card help-card">
+                        <h3>Need Help?</h3>
+                        <p>If you continue to experience issues, please contact our support team.</p>
+                        <!-- TODO: Replace with actual support email if different -->
+                        <a href="mailto:leetony4927@gmail.com" class="btn btn-secondary btn-sm">Contact Support</a>
+                        <p class="help-note">Include your Order ID in the email for faster assistance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <h3 class="footer-logo">Amz AI Agent</h3>
+                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
+            </div>
+            <!-- Middle: 3 Link Columns -->
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="create.html">Create Analysis</a>
+                    <a href="reports.html">Analysis Reports</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="cases.html">Case Studies</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+
+            // Extract parameters
+            const orderId = params.get('orderId') || localStorage.getItem('lastOrderId');
+            const reportId = params.get('reportId') || localStorage.getItem('lastReportId');
+            const email = params.get('email') || localStorage.getItem('lastEmail');
+            const amount = params.get('amount') || '29.99';
+            const currency = params.get('currency') || 'USD';
+            const provider = params.get('provider');
+            const reason = params.get('reason');
+            const message = params.get('message');
+
+            // Store for retry
+            if (orderId) localStorage.setItem('lastOrderId', orderId);
+            if (reportId) localStorage.setItem('lastReportId', reportId);
+            if (email) localStorage.setItem('lastEmail', email);
+
+            // Populate error message
+            if (message) {
+                document.getElementById('error-message').textContent = decodeURIComponent(message);
+            }
+
+            // Show reason code if present
+            if (reason) {
+                document.getElementById('error-code').style.display = 'block';
+                document.getElementById('reason-code').textContent = reason;
+            }
+
+            // Populate Order ID
+            if (orderId) {
+                document.getElementById('val-orderId').textContent = orderId;
+            } else {
+                document.getElementById('row-orderId').style.display = 'none';
+            }
+
+            // Populate Report ID
+            if (reportId) {
+                document.getElementById('val-reportId').textContent = reportId;
+            } else {
+                document.getElementById('row-reportId').style.display = 'none';
+            }
+
+            // Populate Email
+            if (email) {
+                document.getElementById('val-email').textContent = email;
+            } else {
+                document.getElementById('row-email').style.display = 'none';
+            }
+
+            // Populate Amount
+            const formattedAmount = currency === 'USD'
+                ? `$${parseFloat(amount).toFixed(2)}`
+                : `${parseFloat(amount).toFixed(2)} ${currency}`;
+            document.getElementById('val-amount').textContent = formattedAmount;
+
+            // Populate Provider
+            if (provider) {
+                const providerName = provider.charAt(0).toUpperCase() + provider.slice(1);
+                document.getElementById('val-provider').textContent = providerName;
+            } else {
+                document.getElementById('row-provider').style.display = 'none';
+            }
+
+            // Populate Timestamp
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('val-timestamp').textContent = `Today, ${timeStr}`;
+
+            // Build "Back to Order Page" link with preserved params
+            const orderParams = new URLSearchParams();
+            if (orderId) orderParams.set('orderId', orderId);
+            if (reportId) orderParams.set('reportId', reportId);
+            if (email) orderParams.set('email', email);
+            orderParams.set('amount', amount);
+            orderParams.set('currency', currency);
+            document.getElementById('back-to-order').href = `order.html?${orderParams.toString()}`;
+
+            // Note: PayPal button is now a direct link, no JS handler needed
+            // Stripe button is disabled (Coming Soon)
+        });
+    </script>
+</body>
+
+</html>

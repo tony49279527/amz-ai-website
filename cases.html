@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Cases - Competitor Analysis Assistant</title>
+    <meta name="description"
+        content="AI-powered Amazon competitor analysis tool. Generate professional reports and gain marketing insights.">
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://amzaiagent.com/cases.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">Amz AI Agent</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="create.html">Create Analysis</a>
+                <a href="cases.html" class="active">Cases</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="nav-actions">
+                <a href="create.html" class="btn btn-primary">Start Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Success Cases</h1>
+            <p class="page-subtitle">Real Analysis Report Display</p>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="container">
+        <div class="content-grid" id="cases-grid">
+            <!-- Cases will be dynamically loaded from index.json -->
+            <div class="loading-state" style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: #64748b;">
+                Loading cases...
+            </div>
+        </div>
+    </main>
+
+    <script src="data/reports/reports.js"></script>
+    <script src="script_v2.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('cases-grid');
+
+            try {
+                // Use static data from reports.js variable
+                const reports = window.reportsData || [];
+
+                // Clear loading state
+                grid.innerHTML = '';
+
+                if (reports.length === 0) {
+                    grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: #64748b;">No cases found</p>';
+                    return;
+                }
+
+                // Render each report as a card
+                reports.forEach(report => {
+                    const card = document.createElement('a');
+                    card.href = `report.html?id=${report.id}`;
+                    card.className = 'card-link';
+
+                    // Note: Category, title, and summary come from JSON which is currently Chinese-only.
+                    card.innerHTML = `
+                        <article class="card">
+                            <div class="card-image-wrapper">
+                                ${report.cover_image
+                            ? `<img src="${report.cover_image}" alt="${report.title}" class="card-image">`
+                            : `<div style="width: 100%; height: 100%; background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 100%); display:flex; align-items:center; justify-content:center; color: #6366f1; font-weight:700;">
+                                        ${report.category || 'Analysis Report'}
+                                    </div>`
+                        }
+                            </div>
+                            <div class="card-content">
+                                <span class="card-tag">${report.category || 'Deep Analysis'}</span>
+                                <h3 class="card-title">${report.title}</h3>
+                                <p class="card-desc">${report.summary}</p>
+                                <div class="card-footer">
+                                    <span>📅 ${report.created_at}</span>
+                                    <span>🏷️ ASIN: ${report.asin}</span>
+                                </div>
+                            </div>
+                        </article>
+                    `;
+
+                    grid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Error loading reports:', error);
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: #dc2626;">Failed to load, please refresh</p>';
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Top: Brand + Tagline -->
+            <div class="footer-top">
+                <h3 class="footer-logo">Amz AI Agent</h3>
+                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
+            </div>
+
+            <!-- Middle: 3 Link Columns -->
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="create.html">Create Analysis</a>
+                    <a href="reports.html">Analysis Reports</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="cases.html">Case Studies</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+
+            <!-- Bottom: Copyright + Contact -->
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
+                <a href="contact.html" class="footer-contact">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

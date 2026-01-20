@@ -1,0 +1,8 @@
+        - [ ] Draft `submission_workflow.json` (Webhook -> PDF -> Stripe -> Email)
+    - [ ] **Fulfillment Workflow**
+        - [ ] Draft `fulfillment_workflow.json` (Stripe Trigger -> Get PDF -> Email)
+    - [ ] Import/Configure Workflows in n8n (Manual or API?) -> *Will provide JSONs for import*
+- [ ] **Verification**
+    - [ ] Verify Cloud Run deployment
+    - [x] Restore 7 blog posts to `blog_en.html` and `blog.html` <!-- id: 4 -->Verify Firebase Hosting
+    - [ ] Test End-to-End Flow

@@ -1,0 +1,16 @@
+# System Files
+.DS_Store
+.env
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+
+# Data
+# We WANT to commit the JSON data to trigger SSG
+# data/blog/posts_en.json (Do not ignore this)
+
+# Large backups
+*.zip

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Your Report | Amz AI Agent</title>
+    <meta name="description"
+        content="AI-powered Amazon competitor analysis tool. Generate professional reports and gain marketing insights.">
+
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://amzaiagent.com/processing.html">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">Amz AI Agent</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="create.html">Create Analysis</a>
+                <a href="cases.html">Cases</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="nav-actions">
+                <a href="create.html" class="btn btn-primary">Start Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="processing-wrapper">
+        <div class="container small-container">
+
+            <!-- 1. Top Status Card -->
+            <div class="proc-status-card">
+                <!-- Pro Badge -->
+                <div id="pro-badge"
+                    style="display: none; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border-radius: 4px; padding: 4px 12px; font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem; width: fit-content; margin-left: auto; margin-right: auto;">
+                    💎 PREMIUM ANALYSIS IN PROGRESS
+                </div>
+                <div class="proc-header">
+                    <div class="status-icon-check">✅</div>
+                    <div class="header-content">
+                        <h1>Submission Successful</h1>
+                        <p>We have received your request and started the AI analysis.</p>
+                    </div>
+                </div>
+
+                <div class="order-meta-grid">
+                    <div class="meta-item">
+                        <span class="label">Order ID</span>
+                        <span class="value order-id" id="display-order-id">...</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="label">Email</span>
+                        <span class="value" id="display-email">...</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="label">Estimated Time</span>
+                        <span class="value" id="est-time-display">20 – 50 Minutes</span>
+                    </div>
+                </div>
+
+                <div class="proc-alert">
+                    <span class="icon">ℹ️</span>
+                    You can safely close this page. We will notify you via email when complete.
+                </div>
+            </div>
+
+            <!-- 2. Progress Tracker -->
+            <div class="proc-section">
+                <div class="progress-tracker">
+                    <div class="progress-step completed">
+                        <div class="dot"></div>
+                        <span>Submitting</span>
+                    </div>
+                    <div class="progress-step active" id="step-queued">
+                        <div class="dot">
+                            <div class="pulse"></div>
+                        </div>
+                        <span>Queued</span>
+                    </div>
+                    <div class="progress-step" id="step-collecting">
+                        <div class="dot"></div>
+                        <span>Collecting Data</span>
+                    </div>
+                    <div class="progress-step" id="step-analyzing">
+                        <div class="dot"></div>
+                        <span>Analyzing</span>
+                    </div>
+                    <div class="progress-step" id="step-writing">
+                        <div class="dot"></div>
+                        <span>Writing</span>
+                    </div>
+                    <div class="progress-step" id="step-sending">
+                        <div class="dot"></div>
+                        <span>Sending Email</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. What Happens Next -->
+            <div class="proc-section">
+                <h2 class="section-title">What Happens Next?</h2>
+                <div class="next-steps-grid">
+                    <div class="next-step-card">
+                        <div class="step-num">01</div>
+                        <h3>AI Analysis</h3>
+                        <p>Our agents browse Amazon, collect reviews, and generate deep insights.</p>
+                    </div>
+                    <div class="next-step-card">
+                        <div class="step-num">02</div>
+                        <h3 id="step-2-title">Receive Preview</h3>
+                        <p id="step-2-desc">You'll get an email with a link to preview the report summary for free.</p>
+                    </div>
+                    <div class="next-step-card highlight">
+                        <div class="step-num">03</div>
+                        <h3 id="step-3-title">Unlock Full Report</h3>
+                        <p id="step-3-desc">If you like the summary, you can pay <strong>$29.99</strong> to unlock the
+                            full 8,000+ word
+                            analysis.</p>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <a href="index.html" class="btn btn-secondary">Return to Home</a>
+                    <!-- Hidden button if reportId is known -->
+                    <a href="#" id="preview-btn" class="btn btn-primary" style="display: none;">View Preview</a>
+                </div>
+            </div>
+
+            <!-- 4. FAQ -->
+            <div class="proc-section">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div class="proc-faq">
+                    <div class="faq-row">
+                        <h4>Why does it take 20-50 minutes?</h4>
+                        <p>We don't just use a simple template. Our AI agents read hundreds of review pages in real-time
+                            to provide up-to-date, authentic market insights.</p>
+                    </div>
+                    <div class="faq-row">
+                        <h4>I haven't received my report yet?</h4>
+                        <p>Please check your spam folder first. If it's not there after 30 minutes, contact support at
+                            <strong>leetony4927@gmail.com</strong> with your Order ID.
+                        </p>
+                    </div>
+                    <div class="faq-row">
+                        <h4>Do I have to pay now?</h4>
+                        <p>No. You only pay if you are satisfied with the preview and want to unlock the full detailed
+                            report.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <h3 class="footer-logo">Amz AI Agent</h3>
+                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
+            </div>
+            <!-- Middle: 3 Link Columns -->
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="create.html">Create Analysis</a>
+                    <a href="reports.html">Analysis Reports</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="cases.html">Case Studies</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Data Population
+            const params = new URLSearchParams(window.location.search);
+            const email = params.get('email');
+            const orderId = params.get('orderId') || generateOrderId();
+            const reportId = params.get('reportId');
+            const isPro = params.get('pro') === 'true';
+
+            // === Dynamic Content Update (Free vs Pro) ===
+            const estTimeEl = document.getElementById('est-time-display');
+            const step2Title = document.getElementById('step-2-title');
+            const step2Desc = document.getElementById('step-2-desc');
+            const step3Title = document.getElementById('step-3-title');
+            const step3Desc = document.getElementById('step-3-desc');
+
+            if (isPro) {
+                // PRO Mode
+                const badge = document.getElementById('pro-badge');
+                if (badge) badge.style.display = 'block';
+
+                if (estTimeEl) estTimeEl.textContent = '20 – 50 Minutes';
+
+                if (step2Title) step2Title.textContent = 'Receive Pro Report';
+                if (step2Desc) step2Desc.innerHTML = 'You will receive the full <strong>8,000+ word</strong> Deep Dive Analysis directly to your inbox.';
+
+                if (step3Title) step3Title.textContent = 'Final Verification';
+                if (step3Desc) step3Desc.textContent = 'Our experts review the report consistency before final delivery.';
+            } else {
+                // FREE Mode
+                if (estTimeEl) estTimeEl.textContent = '20 – 30 Minutes'; // User requested wait time for free too
+
+                if (step2Title) step2Title.textContent = 'Receive Free Report';
+                if (step2Desc) step2Desc.innerHTML = 'We are generating your <strong>3,000-word</strong> AI Analysis Report. Please wait patiently.';
+
+                if (step3Title) step3Title.textContent = 'Want Deeper Insights?';
+                if (step3Desc) step3Desc.innerHTML = 'Upgrade to Pro to unlock the full <strong>8,000+ word</strong> report with Competitor Deep Dives.';
+            }
+
+            // Set Order ID
+            document.getElementById('display-order-id').textContent = orderId;
+
+            // Set Email
+            if (email) {
+                const [u, d] = email.split('@');
+                const masked = u.length > 3 ? u.substring(0, 3) + '***' : '***';
+                document.getElementById('display-email').textContent = masked + '@' + (d || 'email.com');
+            } else {
+                document.getElementById('display-email').textContent = 'Your Email';
+            }
+
+            // Optional Preview Link
+            if (reportId) {
+                const btn = document.getElementById('preview-btn');
+                btn.style.display = 'inline-flex';
+                btn.href = `order.html?orderId=${orderId}&reportId=${reportId}&email=${encodeURIComponent(email || '')}`;
+            }
+
+            // 2. Progress Animation (Mock)
+            animateProgress();
+
+            // === PRO TRIGGER LOGIC (Post-Payment) ===
+            if (isPro) {
+                // Check if we have a pending payload from step 1
+                const storedPayload = localStorage.getItem('pending_pro_payload');
+                if (storedPayload) {
+                    try {
+                        const payload = JSON.parse(storedPayload);
+                        // Optional: Verify order ID matches if needed, but for now just trigger
+                        console.log('Found pending Pro payload, triggering analysis...', payload.order_id);
+
+                        // Set flag to prevent double trigger if they refresh immediately?
+                        // Actually localStorage.removeItem is safer.
+
+                        triggerProWebhook(payload).then(success => {
+                            if (success) {
+                                console.log('Pro Analysis Triggered Successfully');
+                                localStorage.removeItem('pending_pro_payload'); // Clear to prevent re-trigger
+                            } else {
+                                console.warn('Retrying Pro Analysis Trigger...');
+                                // Simple retry or keep in storage? Keep in storage for manual retry? 
+                                // For now, let's keep it in storage so a refresh MIGHT fix it, 
+                                // but we don't want infinite loops. 
+                                // Let's just remove it only on success.
+                            }
+                        });
+
+                    } catch (e) {
+                        console.error('Failed to parse pending payload', e);
+                    }
+                } else {
+                    console.log('No pending payload found. Assuming analysis already triggered or direct visit.');
+                }
+            }
+        });
+
+        async function triggerProWebhook(payload) {
+            const endpointUrl = 'https://tony4927.app.n8n.cloud/webhook/3f76a439-5a54-4d08-97cd-6e98d7b6e034';
+
+            // Prepare FormData for CORS compatibility (Same as Free Tier)
+            const formData = new URLSearchParams();
+            for (const key in payload) {
+                if (typeof payload[key] === 'object') {
+                    formData.append(key, JSON.stringify(payload[key]));
+                } else {
+                    formData.append(key, payload[key]);
+                }
+            }
+
+            try {
+                const response = await fetch(endpointUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData
+                });
+
+                if (response.ok) {
+                    return true;
+                } else {
+                    console.error('Webhook returned error:', response.status);
+                    return false;
+                }
+            } catch (err) {
+                console.error('Network error triggering webhook:', err);
+                return false;
+            }
+        }
+
+        function generateOrderId() {
+            return 'ORD-' + Math.floor(Math.random() * 1000000);
+        }
+
+        function animateProgress() {
+            const steps = ['queued', 'collecting', 'analyzing', 'writing'];
+            let current = 0;
+
+            const interval = setInterval(() => {
+                if (current >= steps.length) {
+                    // Loop back to analyzing/writing to show activity
+                    current = 2;
+                    // Reset UI for loop
+                    resetStepsFrom(2);
+                }
+
+                const stepId = `step-${steps[current]}`;
+                activateStep(stepId);
+
+                current++;
+            }, 5000 + Math.random() * 3000); // 5-8 seconds per step
+        }
+
+        function activateStep(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.add('active');
+                // Previous dot becomes completed (no pulse)
+                // Add 'completed' logic effectively
+                const prev = el.previousElementSibling;
+                if (prev) {
+                    prev.classList.remove('active');
+                    prev.classList.add('completed');
+                    const dot = prev.querySelector('.dot');
+                    dot.innerHTML = ''; // Remove pulse
+                }
+
+                // Add pulse to current
+                const dot = el.querySelector('.dot');
+                if (!dot.querySelector('.pulse')) {
+                    dot.innerHTML = '<div class="pulse"></div>';
+                }
+            }
+        }
+
+        function resetStepsFrom(index) {
+            // Simple visual reset for looping animation if desired
+            // Or just keep it stuck at "Writing"
+        }
+    </script>
+</body>
+
+</html>

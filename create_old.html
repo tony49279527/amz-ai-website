@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Analysis - AI Competitor Analysis</title>
+    <meta name="description" content="AI-powered Amazon competitor analysis tool. Generate professional reports and gain marketing insights.">
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://amzaiagent.com/create_old.html">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">Amz AI Agent</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="create.html" class="active">Create Analysis</a>
+                <a href="cases.html">Cases</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="nav-actions">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="analysis-header">
+                <h1>AI Deep Analysis</h1>
+                <h2>Create Competitor Analysis Report</h2>
+                <p>Enter ASIN to generate deep competitor analysis report in one click</p>
+            </div>
+
+            <div class="form-card">
+                <form id="analysis-form">
+                    <!-- Basic Configuration -->
+                    <div class="form-grid">
+                        <!-- Core Product ASIN -->
+                        <div class="form-group">
+                            <label for="main-asin">Core Product ASIN *</label>
+                            <p class="helper-text">Please enter the core product ASIN you want to analyze</p>
+                            <textarea id="main-asin" name="main-asin" placeholder="Enter core product ASIN..."
+                                required></textarea>
+                        </div>
+
+                        <!-- Competitor ASIN -->
+                        <div class="form-group">
+                            <label for="comp-asin">Competitor ASINs *</label>
+                            <p class="helper-text">Enter competitor ASINs, 3-5 recommended</p>
+                            <textarea id="comp-asin" name="comp-asin"
+                                placeholder="Enter competitor ASINs (one per line)..." required></textarea>
+                        </div>
+
+                        <!-- Marketplace (Moved to Basic) -->
+                        <div class="form-group">
+                            <label for="marketplace">Marketplace *</label>
+                            <select id="marketplace" name="marketplace">
+                                <option value="US" selected>US</option>
+                                <option value="CA">CA</option>
+                                <option value="GB">GB</option>
+                                <option value="DE">DE</option>
+                                <option value="JP">JP</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Configuration (Locked for Free Users) -->
+                    <div class="advanced-section-wrapper">
+                        <details class="advanced-config">
+                            <summary
+                                style="cursor: pointer; padding: 1rem 0; color: var(--primary-color); font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
+                                <span>Advanced Options (Pro)</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                                <span class="badge-pro"
+                                    style="background: #fbbf24; color: #000; font-size: 0.75rem; padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 700;">PRO</span>
+                            </summary>
+
+                            <!-- Overlay to intercept clicks on disabled elements if needed -->
+                            <div class="config-section pro-locked"
+                                style="margin-top: 1rem; opacity: 0.7; position: relative;">
+                                <h3 class="config-title">Analysis Configuration</h3>
+                                <div class="config-grid">
+                                    <!-- Report Language -->
+                                    <div class="form-group">
+                                        <label>Report Language <span class="lock-icon">🔒</span></label>
+                                        <select disabled class="pro-feature">
+                                            <option value="English" selected>English (Default)</option>
+                                            <option value="Français">Français</option>
+                                            <option value="Deutsch">Deutsch</option>
+                                            <option value="日本語">日本語</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Website Count -->
+                                    <div class="form-group">
+                                        <label>Reference Website Count <span class="lock-icon">🔒</span></label>
+                                        <select disabled class="pro-feature">
+                                            <option value="10" selected>10 Websites (Default)</option>
+                                            <option value="30">30 Websites</option>
+                                            <option value="50">50 Websites</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- YouTube Count -->
+                                    <div class="form-group">
+                                        <label>Reference YouTube Count <span class="lock-icon">🔒</span></label>
+                                        <select disabled class="pro-feature">
+                                            <option value="10" selected>10 Videos (Default)</option>
+                                            <option value="30">30 Videos</option>
+                                            <option value="50">50 Videos</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- LLM Model -->
+                                    <div class="form-group">
+                                        <label>LLM Model <span class="lock-icon">🔒</span></label>
+                                        <select disabled class="pro-feature">
+                                            <option value="anthropic/claude-sonnet-4.5" selected>Claude 3.5 Sonnet
+                                                (Default)</option>
+                                            <option value="openai/gpt-4-turbo">GPT-4 Turbo</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- File Upload -->
+                                <div class="upload-grid">
+                                    <div class="form-group">
+                                        <label>Upload Amazon Returns Report <span class="lock-icon">🔒</span></label>
+                                        <div class="file-upload-area disabled pro-feature">
+                                            <span>Select File (Pro Only)</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Upload Store Audience Profile <span class="lock-icon">🔒</span></label>
+                                        <div class="file-upload-area disabled pro-feature">
+                                            <span>Select File (Pro Only)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Custom Prompt -->
+                                <div class="prompt-section">
+                                    <h3 class="config-title">Custom Prompt</h3>
+                                    <div class="prompt-chips">
+                                        <button type="button" class="prompt-chip active" data-prompt="A">Prompt A
+                                            (Default)</button>
+                                        <button type="button" class="prompt-chip pro-feature" disabled>Prompt B
+                                            🔒</button>
+                                        <button type="button" class="prompt-chip pro-feature" disabled>Prompt C
+                                            🔒</button>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea id="custom-prompt" name="custom-prompt"
+                                            placeholder="Custom prompt is available for Pro users..." disabled
+                                            class="pro-feature"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="submit-btn">
+                        Start AI Analysis
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <!-- Spacer for button/footer gap -->
+
+    <!-- Email/Info Modal (Standard) -->
+    <!-- Email/Info Modal (Free Tier) -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button type="button" class="modal-close" id="modal-close">&times;</button>
+            <h2>Get Your Basic Analysis Report</h2>
+            <p class="modal-desc">Please complete the info below. Your free report will be sent to your email.</p>
+            <form id="modal-form">
+                <div class="form-group">
+                    <label for="user-name">Name *</label>
+                    <input type="text" id="user-name" name="user-name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-email">Email *</label>
+                    <input type="email" id="user-email" name="user-email" placeholder="name@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-industry">Industry Category *</label>
+                    <input type="text" id="user-industry" name="user-industry" placeholder="e.g. Electronics, Home..."
+                        required>
+                </div>
+                <!-- Upsell Link -->
+                <div style="margin-bottom: 1rem; text-align: center;">
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                        Want deeper insights, custom prompts & file uploads?<br>
+                        <a href="#" id="switch-to-pro-link"
+                            style="color: var(--primary-color); font-weight: 600;">Upgrade to Pro Analysis</a>
+                    </p>
+                </div>
+                <button type="submit" class="submit-btn" style="width: 100%;">Confirm & Start Free Analysis</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment Deposit Modal (Pro Tier) -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <button type="button" class="modal-close" id="payment-modal-close">&times;</button>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div
+                    style="background: #eef2ff; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    <span style="font-size: 2rem;">💎</span>
+                </div>
+                <h2>Unlock Premium Features</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.95rem;">
+                    You are unlocking <strong>Custom Models, File Uploads, and Advanced Prompts</strong>.
+                </p>
+            </div>
+
+            <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span>Total Service Fee</span>
+                    <span style="font-weight: 600;">$29.99</span>
+                </div>
+                <div
+                    style="display: flex; justify-content: space-between; color: var(--primary-color); font-weight: 600; font-size: 1.25rem;">
+                    <span>Deposit Due Now</span>
+                    <span>$4.99</span>
+                </div>
+                <div style="margin-top: 1rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 1rem;">
+                    <p style="font-size: 0.9rem; color: #333; margin-bottom: 0.25rem;"><strong>Payment Terms:</strong>
+                    </p>
+                    <ul
+                        style="font-size: 0.85rem; color: var(--text-secondary); text-align: left; padding-left: 1.5rem; margin: 0;">
+                        <li>Pay <strong>$4.99</strong> now to start the comprehensive analysis.</li>
+                        <li>Pay the remaining <strong>$25.00</strong> only after you preview the report.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button id="pay-deposit-btn" class="submit-btn"
+                style="background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%); width: 100%;">
+                Pay $4.99 Deposit & Start Analysis
+            </button>
+            <p style="text-align: center; margin-top: 1rem; font-size: 0.75rem; color: var(--text-secondary);">
+                Secure payment via Stripe • 100% Satisfaction Guarantee
+            </p>
+        </div>
+    </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Top: Brand + Tagline -->
+            <div class="footer-top">
+                <h3 class="footer-logo">Amz AI Agent</h3>
+                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
+            </div>
+
+            <!-- Middle: 3 Link Columns -->
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="create.html">Create Analysis</a>
+                    <a href="reports.html">Analysis Reports</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="cases.html">Case Studies</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+
+            <!-- Bottom: Copyright + Contact -->
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
+                <a href="contact.html" class="footer-contact">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

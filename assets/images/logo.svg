@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="logo-gradient" x1="10" y1="50" x2="54" y2="10" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#2563eb" />
+            <stop offset="100%" stop-color="#8b5cf6" />
+        </linearGradient>
+    </defs>
+    <!-- Main A shape -->
+    <path d="M32 4 L10 50 L18 50 L23.5 38 L40.5 38 L46 50 L54 50 L32 4 Z M32 18 L37 30 L27 30 L32 18 Z" fill="none" stroke="url(#logo-gradient)" stroke-width="4" stroke-linejoin="round"/>
+    <!-- Ascending Arrow Crossbar -->
+    <path d="M18 42 L32 28 L40 34 L52 18" stroke="#f43f5e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M52 18 L52 26 M52 18 L44 18" stroke="#f43f5e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

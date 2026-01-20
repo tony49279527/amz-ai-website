@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Amz AI Agent</title>
+    <meta name="description" content="Get in touch with Amz AI Agent team. We are here to help you with any questions.">
+    <link rel="canonical" href="https://amzaiagent.com/contact.html">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="20" height="20" rx="6" fill="#2563eb" />
+                    <path d="M7 12H17M7 8H17M7 16H13" stroke="white" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <span class="logo-text">Amz AI Agent</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="create.html">Create Analysis</a>
+                <a href="cases.html">Cases</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="nav-actions">
+                <a href="create.html" class="btn btn-primary">Start Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container" style="padding-top: 100px; padding-bottom: 6rem;">
+            <div class="section-header">
+                <h1 class="section-title">Contact Us</h1>
+                <p class="section-subtitle">We'd love to hear from you. Please fill out this form.</p>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                    Email: leetony4927@gmail.com
+                </p>
+            </div>
+
+            <div class="form-card" style="max-width: 600px; margin: 0 auto;">
+                <form id="contact-form" action="mailto:leetony4927@gmail.com" method="post" enctype="text/plain">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="What is this about?" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="How can we help you?"
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" style="width: 100%;">Send Message</button>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 1rem; text-align: center;">
+                        This will open your default email client.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <h3 class="footer-logo">Amz AI Agent</h3>
+                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="create.html">Create Analysis</a>
+                    <a href="reports.html">Analysis Reports</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="cases.html">Case Studies</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
+                <a href="contact.html" class="footer-contact">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        // Form submission is handled via standard mailto: action
+    </script>
+</body>
+
+</html>

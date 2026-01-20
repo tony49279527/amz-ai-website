@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Amz AI Agent</title>
+    <meta name="description"
+        content="AI-powered Amazon competitor analysis tool. Generate professional reports and gain marketing insights.">
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Article specific styles */
+        .article-container {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .article-cover-wrapper {
+            width: 100%;
+            height: 400px;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .article-content {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        .article-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1.25rem;
+            color: var(--text-color);
+        }
+
+        .article-content h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        blockquote {
+            border-left: 4px solid var(--primary-color);
+            background-color: #f8fafc;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--text-light);
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+    </style>
+    <link rel="canonical" href="https://amzaiagent.com/blog-post.html">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">Amz AI Agent</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="create.html">Create Analysis</a>
+                <a href="cases.html">Cases</a>
+                <a href="blog.html" class="active">Blog</a>
+            </div>
+            <div class="nav-actions">
+                <a href="create.html" class="btn btn-primary">Start Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="article-container" id="main-content">
+        <!-- Breadcrumb Navigation (Same as Case detail page) -->
+        <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+            <a href="#" id="back-to-list" class="breadcrumb-back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5" />
+                    <path d="M12 19l-7-7 7-7" />
+                </svg>
+                Back to Blog
+            </a>
+            <ol class="breadcrumb-path">
+                <li><a href="index.html">Home</a></li>
+                <li class="separator">/</li>
+                <li><a href="blog.html">Blog</a></li>
+                <li class="separator">/</li>
+                <li class="current" id="breadcrumb-title">Article</li>
+            </ol>
+        </nav>
+
+        <div id="article-content">
+            <div id="loading" style="text-align: center; padding: 4rem; color: #64748b;">
+                <h1>Loading article...</h1>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <h3 class="footer-logo">Amz AI Agent</h3>
+                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="create.html">Create Analysis</a>
+                    <a href="reports.html">Analysis Reports</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="cases.html">Case Studies</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
+                <a href="contact.html" class="footer-contact">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load Data with Cache Busting -->
+    <script>
+        // Smart back button logic
+        function initBackButton() {
+            const backBtn = document.getElementById('back-to-list');
+            if (!backBtn) return;
+
+            backBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const referrer = document.referrer || '';
+                if (referrer.includes('blog')) {
+                    history.back();
+                } else {
+                    window.location.href = 'blog.html';
+                }
+            });
+        }
+
+        function updateBreadcrumbTitle(title) {
+            const breadcrumbTitle = document.getElementById('breadcrumb-title');
+            if (breadcrumbTitle && title) {
+                breadcrumbTitle.textContent = title;
+                breadcrumbTitle.title = title;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initBackButton();
+
+            const articleContent = document.getElementById('article-content');
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+
+            if (!postId) {
+                articleContent.innerHTML = '<div style="text-align: center; padding: 4rem;">Article not found (No ID)</div>';
+                return;
+            }
+
+            // langSwitch block removed to prevent ReferenceError
+
+
+            // Dynamic loader using Supabase
+            const { createClient } = window.supabase;
+            // You should have supabaseConfig.js loaded before this, ensuring window.supabaseClient is available
+            // OR re-initialize here if supabaseConfig.js only exports config.
+            // Assuming supabaseConfig.js initializes `window.supabaseClient` or similar.
+            // Let's use the explicit initialization pattern for clarity if needed, or rely on existing.
+            // Checking existing setup: usually script_v2.js or similar handles this? 
+            // Let's use direct fetching via fetch API to Supabase REST if SDK isn't global, 
+            // BUT better: Use the supbase client if available. 
+            // Looking at previous files, supabase_client.py exists but for Python. 
+            // JS usually uses @supabase/supabase-js via CDN.
+
+            // Let's check if we have the SDK. If not, we use the REST API for simplicity in this static file 
+            // without bundler, or add the CDN link.
+
+            const fetchPost = async () => {
+                // If you haven't enabled "Anon" key for public read, this might fail without setup.
+                // But we added "Allow public read access" policy.
+
+                // Fallback: Use the existing JSON method if Supabase fails (Hybrid approach)
+                try {
+                    // Try to fetch from Supabase via REST (easiest for vanilla JS without import maps)
+                    // URL: https://<PROJECT_REF>.supabase.co/rest/v1/blog_posts?slug=eq.<SLUG>&select=*
+                    // We need PROJECT_URL and ANON_KEY.
+                    // Since I don't want to expose keys in HTML if not already there, 
+                    // I will check if I can use the same logic as the legacy one for now 
+                    // OR simply use the JSON file which the Logic Bot *could* update.
+
+                    // User asked for "Automated Workflow". 
+                    // Best way: The Python bot updates the JSON file and commits it!
+                    // This keeps the site FAST and static.
+
+                    // RE-EVALUATION: 
+                    // If I change this to Supabase, I need to add Supabase JS SDK CDN and keys.
+                    // If I keep it as JSON, the Python bot just overwrites data/blog/posts_en.json.
+                    // The "Option 1" description said: "save to Supabase".
+                    // So I MUST implement Supabase fetching.
+
+                    // Let's assume user will add the keys or has them.
+                    // For now, I will add a TODO and keep the JSON logic as fallback?
+                    // NO, I must provide the solution.
+
+                    // I'll add the Supabase CDN script at the top using another tool first.
+                    console.log("Fetching from Supabase...");
+                } catch (e) {
+                    console.error(e);
+                }
+            };
+
+            // --- ACTUAL IMPLEMENTATION ---
+            // Since we didn't add Supabase SDK to head yet, I will use a simple fetch to the local JSON 
+            // which the Python bot *WILL ALSO UPDATE* as a backup, 
+            // BUT to truly use the DB, I should inject the Supabase SDK.
+
+            // ACTUALLY: The user's Python bot `save_to_supabase` does exactly that.
+            // To make the frontend read it, I need the SDK.
+
+            // Let's use a Hybrid approach for this step:
+            // 1. Python bot updates DB.
+            // 2. Python bot *ALSO* updates `data/blog/posts_en.json` and commits it?
+            // User asked for "Option 1". I designed the bot to "save to Supabase".
+            // So frontend MUST read Supabase.
+
+            // I will inject the Supabase CDN link and the fetch logic.
+            // Please see specific separate tool call for head injection.
+
+            const supabaseUrl = 'https://iddayrxnrccpdlinydpz.supabase.co';
+            const supabaseKey = 'pEa_... (Public Anon Key needed)';
+            // WAIT - I don't have the Public Anon Key in the environment passed to me?
+            // I only saw SUPABASE_SERVICE_ROLE_KEY in .env (which is secret!).
+            // I cannot put Service Role Key in frontend HTML!
+
+            // CRITICAL SECURITY CHECK:
+            // If I don't have the Anon Key, I cannot safely implement frontend fetching from Supabase 
+            // without exposing the Service Role Key (which gives admin access).
+
+            // SOLUTION: 
+            // I will modify the Python Bot to *ALSO* Write to the JSON file.
+            // This is the "Static Site Generator" approach (SSG). 
+            // It is safer, faster, and cheaper (no DB reads on visit).
+            // It fits the "GitHub Actions" model perfectly (commit back).
+
+            // So, I will NOT change this file to read Supabase. I will leave it reading JSON.
+            // I will Update the Python Script to write to JSON.
+
+            const script = document.createElement('script');
+            script.src = `data/blog/posts_en.json?v=${new Date().getTime()}`;
+            script.onload = () => {
+                fetch('data/blog/posts_en.json')
+                    .then(r => r.json())
+                    .then(posts => {
+                        // Logic to find post by ID or Slug
+                        // Old logic used ID, new bot uses Slug. 
+                        // Let's support both.
+                        let post = posts.find(p => p.id === postId);
+                        if (!post && window.location.search.includes('slug')) {
+                            const slug = new URLSearchParams(window.location.search).get('slug');
+                            post = posts.find(p => p.slug === slug);
+                        }
+
+                        if (!post) {
+                            articleContent.innerHTML = '<div style="text-align: center; padding: 4rem;">Article not found</div>';
+                            return;
+                        }
+
+                        document.title = `${post.title} - Amz AI Agent`;
+                        updateBreadcrumbTitle(post.title);
+
+                        articleContent.innerHTML = `
+                        <article>
+                            <header class="article-header">
+                                ${post.tags && post.tags.length > 0 ? `<span class="article-tag">${post.tags[0]}</span>` : ''}
+                                <h1 class="article-title">${post.title}</h1>
+                                <div class="article-meta">
+                                    <span>📅 ${post.date || new Date().toISOString().split('T')[0]}</span>
+                                    <span>👤 ${post.author || 'Amz AI Agent'}</span>
+                                </div>
+                            </header>
+
+                            ${post.cover_image ? `<div class="article-cover-wrapper"><img src="${post.cover_image}" alt="${post.title}" class="article-cover" onerror="this.style.display='none'"></div>` : ''}
+
+                            <div class="article-content">
+                                ${post.content || post.content_html}
+                            </div>
+                        </article>
+                    `;
+                    });
+            };
+            document.head.appendChild(script);
+        });
+    </script>
+</body>
+
+</html>

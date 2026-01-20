@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful | Amz AI Agent</title>
+    <meta name="description"
+        content="AI-powered Amazon competitor analysis tool. Generate professional reports and gain marketing insights.">
+
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://amzaiagent.com/success.html">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">Amz AI Agent</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="create.html">Create Analysis</a>
+                <a href="cases.html">Cases</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container" style="padding-top: 5rem; padding-bottom: 5rem; min-height: 60vh;">
+        <div class="success-card"
+            style="max-width: 600px; margin: 0 auto; background: white; padding: 3rem; border-radius: 1rem; box-shadow: var(--shadow-md); text-align: center;">
+            <div class="icon" style="font-size: 4rem; margin-bottom: 1.5rem;">🎉</div>
+            <h1 style="color: var(--text-color); margin-bottom: 1rem;">Payment Confirmed!</h1>
+            <p style="color: var(--text-light); font-size: 1.125rem; margin-bottom: 2rem;">
+                Thank you for your order. We have received your payment for order <strong id="order-id">...</strong>.
+            </p>
+
+            <div class="status-box"
+                style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                <p style="color: #166534; font-weight: 500;">
+                    ✓ Report Generated & Sent
+                </p>
+                <p style="color: #15803d; font-size: 0.9rem; margin-top: 0.5rem;">
+                    The full analysis report has been sent to <span id="user-email" style="font-weight: 700;">your
+                        email</span>.
+                </p>
+            </div>
+
+            <div class="actions">
+                <a href="cases.html" class="btn btn-primary">Browse More Cases</a>
+                <a href="index.html" class="btn btn-secondary" style="margin-left: 1rem;">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <h3 class="footer-logo">Amz AI Agent</h3>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseConfig.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('order_id');
+            const paid = params.get('paid');
+
+            if (orderId) {
+                document.getElementById('order-id').textContent = orderId;
+            }
+
+            // ==========================================
+            // 🔥 Trigger n8n to send full report via Resume URL
+            // ==========================================
+            const resumeUrl = params.get('resume_url');
+
+            if (paid === 'true' && resumeUrl) {
+                console.log('Payment confirmed, triggering workflow resume...');
+                console.log('Resume URL:', decodeURIComponent(resumeUrl));
+
+                try {
+                    // Call the Resume URL to wake up the n8n Wait node
+                    const response = await fetch(decodeURIComponent(resumeUrl), {
+                        method: 'GET'  // Wait node expects GET by default
+                    });
+
+                    if (response.ok) {
+                        console.log('✅ Workflow resumed - Full report will be sent!');
+                    } else {
+                        console.warn('⚠️ Resume call returned non-OK status:', response.status);
+                    }
+                } catch (err) {
+                    console.error('❌ Failed to resume workflow:', err);
+                }
+            } else if (paid === 'true' && !resumeUrl) {
+                console.log('⚠️ No resume_url found, falling back to direct webhook...');
+                // Fallback to old method if no resume_url
+                try {
+                    await fetch('https://tony4927.app.n8n.cloud/webhook/send-full-report', {
+                        method: 'POST',
+                        body: new URLSearchParams({ order_id: orderId, action: 'send_full_report' })
+                    });
+                } catch (err) {
+                    console.error('Fallback webhook failed:', err);
+                }
+            }
+
+            // ==========================================
+            // Fetch user email from Supabase (if available)
+            // ==========================================
+            if (orderId && typeof supabaseClient !== 'undefined' && supabaseClient) {
+                try {
+                    const { data, error } = await supabaseClient
+                        .from('OrderPreviews')
+                        .select('user_email')
+                        .eq('order_id', orderId)
+                        .single();
+
+                    if (data && data.user_email) {
+                        document.getElementById('user-email').textContent = data.user_email;
+                    }
+                } catch (e) {
+                    console.log('Supabase fetch skipped or failed');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

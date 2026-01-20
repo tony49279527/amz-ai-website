@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock Full Report | Amz AI Agent</title>
+    <meta name="description"
+        content="AI-powered Amazon competitor analysis tool. Generate professional reports and gain marketing insights.">
+
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Marked.js for Markdown Rendering (Local) -->
+    <script src="marked.min.js"></script>
+    <link rel="canonical" href="https://amzaiagent.com/order.html">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">Amz AI Agent</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="create.html">Create Analysis</a>
+                <a href="cases.html">Cases</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="nav-actions">
+                <a href="create.html" class="btn btn-primary">Start Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="order-page-wrapper">
+        <div class="container">
+            <div class="order-layout">
+                <!-- Left: Preview Section -->
+                <div class="preview-section">
+                    <div class="preview-header">
+                        <div class="report-tag" id="report-tag">Market Analysis</div>
+                        <h1 class="report-title" id="report-title">AI Competitor Analysis Report</h1>
+                        <div class="report-meta">
+                            <span id="report-asin">ASIN: Loading...</span> •
+                            <span id="report-date">Generated just now</span>
+                        </div>
+                    </div>
+
+                    <!-- Report Structure/Framework Preview -->
+                    <div class="report-framework">
+                        <h3>📋 What's In This Report</h3>
+                        <p class="framework-intro">Your comprehensive analysis includes the following sections:</p>
+                        <ul id="preview-toc" class="framework-list">
+                            <li>Loading structure...</li>
+                        </ul>
+                    </div>
+
+                    <!-- Markdown Content Container -->
+                    <div class="preview-content-wrapper preview-card">
+                        <div id="report-preview-content" class="report-content">
+                            <!-- JS will inject partial markdown here -->
+                        </div>
+
+                        <!-- End of Preview Hint -->
+                        <div class="preview-end-hint" id="preview-end-hint"
+                            style="padding: 30px; background: linear-gradient(to bottom, rgba(255,255,255,0.9), #f0f9ff); border-radius: 12px; text-align: center; margin-top: 20px;">
+                            <h3 style="color: #1e40af; margin: 0 0 10px 0;">📄 You've previewed Section 4: Listing
+                                Optimization</h3>
+                            <p style="color: #374151; margin: 0 0 20px 0;">The complete report includes 5 more in-depth
+                                sections. Unlock now for <strong>$25.00</strong>.</p>
+                            <button class="btn btn-primary btn-lg" onclick="scrollToOrder()"
+                                style="font-size: 1.1rem;">Unlock Full Report ($25) →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Order Summary (Sticky) -->
+                <div class="order-sidebar">
+                    <div class="order-card" id="order-card">
+                        <!-- Unpaid State -->
+                        <div id="state-unpaid">
+                            <div class="price-header">
+                                <span class="label">Complete Your Payment</span>
+                                <div class="price-original"
+                                    style="text-decoration: line-through; color: #9ca3af; font-size: 1rem;">$29.99</div>
+                                <div class="price">$25.00 <span class="currency">USD</span></div>
+                                <div class="price-subtitle">Remaining balance (Deposit paid)</div>
+                            </div>
+
+                            <hr class="divider">
+
+                            <ul class="features-list">
+                                <li>✅ <strong>Full Report Access</strong> on web immediately</li>
+                                <li>✅ <strong>PDF Download</strong> delivered to email</li>
+                                <li>✅ <strong>Deep Insights</strong> into competitor gaps</li>
+                            </ul>
+
+                            <hr class="divider">
+
+                            <div class="payment-actions">
+                                <p class="payment-label">Select Payment Method:</p>
+                                <button id="payment-complete-btn" class="btn btn-payment stripe"
+                                    style="background: #635BFF; color: white;">
+                                    Pay $25.00 with Stripe (Sandbox)
+                                </button>
+                                <button class="btn btn-payment paypal disabled" id="paypal-btn" disabled>
+                                    Pay $25.00 with PayPal (Unavailable)
+                                </button>
+                                <p class="payment-redirect-note">Secure payment powered by Stripe.
+                                </p>
+                                <p class="delivery-text">Report will be sent to: <strong
+                                        id="user-email-display">...</strong></p>
+                                <p class="secure-text">🔒 Secure checkout. No subscription.</p>
+                            </div>
+
+                            <div class="support-info">
+                                <p>Order ID: <span id="order-id-display">...</span></p>
+                                <div class="support-info">
+                                    <p>Need help?</p>
+                                    <a href="mailto:leetony4927@gmail.com">leetony4927@gmail.com</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Paid State (Hidden by default) -->
+                        <div id="state-paid" style="display: none;">
+                            <div class="success-header">
+                                <div class="icon">✅</div>
+                                <h2>Payment Received</h2>
+                                <p>Full report unlocked successfully!</p>
+                            </div>
+
+                            <hr class="divider">
+
+                            <a href="#" id="view-full-btn" class="btn btn-primary btn-full">View Full Report</a>
+                            <button class="btn btn-secondary btn-full" disabled>PDF will be emailed shortly</button>
+
+                            <div class="support-info">
+                                <p>Order ID: <span id="paid-order-id">...</span></p>
+                                <p>Receipt sent to your email.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <h3 class="footer-logo">Amz AI Agent</h3>
+                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
+            </div>
+            <!-- Middle: 3 Link Columns -->
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="create.html">Create Analysis</a>
+                    <a href="reports.html">Analysis Reports</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="cases.html">Case Studies</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseConfig.js"></script>
+    <script src="order_v2.js?v=6"></script>
+</body>
+
+</html>

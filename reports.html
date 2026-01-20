@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reports | Amz AI Agent</title>
+    <meta name="description" content="View and manage your Amazon competitor analysis reports.">
+    <link rel="canonical" href="https://amzaiagent.com/reports.html">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="20" height="20" rx="6" fill="#2563eb" />
+                    <path d="M7 12H17M7 8H17M7 16H13" stroke="white" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <span class="logo-text">Amz AI Agent</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="create.html">Create Analysis</a>
+                <a href="cases.html">Cases</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="nav-actions">
+                <a href="create.html" class="btn btn-primary">Start Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container" style="padding-top: 4rem; padding-bottom: 4rem; min-height: 60vh;">
+            <div class="section-header">
+                <h1 class="section-title">My Reports</h1>
+                <p class="section-subtitle">Manage your generated analysis reports.</p>
+            </div>
+
+            <!-- Reports List Container -->
+            <div id="reports-container">
+                <!-- Empty State (Default) -->
+                <div id="empty-state" class="form-card" style="text-align: center; padding: 4rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📂</div>
+                    <h3>No reports yet</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Create your first competitor analysis
+                        report to see it here.</p>
+                    <a href="create.html" class="btn btn-primary">Create New Analysis</a>
+                </div>
+
+                <!-- List (Hidden by default) -->
+                <div id="reports-table-wrapper" style="display: none;">
+                    <div class="form-card" style="padding: 0; overflow: hidden;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                            <thead
+                                style="background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);">
+                                <tr>
+                                    <th style="padding: 1rem; font-weight: 600; color: var(--text-primary);">ASIN</th>
+                                    <th style="padding: 1rem; font-weight: 600; color: var(--text-primary);">Market</th>
+                                    <th style="padding: 1rem; font-weight: 600; color: var(--text-primary);">Date</th>
+                                    <th style="padding: 1rem; font-weight: 600; color: var(--text-primary);">Status</th>
+                                    <th style="padding: 1rem; font-weight: 600; color: var(--text-primary);">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reports-table-body">
+                                <!-- Rows will be injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <a href="create.html" class="btn btn-primary">Create Another Analysis</a>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const reports = JSON.parse(localStorage.getItem('my_reports') || '[]');
+                    const container = document.getElementById('reports-container');
+                    const emptyState = document.getElementById('empty-state');
+                    const tableWrapper = document.getElementById('reports-table-wrapper');
+                    const tableBody = document.getElementById('reports-table-body');
+
+                    if (reports.length > 0) {
+                        emptyState.style.display = 'none';
+                        tableWrapper.style.display = 'block';
+
+                        reports.forEach(report => {
+                            const tr = document.createElement('tr');
+                            tr.style.borderBottom = '1px solid var(--border-color)';
+
+                            const dateStr = new Date(report.date).toLocaleDateString();
+
+                            tr.innerHTML = `
+                                <td style="padding: 1rem;">
+                                    <span style="font-weight: 500; font-family: monospace;">${report.asin}</span>
+                                </td>
+                                <td style="padding: 1rem;">${report.marketplace}</td>
+                                <td style="padding: 1rem; color: var(--text-secondary);">${dateStr}</td>
+                                <td style="padding: 1rem;">
+                                    <span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 99px; font-size: 0.75rem; font-weight: 500; background: #dbeafe; color: #1e40af;">
+                                        ${report.status}
+                                    </span>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <button class="btn btn-secondary" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="window.location.href='report.html?id=' + '${report.id}'">View</button>
+                                </td>
+                            `;
+                            tableBody.appendChild(tr);
+                        });
+                    }
+                });
+            </script>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <h3 class="footer-logo">Amz AI Agent</h3>
+                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="create.html">Create Analysis</a>
+                    <a href="reports.html">Analysis Reports</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="cases.html">Case Studies</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
+                <a href="contact.html" class="footer-contact">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

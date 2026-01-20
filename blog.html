@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Competitor Analysis Assistant</title>
+    <meta name="description"
+        content="AI-powered Amazon competitor analysis tool. Generate professional reports and gain marketing insights.">
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://amzaiagent.com/blog.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">Amz AI Agent</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="create.html">Create Analysis</a>
+                <a href="cases.html">Cases</a>
+                <a href="blog.html" class="active">Blog</a>
+            </div>
+            <div class="nav-actions">
+                <a href="create.html" class="btn btn-primary">Start Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Blog</h1>
+            <p class="page-subtitle">Deep insights into Amazon operations, AI tools, and market trends</p>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="container">
+        <div class="content-grid" id="blog-grid">
+            <!-- Dynamically loaded -->
+            <div class="loading-state" style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: #64748b;">
+                Loading articles...
+            </div>
+        </div>
+    </main>
+
+    <!-- Load Blog Data with Cache Busting -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dynamic loader to force fresh data
+            const script = document.createElement('script');
+            script.src = `data/blog/blog_posts.js?v=${new Date().getTime()}`;
+            script.onload = initBlog;
+            document.head.appendChild(script);
+
+            function initBlog() {
+                const grid = document.getElementById('blog-grid');
+                const posts = window.blogPostsEN || [];
+
+                grid.innerHTML = '';
+
+                if (posts.length === 0) {
+                    grid.innerHTML = '<p>No articles found.</p>';
+                    return;
+                }
+
+                // Featured post (first one)
+                const featured = posts[0];
+                const featuredHTML = `
+                <div class="featured-post">
+                    <a href="blog-post.html?id=${featured.id}" class="card-link">
+                        <article class="card">
+                            <div class="card-image-wrapper">
+                                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #fce7f3 0%, #e0e7ff 100%);">
+                                    <img src="${featured.cover_image}" style="width:100%;height:100%;object-fit:cover;" alt="Featured">
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-tag">${featured.tags[0] || 'Featured'}</span>
+                                <h3 class="card-title">${featured.title}</h3>
+                                <p class="card-desc">${stripHtml(featured.content).substring(0, 150)}...</p>
+                                <div class="card-footer">
+                                    <span>📅 ${featured.date}</span>
+                                    <span>⏱️ 5 Min Read</span>
+                                </div>
+                            </div>
+                        </article>
+                    </a>
+                </div>
+                `;
+                grid.innerHTML += featuredHTML;
+
+                // Rest of posts
+                const otherPosts = posts.slice(1);
+                otherPosts.forEach(post => {
+                    const html = `
+                    <a href="blog-post.html?id=${post.id}" class="card-link">
+                        <article class="card">
+                            <div class="card-image-wrapper">
+                                <div style="width: 100%; height: 100%; background-color: #f1f5f9;">
+                                    <img src="${post.cover_image}" style="width:100%;height:100%;object-fit:cover;" alt="${post.title}">
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-tag">${post.tags[0] || 'Article'}</span>
+                                <h3 class="card-title">${post.title}</h3>
+                                <p class="card-desc">${stripHtml(post.content).substring(0, 120)}...</p>
+                                <div class="card-footer">
+                                    <span>📅 ${post.date}</span>
+                                </div>
+                            </div>
+                        </article>
+                    </a>
+                    `;
+                    grid.appendChild(document.createRange().createContextualFragment(html));
+                });
+            }
+
+            function stripHtml(html) {
+                let tmp = document.createElement("DIV");
+                tmp.innerHTML = html;
+                // Try to find the first paragraph
+                let firstP = tmp.querySelector("p");
+                if (firstP) {
+                    return firstP.textContent || firstP.innerText || "";
+                }
+                // Fallback to all text if no p tag found
+                return tmp.textContent || tmp.innerText || "";
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Top: Brand + Tagline -->
+            <div class="footer-top">
+                <h3 class="footer-logo">Amz AI Agent</h3>
+                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
+            </div>
+
+            <!-- Middle: 3 Link Columns -->
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="create.html">Create Analysis</a>
+                    <a href="reports.html">Analysis Reports</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="cases.html">Case Studies</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+
+            <!-- Bottom: Copyright + Contact -->
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
+                <a href="contact.html" class="footer-contact">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
