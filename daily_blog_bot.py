@@ -284,24 +284,41 @@ def generate_cover_image(title, slug):
     # Fallback to existing images if AI generation fails
     print("Falling back to default images...")
     t = title.lower()
-    if "ai" in t or "automation" in t or "agentic" in t:
-        return "assets/images/blog_thumbs/agentic.png"
-    if "algorithm" in t or "cosmo" in t or "rufus" in t or "ranking" in t:
+    
+    # More specific keyword matching (order matters - check specific terms first)
+    if "algorithm" in t or "cosmo" in t or "rufus" in t or "ranking" in t or "a9" in t or "a10" in t:
         return "assets/images/blog_thumbs/algo.png"
     if "seo" in t or "keyword" in t or "search" in t or "intent" in t:
         return "assets/images/blog_thumbs/seo_intent.png"
-    if "image" in t or "visual" in t or "photo" in t or "listing" in t:
+    if "image" in t or "visual" in t or "photo" in t or "listing optimization" in t:
         return "assets/images/blog_thumbs/visual_opt.png"
-    if "package" in t or "return" in t or "fba" in t or "logistic" in t:
+    if "package" in t or "shipping" in t or "logistic" in t or "fulfillment" in t:
         return "assets/images/blog_thumbs/packaging.png"
-    if "efficiency" in t or "cost" in t or "time" in t or "save" in t:
+    if "efficiency" in t or "cost" in t or "time" in t or "save" in t or "profit" in t:
         return "assets/images/blog_thumbs/efficiency.png"
-    if "sop" in t or "team" in t or "process" in t or "operation" in t:
+    if "sop" in t or "team" in t or "process" in t or "operation" in t or "workflow" in t:
         return "assets/images/blog_thumbs/sop.png"
-    if "blue ocean" in t or "niche" in t or "opportunity" in t or "case" in t:
+    if "blue ocean" in t or "niche" in t or "opportunity" in t or "case study" in t:
         return "assets/images/blog_thumbs/blue_ocean.png"
+    if "ai" in t or "automation" in t or "agentic" in t or "agent" in t:
+        return "assets/images/blog_thumbs/agentic.png"
+    if "return" in t or "refund" in t or "policy" in t:
+        return "assets/images/blog_thumbs/sop.png"
+    if "seller" in t or "registration" in t or "account" in t:
+        return "assets/images/blog_thumbs/efficiency.png"
     
-    return "assets/images/blog_thumbs/agentic.png"  # Default
+    # Random selection from all available images as final fallback
+    import random
+    fallback_images = [
+        "assets/images/blog_thumbs/agentic.png",
+        "assets/images/blog_thumbs/algo.png",
+        "assets/images/blog_thumbs/blue_ocean.png",
+        "assets/images/blog_thumbs/efficiency.png",
+        "assets/images/blog_thumbs/seo_intent.png",
+        "assets/images/blog_thumbs/sop.png",
+        "assets/images/blog_thumbs/visual_opt.png",
+    ]
+    return random.choice(fallback_images)
 
 
 def generate_blog_post(news_item):

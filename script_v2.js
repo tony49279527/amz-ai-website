@@ -1,4 +1,24 @@
-document.addEventListener('DOMContentLoaded', () => {
+const initApp = () => {
+    // === MOBILE MENU TOGGLE ===
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const navActions = document.querySelector('.nav-actions');
+
+    if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('active');
+            if (navActions) navActions.classList.toggle('active', isOpen);
+
+            // Toggle icons
+            const openIcon = mobileMenuBtn.querySelector('.menu-icon-open');
+            const closeIcon = mobileMenuBtn.querySelector('.menu-icon-close');
+            if (openIcon && closeIcon) {
+                openIcon.style.display = isOpen ? 'none' : 'block';
+                closeIcon.style.display = isOpen ? 'block' : 'none';
+            }
+        });
+    }
+
     // === FILE UPLOAD HANDLING ===
     const fileInputs = document.querySelectorAll('input[type="file"]');
 
@@ -326,7 +346,7 @@ Present workflows in a structured table format, including:
                 }
             });
 
-            // Aggressively hide lock icons (CSS also handles this via :not([disabled]))
+            // Aggressively hide lock icons
             const locks = proLockedSection.querySelectorAll('.lock-icon');
             locks.forEach(icon => icon.style.display = 'none');
 
@@ -337,6 +357,27 @@ Present workflows in a structured table format, including:
             }
         });
     }
+
+    // === GLOBAL SCROLL REVEAL ===
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); // Only animate once
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-up').forEach(el => {
+        observer.observe(el);
+    });
+
+
 
     // === MODAL HANDLING ===
     const modal = document.getElementById('modal'); // Free Modal
@@ -747,4 +788,10 @@ ${(result.market_analysis?.pain_points || []).map(p => `- ${p}`).join('\n')}
             autoResizeTextarea(customPrompt);
         }
     }
-});
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}

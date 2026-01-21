@@ -53,10 +53,10 @@
 
         .article-cover-wrapper {
             width: 100%;
-            height: 400px;
+            max-height: 280px;
             border-radius: 1rem;
             overflow: hidden;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
         }
 
@@ -70,6 +70,16 @@
             font-size: 1.125rem;
             line-height: 1.8;
             color: var(--text-color);
+        }
+
+        /* Fix for inline images - prevent overflow */
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: block;
         }
 
         .article-content h2 {
@@ -108,6 +118,25 @@
             color: var(--text-light);
             border-radius: 0 0.5rem 0.5rem 0;
         }
+
+        /* FAQ section styling - transparent background to match page */
+        .faq-section {
+            background: transparent;
+            margin: 2rem 0;
+        }
+
+        .faq-section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .faq-section p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
     </style>
     <link rel="canonical" href="https://amzaiagent.com/blog-post.html">
     <link rel="icon"
@@ -115,6 +144,7 @@
 </head>
 
 <body>
+    <div class="reading-progress"></div>
     <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
@@ -233,93 +263,8 @@
                 return;
             }
 
-            // langSwitch block removed to prevent ReferenceError
-
-
-            // Dynamic loader using Supabase
-            const { createClient } = window.supabase;
-            // You should have supabaseConfig.js loaded before this, ensuring window.supabaseClient is available
-            // OR re-initialize here if supabaseConfig.js only exports config.
-            // Assuming supabaseConfig.js initializes `window.supabaseClient` or similar.
-            // Let's use the explicit initialization pattern for clarity if needed, or rely on existing.
-            // Checking existing setup: usually script_v2.js or similar handles this? 
-            // Let's use direct fetching via fetch API to Supabase REST if SDK isn't global, 
-            // BUT better: Use the supbase client if available. 
-            // Looking at previous files, supabase_client.py exists but for Python. 
-            // JS usually uses @supabase/supabase-js via CDN.
-
-            // Let's check if we have the SDK. If not, we use the REST API for simplicity in this static file 
-            // without bundler, or add the CDN link.
-
-            const fetchPost = async () => {
-                // If you haven't enabled "Anon" key for public read, this might fail without setup.
-                // But we added "Allow public read access" policy.
-
-                // Fallback: Use the existing JSON method if Supabase fails (Hybrid approach)
-                try {
-                    // Try to fetch from Supabase via REST (easiest for vanilla JS without import maps)
-                    // URL: https://<PROJECT_REF>.supabase.co/rest/v1/blog_posts?slug=eq.<SLUG>&select=*
-                    // We need PROJECT_URL and ANON_KEY.
-                    // Since I don't want to expose keys in HTML if not already there, 
-                    // I will check if I can use the same logic as the legacy one for now 
-                    // OR simply use the JSON file which the Logic Bot *could* update.
-
-                    // User asked for "Automated Workflow". 
-                    // Best way: The Python bot updates the JSON file and commits it!
-                    // This keeps the site FAST and static.
-
-                    // RE-EVALUATION: 
-                    // If I change this to Supabase, I need to add Supabase JS SDK CDN and keys.
-                    // If I keep it as JSON, the Python bot just overwrites data/blog/posts_en.json.
-                    // The "Option 1" description said: "save to Supabase".
-                    // So I MUST implement Supabase fetching.
-
-                    // Let's assume user will add the keys or has them.
-                    // For now, I will add a TODO and keep the JSON logic as fallback?
-                    // NO, I must provide the solution.
-
-                    // I'll add the Supabase CDN script at the top using another tool first.
-                    console.log("Fetching from Supabase...");
-                } catch (e) {
-                    console.error(e);
-                }
-            };
-
-            // --- ACTUAL IMPLEMENTATION ---
-            // Since we didn't add Supabase SDK to head yet, I will use a simple fetch to the local JSON 
-            // which the Python bot *WILL ALSO UPDATE* as a backup, 
-            // BUT to truly use the DB, I should inject the Supabase SDK.
-
-            // ACTUALLY: The user's Python bot `save_to_supabase` does exactly that.
-            // To make the frontend read it, I need the SDK.
-
-            // Let's use a Hybrid approach for this step:
-            // 1. Python bot updates DB.
-            // 2. Python bot *ALSO* updates `data/blog/posts_en.json` and commits it?
-            // User asked for "Option 1". I designed the bot to "save to Supabase".
-            // So frontend MUST read Supabase.
-
-            // I will inject the Supabase CDN link and the fetch logic.
-            // Please see specific separate tool call for head injection.
-
-            const supabaseUrl = 'https://iddayrxnrccpdlinydpz.supabase.co';
-            const supabaseKey = 'pEa_... (Public Anon Key needed)';
-            // WAIT - I don't have the Public Anon Key in the environment passed to me?
-            // I only saw SUPABASE_SERVICE_ROLE_KEY in .env (which is secret!).
-            // I cannot put Service Role Key in frontend HTML!
-
-            // CRITICAL SECURITY CHECK:
-            // If I don't have the Anon Key, I cannot safely implement frontend fetching from Supabase 
-            // without exposing the Service Role Key (which gives admin access).
-
-            // SOLUTION: 
-            // I will modify the Python Bot to *ALSO* Write to the JSON file.
-            // This is the "Static Site Generator" approach (SSG). 
-            // It is safer, faster, and cheaper (no DB reads on visit).
-            // It fits the "GitHub Actions" model perfectly (commit back).
-
-            // So, I will NOT change this file to read Supabase. I will leave it reading JSON.
-            // I will Update the Python Script to write to JSON.
+            // Load blog posts from local JS file (Static Site Generator approach)
+            // The Python bot updates this file automatically
 
             const script = document.createElement('script');
             script.src = `data/blog/blog_posts.js?v=${new Date().getTime()}`;
@@ -343,9 +288,8 @@
                     return;
                 }
 
-                document.title = `${post.title} - Amz AI Agent`;
-                updateBreadcrumbTitle(post.title);
 
+                // 1. Render Article
                 articleContent.innerHTML = `
                         <article>
                             <header class="article-header">
@@ -362,9 +306,67 @@
                             <div class="article-content">
                                 ${post.content || post.content_html}
                             </div>
+
+                            <!-- Social Share -->
+                            <div class="social-share">
+                                <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}" target="_blank" class="social-share-btn twitter">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                                    Twitter
+                                </a>
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}" target="_blank" class="social-share-btn linkedin">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                    LinkedIn
+                                </a>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" target="_blank" class="social-share-btn facebook">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                    Facebook
+                                </a>
+                            </div>
                         </article>
+
+                        <!-- Related Posts -->
+                        <section class="related-posts">
+                            <h3>Read Next</h3>
+                            <div class="related-posts-grid" id="related-posts-container">
+                                <!-- JS will populate this -->
+                            </div>
+                        </section>
                     `;
-            };
+
+                // 2. Populate Related Posts (Random 3 excluding current)
+                const otherPosts = posts.filter(p => p.id !== post.id);
+                // Shuffle array
+                const shuffled = otherPosts.sort(() => 0.5 - Math.random());
+                // Get top 3
+                const related = shuffled.slice(0, 3);
+
+                const relatedContainer = document.getElementById('related-posts-container');
+                if (relatedContainer && related.length > 0) {
+                    relatedContainer.innerHTML = related.map(p => `
+                        <a href="blog-post.html?id=${p.id}" class="related-post-card">
+                            <img src="${p.cover_image || 'assets/images/blog_thumbs/default.png'}" alt="${p.title}" loading="lazy">
+                            <div class="content">
+                                <div class="title">${p.title}</div>
+                                <div class="date">${p.date || ''}</div>
+                            </div>
+                        </a>
+                    `).join('');
+                } else if (relatedContainer) {
+                    relatedContainer.innerHTML = '<p style="color:var(--text-light)">No related posts found.</p>';
+                }
+
+                // 3. Reading Progress Bar Logic
+                window.addEventListener('scroll', () => {
+                    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrolled = (winScroll / height) * 100;
+                    const progressBar = document.querySelector('.reading-progress');
+                    if (progressBar) {
+                        progressBar.style.width = scrolled + "%";
+                    }
+                });
+            }; // End script.onload
+
             document.head.appendChild(script);
         });
     </script>

@@ -33,8 +33,24 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="20" height="20" rx="6" fill="#2563eb" />
+                    <path d="M7 12H17M7 8H17M7 16H13" stroke="white" stroke-width="2" stroke-linecap="round" />
+                </svg>
                 <span class="logo-text">Amz AI Agent</span>
             </a>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="menu-icon-open">
+                    <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="menu-icon-close"
+                    style="display:none;">
+                    <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
+
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="create.html">Create Analysis</a>
@@ -161,6 +177,7 @@
                 .catch(err => console.error('Error loading scripts:', err));
         });
     </script>
+    <script src="script_v2.js"></script>
 </body>
 
 </html>

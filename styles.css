@@ -3281,3 +3281,301 @@ body.dark-theme .pro-overlay {
 .mobile-menu-btn {
     display: none;
 }
+
+/* Mobile Hero Form - Vertical Stack */
+@media (max-width: 600px) {
+    .hero-form {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .hero-input,
+    .hero-btn {
+        flex: none;
+        width: 100%;
+    }
+
+    .hero-btn {
+        height: 56px;
+    }
+}
+
+/* =========================================
+   OPTIMIZATION ENHANCEMENTS
+   ========================================= */
+
+/* 1. Mobile Header Optimization - Prevent Crowding */
+@media (max-width: 400px) {
+    .logo-text {
+        display: none;
+    }
+
+    .nav-actions .btn {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.6rem;
+    }
+}
+
+/* 2. Enhanced Micro-interactions for Cards */
+.feature-card {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.2);
+}
+
+.card {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* 3. FAQ Smooth Accordion Animation */
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease-out, padding 0.35s ease-out;
+    padding: 0 1rem;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 600px;
+    padding: 1rem;
+}
+
+.faq-question {
+    transition: color 0.2s ease, background 0.2s ease;
+    cursor: pointer;
+}
+
+.faq-question:hover {
+    color: var(--primary-color);
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.faq-icon {
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+/* 4. Reading Progress Bar */
+.reading-progress {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+    width: 0%;
+    z-index: 999;
+    transition: width 0.1s linear;
+}
+
+/* 5. Social Share Buttons */
+.social-share {
+    display: flex;
+    gap: 0.75rem;
+    margin: 2rem 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.social-share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.social-share-btn.twitter {
+    background: #1DA1F2;
+    color: white;
+}
+
+.social-share-btn.linkedin {
+    background: #0077B5;
+    color: white;
+}
+
+.social-share-btn.facebook {
+    background: #4267B2;
+    color: white;
+}
+
+.social-share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 6. Related Posts Section */
+.related-posts {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.related-posts h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.related-posts-grid {
+    display: grid;
+    /* Container is ~750px wide. 3 cols needs < 234px per col. Set to 200px to be safe. */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+/* =========================================
+   SCROLL REVEAL ANIMATIONS
+   ========================================= */
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-up.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays for grids */
+.fade-up-delay-1 {
+    transition-delay: 0.1s;
+}
+
+.fade-up-delay-2 {
+    transition-delay: 0.2s;
+}
+
+.fade-up-delay-3 {
+    transition-delay: 0.3s;
+}
+
+.related-post-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.related-post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.related-post-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.related-post-card .content {
+    padding: 1rem;
+}
+
+.related-post-card .title {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.related-post-card .date {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+/* 7. Form Validation Feedback */
+.asin-counter {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+}
+
+.asin-counter.warning {
+    color: #f59e0b;
+}
+
+.asin-counter.success {
+    color: #10b981;
+}
+
+input:invalid:not(:placeholder-shown),
+textarea:invalid:not(:placeholder-shown) {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* 8. Enhanced Button States */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+}
+
+.btn:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* 9. Testimonial Avatar Styling */
+.testimonial-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+}
+
+.testimonial-initials {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* 10. Hide redundant CTA on create page */
+body.create-page .nav-actions .btn-primary {
+    display: none;
+}

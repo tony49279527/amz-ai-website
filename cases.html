@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="canonical" href="https://amzaiagent.com/cases.html">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
 </head>
 
 <body>
@@ -70,14 +71,14 @@
                 }
 
                 // Render each report as a card
-                reports.forEach(report => {
+                reports.forEach((report, index) => {
                     const card = document.createElement('a');
                     card.href = `report.html?id=${report.id}`;
                     card.className = 'card-link';
 
                     // Note: Category, title, and summary come from JSON which is currently Chinese-only.
                     card.innerHTML = `
-                        <article class="card">
+                        <article class="card fade-up">
                             <div class="card-image-wrapper">
                                 ${report.cover_image
                             ? `<img src="${report.cover_image}" alt="${report.title}" class="card-image">`
@@ -99,6 +100,12 @@
                     `;
 
                     grid.appendChild(card);
+
+                    // Manually trigger animation since these are added after Observer init
+                    setTimeout(() => {
+                        const article = card.querySelector('.card');
+                        if (article) article.classList.add('active');
+                    }, 100 + (index * 100)); // Stagger delay
                 });
 
             } catch (error) {
