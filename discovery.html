@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Analysis - AI Competitor Analysis</title>
+    <title>Product Discovery - AI Market Analysis | Amz AI Agent</title>
     <meta name="description"
-        content="AI-powered Amazon competitor analysis tool. Generate professional reports and gain marketing insights.">
+        content="Discover profitable product opportunities with AI-powered market analysis. No need to reveal your own product.">
 
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="canonical" href="https://amzaiagent.com/create.html">
+    <link rel="canonical" href="https://amzaiagent.com/discovery.html">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22/><path d=%22M50 20 L20 80 H35 L42 65 H58 L65 80 H80 L50 20 Z M45 58 L50 45 L55 58 H45 Z%22 fill=%22white%22/></svg>">
 </head>
@@ -40,7 +40,8 @@
 
             <div class="nav-links">
                 <a href="index.html">Home</a>
-                <a href="create.html" class="active">Create Analysis</a>
+                <a href="create.html">Competitor Analysis</a>
+                <a href="discovery.html" class="active">Product Discovery</a>
                 <a href="cases.html">Cases</a>
                 <a href="blog.html">Blog</a>
             </div>
@@ -54,33 +55,34 @@
     <main>
         <div class="container">
             <div class="analysis-header">
-                <h1>AI Deep Analysis</h1>
-                <h2>Create Competitor Analysis Report</h2>
-                <p>Enter ASIN to generate deep competitor analysis report in one click</p>
+                <h1>🔍 Product Discovery</h1>
+                <h2>Find Your Next Winning Product</h2>
+                <p>Analyze market opportunities without revealing your own product. Perfect for product research and
+                    selection.</p>
             </div>
 
             <div class="form-card">
-                <form id="analysis-form">
+                <form id="discovery-form">
                     <!-- Basic Configuration -->
                     <div class="form-grid">
-                        <!-- Core Product ASIN -->
+                        <!-- Product Category -->
                         <div class="form-group">
-                            <label for="main-asin">Core Product ASIN *</label>
-                            <p class="helper-text">Enter 1-5 ASINs of the same product (variants) you want to analyze
-                            </p>
-                            <textarea id="main-asin" name="main-asin"
-                                placeholder="Enter core product ASINs..."></textarea>
+                            <label for="product-category">Product Category *</label>
+                            <p class="helper-text">What type of product are you researching? (e.g., "Yoga Mat", "Phone
+                                Stand")</p>
+                            <input type="text" id="product-category" name="product-category"
+                                placeholder="Enter product category..." required>
                         </div>
 
-                        <!-- Competitor ASIN -->
+                        <!-- Product ASINs -->
                         <div class="form-group">
-                            <label for="comp-asin">Competitor ASINs *</label>
-                            <p class="helper-text">Enter competitor ASINs, 5-15 recommended</p>
-                            <textarea id="comp-asin" name="comp-asin"
-                                placeholder="Enter competitor ASINs (one per line)..."></textarea>
+                            <label for="product-asins">Product ASINs *</label>
+                            <p class="helper-text">Enter 5-15 similar product ASINs from the category (one per line)</p>
+                            <textarea id="product-asins" name="product-asins"
+                                placeholder="B08XXXXXX1&#10;B08XXXXXX2&#10;B08XXXXXX3&#10;..."></textarea>
                         </div>
 
-                        <!-- Marketplace (Moved to Basic) -->
+                        <!-- Marketplace -->
                         <div class="form-group">
                             <label for="marketplace">Marketplace *</label>
                             <select id="marketplace" name="marketplace">
@@ -109,10 +111,8 @@
                                 <span class="badge-pro-gradient">PRO</span>
                             </summary>
 
-                            <!-- Overlay to intercept clicks on disabled elements if needed -->
                             <div class="config-section pro-locked"
                                 style="margin-top: 1rem; opacity: 1; position: relative;">
-                                <!-- Unlock Overlay -->
                                 <!-- Unlock Overlay -->
                                 <div id="pro-unlock-overlay" class="pro-overlay">
                                     <button type="button" class="btn-primary"
@@ -144,11 +144,6 @@
                                             <option value="google/gemini-3-pro-preview">google/gemini-3-pro-preview
                                             </option>
                                             <option value="openai/gpt-5.2-pro">openai/gpt-5.2-pro</option>
-                                            <option value="openai/gpt-5.2-chat">openai/gpt-5.2-chat</option>
-                                            <option value="qwen/qwen3-v1-235b-a22b-thinking">
-                                                qwen/qwen3-v1-235b-a22b-thinking</option>
-                                            <option value="deepseek/deepseek-v3.2-speciale">
-                                                deepseek/deepseek-v3.2-speciale</option>
                                         </select>
                                     </div>
 
@@ -159,8 +154,6 @@
                                             <option value="10" selected>10 Websites (Default)</option>
                                             <option value="20">20 Websites</option>
                                             <option value="30">30 Websites</option>
-                                            <option value="40">40 Websites</option>
-                                            <option value="50">50 Websites</option>
                                         </select>
                                     </div>
 
@@ -170,62 +163,7 @@
                                             <option value="10" selected>10 Videos (Default)</option>
                                             <option value="20">20 Videos</option>
                                             <option value="30">30 Videos</option>
-                                            <option value="40">40 Videos</option>
-                                            <option value="50">50 Videos</option>
                                         </select>
-                                    </div>
-                                </div>
-
-                                <!-- File Upload -->
-                                <div class="upload-grid">
-                                    <div class="form-group">
-                                        <label for="returns-report">Upload Amazon Returns Report <span
-                                                class="lock-icon">🔒</span></label>
-                                        <!-- Functional Input Structure -->
-                                        <div id="returns-report-area" class="file-upload-area">
-                                            <label for="returns-report" class="file-upload-btn disabled pro-feature"
-                                                style="cursor: pointer;">
-                                                Select File (Pro Only)
-                                            </label>
-                                            <button type="button" class="file-clear-btn" hidden>×</button>
-                                        </div>
-                                        <input type="file" id="returns-report" class="pro-feature" disabled
-                                            style="display: none;" accept=".csv,.txt">
-                                        <ul id="returns-report-list" class="file-list"></ul>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="audience-profile">Upload Store Audience Profile <span
-                                                class="lock-icon">🔒</span></label>
-                                        <!-- Functional Input Structure -->
-                                        <div id="audience-profile-area" class="file-upload-area">
-                                            <label for="audience-profile" class="file-upload-btn disabled pro-feature"
-                                                style="cursor: pointer;">
-                                                Select File (Pro Only)
-                                            </label>
-                                            <button type="button" class="file-clear-btn" hidden>×</button>
-                                        </div>
-                                        <input type="file" id="audience-profile" class="pro-feature" disabled
-                                            style="display: none;" accept=".csv,.txt">
-                                        <ul id="audience-profile-list" class="file-list"></ul>
-                                    </div>
-                                </div>
-
-                                <!-- Custom Prompt -->
-                                <div class="prompt-section">
-                                    <h3 class="config-title">Custom Prompt</h3>
-                                    <div class="prompt-chips">
-                                        <button type="button" class="prompt-chip active" data-prompt="A">Prompt A
-                                            (Default)</button>
-                                        <button type="button" class="prompt-chip pro-feature" disabled>Prompt B
-                                            <span class="lock-icon">🔒</span></button>
-                                        <button type="button" class="prompt-chip pro-feature" disabled>Prompt C
-                                            <span class="lock-icon">🔒</span></button>
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea id="custom-prompt" name="custom-prompt"
-                                            placeholder="Custom prompt is available for Pro users..." disabled
-                                            class="pro-feature"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -233,20 +171,53 @@
                     </div>
 
                     <button type="submit" id="submitBtn" class="submit-btn">
-                        Start AI Analysis
+                        🚀 Start Product Discovery
                     </button>
                 </form>
             </div>
+
+            <!-- What You'll Get Section -->
+            <div class="features-preview" style="margin-top: 3rem; text-align: center;">
+                <h3 style="margin-bottom: 1.5rem; color: var(--text-primary);">What You'll Discover</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                    <div class="feature-card"
+                        style="padding: 1.5rem; background: var(--bg-secondary); border-radius: 0.5rem;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                        <h4>Market Overview</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Price ranges, review patterns, and
+                            competitive landscape</p>
+                    </div>
+                    <div class="feature-card"
+                        style="padding: 1.5rem; background: var(--bg-secondary); border-radius: 0.5rem;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">😤</div>
+                        <h4>Pain Points</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Common customer complaints across
+                            products</p>
+                    </div>
+                    <div class="feature-card"
+                        style="padding: 1.5rem; background: var(--bg-secondary); border-radius: 0.5rem;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">💡</div>
+                        <h4>Opportunities</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Market gaps and differentiation
+                            ideas</p>
+                    </div>
+                    <div class="feature-card"
+                        style="padding: 1.5rem; background: var(--bg-secondary); border-radius: 0.5rem;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+                        <h4>Entry Strategy</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Recommended features and positioning
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
-    <!-- Spacer for button/footer gap -->
 
-    <!-- Email/Info Modal (Standard) -->
     <!-- Email/Info Modal (Free Tier) -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <button type="button" class="modal-close" id="modal-close">&times;</button>
-            <h2>Get Your Basic Analysis Report</h2>
+            <h2>Get Your Product Discovery Report</h2>
             <p class="modal-desc">Please complete the info below. Your free report will be sent to your email.</p>
             <form id="modal-form">
                 <div class="form-group">
@@ -258,9 +229,9 @@
                     <input type="email" id="user-email" name="user-email" placeholder="name@example.com" required>
                 </div>
                 <div class="form-group">
-                    <label for="user-industry">Industry Category *</label>
-                    <input type="text" id="user-industry" name="user-industry" placeholder="e.g. Electronics, Home..."
-                        required>
+                    <label for="user-industry">Target Category *</label>
+                    <input type="text" id="user-industry" name="user-industry"
+                        placeholder="e.g. Home & Garden, Sports..." required>
                 </div>
                 <!-- Upsell Link -->
                 <div style="margin-bottom: 1rem; text-align: center;">
@@ -270,12 +241,12 @@
                             style="color: var(--primary-color); font-weight: 600;">Upgrade to Pro Analysis</a>
                     </p>
                 </div>
-                <button type="submit" class="submit-btn" style="width: 100%;">Confirm & Start Free Analysis</button>
+                <button type="submit" class="submit-btn" style="width: 100%;">Confirm & Start Free Discovery</button>
             </form>
         </div>
     </div>
 
-    <!-- Payment Deposit Modal (Pro Tier) -->
+    <!-- Payment Modal (Pro Tier) -->
     <div id="payment-modal" class="modal">
         <div class="modal-content" style="max-width: 500px;">
             <button type="button" class="modal-close" id="payment-modal-close">&times;</button>
@@ -284,9 +255,9 @@
                     style="background: #eef2ff; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
                     <span style="font-size: 2rem;">💎</span>
                 </div>
-                <h2>Unlock Premium Features</h2>
+                <h2>Unlock Premium Discovery</h2>
                 <p style="color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.95rem;">
-                    You are unlocking <strong>Custom Models, File Uploads, and Advanced Prompts</strong>.
+                    Get <strong>deeper market insights, custom analysis, and expert recommendations</strong>.
                 </p>
             </div>
 
@@ -299,15 +270,6 @@
                     style="display: flex; justify-content: space-between; color: var(--primary-color); font-weight: 600; font-size: 1.25rem;">
                     <span>Deposit Due Now</span>
                     <span>$4.99</span>
-                </div>
-                <div style="margin-top: 1rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 1rem;">
-                    <p style="font-size: 0.9rem; color: #333; margin-bottom: 0.25rem;"><strong>Payment Terms:</strong>
-                    </p>
-                    <ul
-                        style="font-size: 0.85rem; color: var(--text-secondary); text-align: left; padding-left: 1.5rem; margin: 0;">
-                        <li>Pay <strong>$4.99</strong> now to start the comprehensive analysis.</li>
-                        <li>Pay the remaining <strong>$25.00</strong> only after you preview the report.</li>
-                    </ul>
                 </div>
             </div>
 
@@ -324,34 +286,25 @@
                 style="background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%); width: 100%;">
                 Pay $4.99 with Stripe (Sandbox)
             </button>
-            <button class="submit-btn" disabled
-                style="background: #e5e7eb; color: #9ca3af; width: 100%; display: flex; justify-content: center; align-items: center; text-decoration: none; margin-top: 10px; cursor: not-allowed; border: none;">
-                Pay $4.99 with PayPal (Unavailable)
-            </button>
             <p style="text-align: center; margin-top: 1rem; font-size: 0.75rem; color: var(--text-secondary);">
                 Secure payment via Stripe • 100% Satisfaction Guarantee
             </p>
         </div>
     </div>
 
-    </div>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <!-- Top: Brand + Tagline -->
             <div class="footer-top">
                 <h3 class="footer-logo">Amz AI Agent</h3>
                 <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
             </div>
 
-            <!-- Middle: 3 Link Columns -->
             <div class="footer-columns">
                 <div class="footer-col">
                     <h4>Product</h4>
                     <a href="create.html">Competitor Analysis</a>
-                <a href="discovery.html">Product Discovery</a>
-                    <a href="reports.html">Analysis Reports</a>
+                    <a href="discovery.html">Product Discovery</a>
                     <a href="pricing.html">Pricing</a>
                 </div>
                 <div class="footer-col">
@@ -368,7 +321,6 @@
                 </div>
             </div>
 
-            <!-- Bottom: Copyright + Contact -->
             <div class="footer-bottom">
                 <p class="footer-copyright">© 2025 Amz AI Agent. All rights reserved.</p>
                 <a href="contact.html" class="footer-contact">Contact Us</a>
@@ -376,6 +328,85 @@
         </div>
     </footer>
     <script src="script_v2.js"></script>
+    <script>
+        // Product Discovery specific form handling
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('discovery-form');
+            const modal = document.getElementById('modal');
+            const modalClose = document.getElementById('modal-close');
+            const modalForm = document.getElementById('modal-form');
+
+            // Store form data
+            let discoveryData = {};
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const category = document.getElementById('product-category').value.trim();
+                const asins = document.getElementById('product-asins').value.trim();
+                const marketplace = document.getElementById('marketplace').value;
+
+                // Validate
+                if (!category) {
+                    alert('Please enter a product category');
+                    return;
+                }
+
+                const asinList = asins.split('\n').map(a => a.trim()).filter(a => a.length > 0);
+                if (asinList.length < 3) {
+                    alert('Please enter at least 3 product ASINs');
+                    return;
+                }
+
+                // Store data
+                discoveryData = {
+                    type: 'discovery',
+                    category: category,
+                    asins: asinList,
+                    marketplace: marketplace
+                };
+
+                // Show modal
+                modal.style.display = 'flex';
+            });
+
+            modalClose.addEventListener('click', function () {
+                modal.style.display = 'none';
+            });
+
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            modalForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const userName = document.getElementById('user-name').value.trim();
+                const userEmail = document.getElementById('user-email').value.trim();
+                const userIndustry = document.getElementById('user-industry').value.trim();
+
+                // Combine all data
+                const fullData = {
+                    ...discoveryData,
+                    user_name: userName,
+                    user_email: userEmail,
+                    user_industry: userIndustry
+                };
+
+                console.log('Submitting discovery request:', fullData);
+
+                // TODO: Send to n8n webhook
+                // For now, show success message
+                alert('Thank you! Your Product Discovery report request has been submitted. You will receive the report via email within 24 hours.');
+
+                modal.style.display = 'none';
+                form.reset();
+                modalForm.reset();
+            });
+        });
+    </script>
 </body>
 
 </html>
