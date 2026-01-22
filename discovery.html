@@ -65,36 +65,135 @@
                 <form id="discovery-form">
                     <!-- Basic Configuration -->
                     <div class="form-grid">
-                        <!-- Product Category -->
-                        <div class="form-group">
-                            <label for="product-category">Product Category *</label>
-                            <p class="helper-text">What type of product are you researching? (e.g., "Yoga Mat", "Phone
-                                Stand")</p>
-                            <input type="text" id="product-category" name="product-category"
-                                placeholder="Enter product category..." required>
+                        <!-- 3-Level Category Selection -->
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Product Category *</label>
+                            <p class="helper-text">Select the category hierarchy for your product research</p>
+                            <div
+                                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.5rem;">
+                                <select id="category-level-1" required>
+                                    <option value="">-- Select Main Category --</option>
+                                </select>
+                                <select id="category-level-2" disabled>
+                                    <option value="">-- Select Sub-Category --</option>
+                                </select>
+                                <select id="category-level-3" disabled>
+                                    <option value="">-- Select Product Type --</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <!-- Product ASINs -->
+                        <!-- Product Keywords (PRIMARY) -->
                         <div class="form-group">
-                            <label for="product-asins">Product ASINs *</label>
-                            <p class="helper-text">Enter 5-15 similar product ASINs from the category (one per line)</p>
-                            <textarea id="product-asins" name="product-asins"
-                                placeholder="B08XXXXXX1&#10;B08XXXXXX2&#10;B08XXXXXX3&#10;..."></textarea>
+                            <label for="product-keywords">Product Keywords *</label>
+                            <p class="helper-text">Enter search terms customers use to find this product</p>
+                            <input type="text" id="product-keywords" name="product-keywords"
+                                placeholder="e.g., non-slip yoga mat, thick exercise mat, eco-friendly..." required>
                         </div>
 
                         <!-- Marketplace -->
                         <div class="form-group">
                             <label for="marketplace">Marketplace *</label>
+                            <p class="helper-text">Select the Amazon marketplace for your analysis</p>
                             <select id="marketplace" name="marketplace">
-                                <option value="US" selected>US</option>
-                                <option value="CA">CA</option>
-                                <option value="GB">GB</option>
-                                <option value="DE">DE</option>
-                                <option value="FR">FR</option>
-                                <option value="IT">IT</option>
-                                <option value="ES">ES</option>
-                                <option value="JP">JP</option>
+                                <option value="US" selected>🇺🇸 United States</option>
+                                <option value="CA">🇨🇦 Canada</option>
+                                <option value="GB">🇬🇧 United Kingdom</option>
+                                <option value="DE">🇩🇪 Germany</option>
+                                <option value="FR">🇫🇷 France</option>
+                                <option value="IT">🇮🇹 Italy</option>
+                                <option value="ES">🇪🇸 Spain</option>
+                                <option value="JP">🇯🇵 Japan</option>
                             </select>
+                        </div>
+
+                        <!-- Analysis Focus - Styled Cards -->
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Analysis Focus</label>
+                            <p class="helper-text" id="focus-helper">Free users get Market Entry assessment.
+                                <a href="#" id="upgrade-focus-link"
+                                    style="color: var(--primary-color); font-weight: 600;">Upgrade to Pro</a> to select
+                                multiple focus areas.
+                            </p>
+                            <div class="analysis-focus-cards"
+                                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.75rem;">
+                                <!-- Market Entry - Default for Free -->
+                                <div class="focus-card active" id="focus-market-entry" data-value="market-entry"
+                                    style="padding: 1rem; border: 2px solid var(--primary-color); border-radius: 0.75rem; background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(37, 99, 235, 0.05)); cursor: pointer; transition: all 0.2s;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎯</div>
+                                    <h4 style="margin: 0 0 0.25rem 0; font-size: 0.95rem;">Market Entry</h4>
+                                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">Should I
+                                        enter this market?</p>
+                                    <span class="focus-badge"
+                                        style="display: inline-block; margin-top: 0.5rem; font-size: 0.7rem; background: var(--primary-color); color: white; padding: 0.125rem 0.5rem; border-radius: 9999px;">Default</span>
+                                </div>
+                                <!-- Differentiation - Locked for Free -->
+                                <div class="focus-card locked" id="focus-differentiation" data-value="differentiation"
+                                    style="padding: 1rem; border: 2px solid var(--border-color); border-radius: 0.75rem; background: var(--bg-secondary); opacity: 0.7; cursor: not-allowed; transition: all 0.2s; position: relative;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💡</div>
+                                    <h4 style="margin: 0 0 0.25rem 0; font-size: 0.95rem;">Differentiation</h4>
+                                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">How can I
+                                        stand out?</p>
+                                    <span class="lock-badge"
+                                        style="position: absolute; top: 0.5rem; right: 0.5rem;">🔒</span>
+                                </div>
+                                <!-- Pricing - Locked for Free -->
+                                <div class="focus-card locked" id="focus-pricing" data-value="pricing"
+                                    style="padding: 1rem; border: 2px solid var(--border-color); border-radius: 0.75rem; background: var(--bg-secondary); opacity: 0.7; cursor: not-allowed; transition: all 0.2s; position: relative;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💰</div>
+                                    <h4 style="margin: 0 0 0.25rem 0; font-size: 0.95rem;">Pricing Strategy</h4>
+                                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">What price
+                                        point works?</p>
+                                    <span class="lock-badge"
+                                        style="position: absolute; top: 0.5rem; right: 0.5rem;">🔒</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Reference ASINs (OPTIONAL) - Moved UP -->
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="product-asins">Reference ASINs <span
+                                    style="color: var(--text-secondary); font-weight: normal;">(Optional)</span></label>
+                            <p class="helper-text">If you know specific products to analyze, enter their ASINs.
+                                Otherwise, we'll find top products automatically.</p>
+                            <textarea id="product-asins" name="product-asins"
+                                placeholder="B08XXXXXX1&#10;B08XXXXXX2&#10;(Leave empty to auto-discover)"
+                                style="min-height: 80px;"></textarea>
+                        </div>
+
+                        <!-- Analysis Prompt (Moved to BOTTOM) -->
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label>Analysis Prompt
+                                    <span id="prompt-mode-badge"
+                                        style="font-size: 0.7rem; background: #e5e7eb; color: #6b7280; padding: 0.125rem 0.5rem; border-radius: 9999px; margin-left: 0.5rem;">Free:
+                                        Read-only</span>
+                                </label>
+                            </div>
+                            <p class="helper-text" id="prompt-helper">This is the analysis framework that guides the AI
+                                report generation.</p>
+                            <textarea id="default-prompt" readonly
+                                style="min-height: 200px; max-height: 400px; overflow-y: auto; background: var(--bg-secondary); opacity: 0.85; cursor: not-allowed; font-family: 'Inter', monospace; font-size: 0.9rem; line-height: 1.6; padding: 1rem;">Analyze the market opportunity in the selected category:
+
+1. MARKET OVERVIEW
+   - Price range distribution (budget/mid/premium)
+   - Review volume and rating patterns
+   - Competitive landscape and market concentration
+
+2. CUSTOMER PAIN POINTS
+   - Top 5 recurring complaints from negative reviews
+   - Unmet needs and feature requests
+   - Quality and durability issues
+
+3. OPPORTUNITY ANALYSIS
+   - Market gaps and underserved segments
+   - Differentiation opportunities
+   - Target customer profile
+
+4. ENTRY STRATEGY RECOMMENDATIONS
+   - Suggested price positioning
+   - Key features to prioritize
+   - Potential risks and mitigation</textarea>
                         </div>
                     </div>
 
@@ -241,7 +340,8 @@
                             style="color: var(--primary-color); font-weight: 600;">Upgrade to Pro Analysis</a>
                     </p>
                 </div>
-                <button type="submit" class="submit-btn" style="width: 100%;">Confirm & Start Free Discovery</button>
+                <button type="submit" class="submit-btn" id="confirm-submission-btn" style="width: 100%;">Confirm &
+                    Start Free Discovery</button>
             </form>
         </div>
     </div>
@@ -328,6 +428,7 @@
         </div>
     </footer>
     <script src="script_v2.js"></script>
+    <script src="data/amazon_categories.js"></script>
     <script>
         // Product Discovery specific form handling
         document.addEventListener('DOMContentLoaded', function () {
@@ -336,35 +437,283 @@
             const modalClose = document.getElementById('modal-close');
             const modalForm = document.getElementById('modal-form');
 
+            // Category cascade elements
+            const level1 = document.getElementById('category-level-1');
+            const level2 = document.getElementById('category-level-2');
+            const level3 = document.getElementById('category-level-3');
+
             // Store form data
             let discoveryData = {};
+            let isProMode = false;
 
+            // Elements
+            const promptTextarea = document.getElementById('default-prompt');
+            const promptBadge = document.getElementById('prompt-mode-badge');
+            const focusCards = document.querySelectorAll('.focus-card');
+            const paymentModal = document.getElementById('payment-modal');
+            const paymentModalClose = document.getElementById('payment-modal-close');
+
+            // Show payment modal function
+            function showPaymentModal() {
+                paymentModal.style.display = 'flex';
+            }
+
+            // Payment modal close
+            if (paymentModalClose) {
+                paymentModalClose.addEventListener('click', function () {
+                    paymentModal.style.display = 'none';
+                });
+            }
+
+            // Close payment modal on overlay click
+            if (paymentModal) {
+                paymentModal.addEventListener('click', function (e) {
+                    if (e.target === paymentModal) {
+                        paymentModal.style.display = 'none';
+                    }
+                });
+            }
+
+            // Upgrade links trigger payment modal
+            const upgradeFocusLink = document.getElementById('upgrade-focus-link');
+            const upgradePromptLink = document.getElementById('upgrade-prompt-link');
+
+            if (upgradeFocusLink) {
+                upgradeFocusLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showPaymentModal();
+                });
+            }
+
+            if (upgradePromptLink) {
+                upgradePromptLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showPaymentModal();
+                });
+            }
+
+            // Ad vanced Options Pro unlock overlay
+            const proUnlockOverlay = document.getElementById('pro-unlock-overlay');
+            if (proUnlockOverlay) {
+                proUnlockOverlay.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showPaymentModal();
+                });
+            }
+
+            // Focus card click handlers - locked cards show payment modal
+            focusCards.forEach(card => {
+                card.addEventListener('click', function () {
+                    if (this.classList.contains('locked')) {
+                        showPaymentModal();
+                        return;
+                    }
+
+                    // Pro mode: toggle selection (only works after payment)
+                    if (isProMode) {
+                        if (this.classList.contains('active')) {
+                            const activeCards = document.querySelectorAll('.focus-card.active');
+                            if (activeCards.length > 1) {
+                                this.classList.remove('active');
+                                this.style.border = '2px solid var(--border-color)';
+                                this.style.background = 'var(--bg-secondary)';
+                            }
+                        } else {
+                            this.classList.add('active');
+                            this.style.border = '2px solid var(--primary-color)';
+                            this.style.background = 'linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(37, 99, 235, 0.05))';
+                        }
+                    }
+                });
+            });
+
+            // Payment success handler (simulated)
+            const payDepositBtn = document.getElementById('pay-deposit-btn');
+            if (payDepositBtn) {
+                payDepositBtn.addEventListener('click', function () {
+                    const proEmail = document.getElementById('pro-email-input').value.trim();
+                    if (!proEmail) {
+                        alert('Please enter your email address');
+                        return;
+                    }
+
+                    // Simulate payment success
+                    alert('Payment successful! (Sandbox mode) Pro features are now unlocked.');
+                    paymentModal.style.display = 'none';
+
+                    // Unlock Pro mode
+                    isProMode = true;
+
+                    // Make prompt editable
+                    promptTextarea.removeAttribute('readonly');
+                    promptTextarea.style.opacity = '1';
+                    promptTextarea.style.cursor = 'text';
+                    promptTextarea.style.background = 'var(--bg-primary)';
+                    promptTextarea.style.border = '2px solid var(--primary-color)';
+                    promptBadge.textContent = 'Pro: Editable';
+                    promptBadge.style.background = 'linear-gradient(135deg, #4f46e5, #2563eb)';
+                    promptBadge.style.color = 'white';
+
+                    // Unlock all focus cards
+                    focusCards.forEach(card => {
+                        card.classList.remove('locked');
+                        card.style.opacity = '1';
+                        card.style.cursor = 'pointer';
+                        const lockBadge = card.querySelector('.lock-badge');
+                        if (lockBadge) lockBadge.style.display = 'none';
+                    });
+
+                    // Update helper text
+                    const focusHelper = document.getElementById('focus-helper');
+                    if (focusHelper) {
+                        focusHelper.innerHTML = '✅ Pro Mode Active! Click cards to toggle selection.';
+                    }
+
+                    // Unlock advanced options
+                    const proOverlay = document.getElementById('pro-unlock-overlay');
+                    if (proOverlay) proOverlay.style.display = 'none';
+
+                    document.querySelectorAll('.pro-feature').forEach(el => {
+                        el.disabled = false;
+                    });
+                });
+            }
+
+
+            // Initialize category dropdowns
+            function initCategories() {
+                if (typeof amazonCategories === 'undefined') {
+                    console.error('Amazon categories data not loaded');
+                    return;
+                }
+
+                // Populate Level 1 (Main Categories)
+                Object.keys(amazonCategories).forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    level1.appendChild(option);
+                });
+            }
+
+            // Level 1 change handler
+            level1.addEventListener('change', function () {
+                const selectedCat = this.value;
+
+                // Reset level 2 and 3
+                level2.innerHTML = '<option value="">-- Select Sub-Category --</option>';
+                level3.innerHTML = '<option value="">-- Select Product Type --</option>';
+                level2.disabled = true;
+                level3.disabled = true;
+
+                if (selectedCat && amazonCategories[selectedCat]) {
+                    const subCategories = Object.keys(amazonCategories[selectedCat]);
+                    subCategories.forEach(subCat => {
+                        const option = document.createElement('option');
+                        option.value = subCat;
+                        option.textContent = subCat;
+                        level2.appendChild(option);
+                    });
+                    level2.disabled = false;
+                }
+            });
+
+            // Level 2 change handler
+            level2.addEventListener('change', function () {
+                const mainCat = level1.value;
+                const subCat = this.value;
+
+                // Reset level 3
+                level3.innerHTML = '<option value="">-- Select Product Type --</option>';
+                level3.disabled = true;
+
+                if (mainCat && subCat && amazonCategories[mainCat] && amazonCategories[mainCat][subCat]) {
+                    const productTypes = amazonCategories[mainCat][subCat];
+                    productTypes.forEach(prodType => {
+                        const option = document.createElement('option');
+                        option.value = prodType;
+                        option.textContent = prodType;
+                        level3.appendChild(option);
+                    });
+                    level3.disabled = false;
+                }
+            });
+
+            // Initialize on load
+            initCategories();
+
+            // Form submit handler
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
 
-                const category = document.getElementById('product-category').value.trim();
+                const mainCategory = level1.value;
+                const subCategory = level2.value;
+                const productType = level3.value;
+                const keywords = document.getElementById('product-keywords').value.trim();
                 const asins = document.getElementById('product-asins').value.trim();
                 const marketplace = document.getElementById('marketplace').value;
+                const defaultPrompt = document.getElementById('default-prompt').value;
 
-                // Validate
-                if (!category) {
-                    alert('Please enter a product category');
+                // Validate required fields
+                if (!mainCategory) {
+                    alert('Please select a main category');
                     return;
                 }
 
-                const asinList = asins.split('\n').map(a => a.trim()).filter(a => a.length > 0);
-                if (asinList.length < 3) {
-                    alert('Please enter at least 3 product ASINs');
+                if (!keywords) {
+                    alert('Please enter product keywords');
                     return;
                 }
+
+                // Build category path
+                let categoryPath = mainCategory;
+                if (subCategory) categoryPath += ' > ' + subCategory;
+                if (productType) categoryPath += ' > ' + productType;
+
+                // ASINs are optional - parse if provided
+                const asinList = asins ? asins.split('\n').map(a => a.trim()).filter(a => a.length > 0) : [];
+
+                // Capture selected analysis focus areas
+                let focusAreas = [];
+                document.querySelectorAll('.focus-card.active').forEach(card => {
+                    focusAreas.push(card.dataset.value);
+                });
+
+                // Fallback if none selected (should not happen due to default)
+                if (focusAreas.length === 0) focusAreas = ['market-entry'];
 
                 // Store data
                 discoveryData = {
                     type: 'discovery',
-                    category: category,
+                    category: categoryPath,
+                    category_main: mainCategory,
+                    category_sub: subCategory,
+                    category_product: productType,
+                    keywords: keywords,
                     asins: asinList,
-                    marketplace: marketplace
+                    marketplace: marketplace,
+                    analysis_focus: focusAreas,
+                    prompt: defaultPrompt,
+                    is_pro: isProMode
                 };
+
+                // Update Modal UI based on Pro status
+                const modalTitle = document.querySelector('#submission-modal h2');
+                const modalDesc = document.querySelector('#submission-modal .modal-desc');
+                const upsellLink = document.getElementById('switch-to-pro-link');
+                const submitBtn = document.getElementById('confirm-submission-btn');
+
+                if (isProMode) {
+                    if (modalTitle) modalTitle.textContent = "Start Premium Discovery";
+                    if (modalDesc) modalDesc.textContent = "Please confirm your email to receive the comprehensive Pro analysis report.";
+                    if (upsellLink) upsellLink.parentElement.parentElement.style.display = 'none'; // Hide upsell container
+                    if (submitBtn) submitBtn.textContent = "Confirm & Start Pro Discovery";
+                } else {
+                    if (modalTitle) modalTitle.textContent = "Your Free Analysis Report";
+                    if (modalDesc) modalDesc.textContent = "Please complete the info below. Your free report will be sent to your email.";
+                    if (upsellLink) upsellLink.parentElement.parentElement.style.display = 'block';
+                    if (submitBtn) submitBtn.textContent = "Confirm & Start Free Discovery";
+                }
 
                 // Show modal
                 modal.style.display = 'flex';
@@ -388,22 +737,99 @@
                 const userIndustry = document.getElementById('user-industry').value.trim();
 
                 // Combine all data
-                const fullData = {
+                const finalPayload = {
                     ...discoveryData,
-                    user_name: userName,
-                    user_email: userEmail,
-                    user_industry: userIndustry
+                    user: {
+                        name: userName,
+                        email: userEmail,
+                        industry: userIndustry
+                    },
+                    submittedAt: new Date().toISOString()
                 };
 
-                console.log('Submitting discovery request:', fullData);
+                console.log('Final Discovery Payload:', finalPayload);
 
-                // TODO: Send to n8n webhook
-                // For now, show success message
-                alert('Thank you! Your Product Discovery report request has been submitted. You will receive the report via email within 24 hours.');
+                // Show loading state
+                const submitBtn = document.getElementById('confirm-submission-btn');
+                const originalBtnText = submitBtn.textContent;
+                submitBtn.textContent = "Processing...";
+                submitBtn.disabled = true;
 
-                modal.style.display = 'none';
+                // Prepare API Payload
+                const apiPayload = {
+                    category: finalPayload.category,
+                    category_main: finalPayload.category_main, // Pass details if backend supports
+                    category_sub: finalPayload.category_sub,
+                    category_product: finalPayload.category_product,
+                    keywords: finalPayload.keywords,
+                    marketplace: finalPayload.marketplace,
+                    prompt: finalPayload.prompt,
+                    analysis_focus: finalPayload.analysis_focus || [],
+                    is_pro: finalPayload.is_pro || false,
+                    // User info path might differ in backend model, sending flat
+                    user_email: finalPayload.user.email,
+                    user_name: finalPayload.user.name,
+                    user_industry: finalPayload.user.industry
+                };
+
+                console.log('Sending to Backend:', apiPayload);
+
+                // Call Backend API
+                fetch('/api/discovery/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(apiPayload)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => { throw new Error(err.detail || 'Server Error'); });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        modal.style.display = 'none';
+                        if (data.success) {
+                            const successMsg = isProMode ?
+                                "Success! Your Pro Analysis has started. Report will be sent to " + userEmail + " shortly." :
+                                "Success! Your Free Analysis request is processing. Check your email (" + userEmail + ") in a few minutes.";
+                            alert(successMsg);
+
+                            // Reset form only on success
+                            form.reset();
+                            modalForm.reset();
+
+                            // Reset dropdowns
+                            if (typeof level2 !== 'undefined') {
+                                level2.innerHTML = '<option value="">-- Select Sub-Category --</option>';
+                                level3.innerHTML = '<option value="">-- Select Product Type --</option>';
+                                level2.disabled = true;
+                                level3.disabled = true;
+                            }
+                        } else {
+                            alert('Error: ' + (data.message || 'Unknown error'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('API Error:', error);
+                        alert('Submission Failed: ' + error.message + '\n\nPlease ensure the backend service is running.');
+                    })
+                    .finally(() => {
+                        // Reset UI
+                        submitBtn.textContent = originalBtnText;
+                        submitBtn.disabled = false;
+                    });
+
+                // Reset form fields and category dropdowns after submission (or after simulated API call)
                 form.reset();
                 modalForm.reset();
+
+                // Reset category dropdowns
+                level2.innerHTML = '<option value="">-- Select Sub-Category --</option>';
+                level3.innerHTML = '<option value="">-- Select Product Type --</option>';
+                level2.disabled = true;
+                level3.disabled = true;
             });
         });
     </script>

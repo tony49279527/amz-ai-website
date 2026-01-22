@@ -1,3 +1,5 @@
+
+
 const initApp = () => {
     // === MOBILE MENU TOGGLE ===
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
@@ -396,17 +398,26 @@ Present workflows in a structured table format, including:
         let isMainValid = true;
         let isCompValid = true;
 
+        // ASIN format regex: B followed by 9 alphanumeric characters
+        const asinRegex = /^B[A-Z0-9]{9}$/i;
+
         // Reset Validity
         mainAsin.setCustomValidity("");
         compAsin.setCustomValidity("");
 
-        // Check Main ASIN
-        if (!mainAsin.value.trim()) {
+        // Check Main ASIN - not empty AND valid format
+        const mainAsinValue = mainAsin.value.trim().toUpperCase();
+        if (!mainAsinValue) {
             isMainValid = false;
+            mainAsin.setCustomValidity("Please enter the Core Product ASIN.");
+        } else if (!asinRegex.test(mainAsinValue)) {
+            isMainValid = false;
+            mainAsin.setCustomValidity("Invalid ASIN format. Must start with 'B' followed by 9 alphanumeric characters (e.g. B08CVS825S).");
+        }
+
+        if (!isMainValid) {
             mainAsin.style.borderColor = '#ef4444';
             mainAsin.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.2)';
-            mainAsin.setCustomValidity("Please enter the Core Product ASIN.");
-
             // Shake animation
             mainAsin.animate([
                 { transform: 'translate(0)' },
@@ -419,13 +430,24 @@ Present workflows in a structured table format, including:
             mainAsin.style.boxShadow = '';
         }
 
-        // Check Comp ASIN
-        if (!compAsin.value.trim()) {
+        // Check Comp ASIN - not empty AND all ASINs valid format
+        const compAsinValue = compAsin.value.trim();
+        if (!compAsinValue) {
             isCompValid = false;
+            compAsin.setCustomValidity("Please enter at least one Competitor ASIN.");
+        } else {
+            // Split by comma, newline, or space and validate each ASIN
+            const compAsins = compAsinValue.split(/[\n,\s]+/).map(s => s.trim().toUpperCase()).filter(s => s);
+            const invalidAsins = compAsins.filter(asin => !asinRegex.test(asin));
+            if (invalidAsins.length > 0) {
+                isCompValid = false;
+                compAsin.setCustomValidity(`Invalid ASIN format: ${invalidAsins.join(', ')}. Each ASIN must start with 'B' followed by 9 alphanumeric characters.`);
+            }
+        }
+
+        if (!isCompValid) {
             compAsin.style.borderColor = '#ef4444';
             compAsin.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.2)';
-            compAsin.setCustomValidity("Please enter at least one Competitor ASIN.");
-
             // Shake animation
             compAsin.animate([
                 { transform: 'translate(0)' },

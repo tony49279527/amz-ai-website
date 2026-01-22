@@ -1,0 +1,43 @@
+"""
+Configuration for Product Discovery Service
+"""
+import os
+from typing import Optional
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# API Keys
+SCRAPINGBEE_API_KEY = "FZRSC69J3MPE5OO5FYJKEZFGI2XWG65IQA2V86EFJWKF9ARVGV0AIPMTSJ74XL0FV3EZIL95B7ZQI1XR"
+
+RAPIDAPI_KEY = "35d443d327msh77164428609687ep1ee4b4jsn763b388ea69a"
+RAPIDAPI_HOST = "real-time-amazon-data.p.rapidapi.com"
+
+# OpenRouter API (for LLM)
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")  # You'll need to set this
+
+# Model Configuration
+DEFAULT_MODEL_FREE = "openai/gpt-4o"  # Free users
+DEFAULT_MODEL_PRO = "anthropic/claude-sonnet-4"  # Pro users - Claude 4 Sonnet
+
+# Available Pro Models
+PRO_MODELS = [
+    "anthropic/claude-3.5-sonnet",
+    "openai/gpt-4-turbo",
+    "google/gemini-pro-1.5",
+    "meta-llama/llama-3.1-405b"
+]
+
+# ScrapingBee Settings
+SCRAPINGBEE_BASE_URL = "https://app.scrapingbee.com/api/v1/"
+
+# Email Settings (for sending reports)
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT = 587
+SMTP_USER = os.getenv("SMTP_USER", "")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+
+# Report Settings
+MAX_SEARCH_RESULTS = 10  # Max websites/videos to scrape
+MAX_REVIEWS_PER_ASIN = 100  # Max reviews to analyze per product (increased)

@@ -6,7 +6,7 @@ window.blogPostsEN = [
     "title": "Amazon Seller Registration Drop 2025: What This Means for FBA Business",
     "date": "January 22, 2026",
     "author": "Amz AI Agent",
-    "cover_image": "assets/images/blog_thumbs/efficiency.png",
+    "cover_image": "assets/images/blog_thumbs/seller_registration.png",
     "tags": [
       "Amazon FBA",
       "Seller Registration",
@@ -21,7 +21,7 @@ window.blogPostsEN = [
     "title": "Amazon Seller Registrations Drop 44% in 2025: What FBA Sellers Need to Know",
     "date": "January 21, 2026",
     "author": "Amz AI Agent",
-    "cover_image": "assets/images/blog_thumbs/efficiency.png",
+    "cover_image": "assets/images/blog_thumbs/market_barrier.png",
     "tags": [
       "Amazon FBA",
       "Seller Registration",
@@ -54,7 +54,7 @@ window.blogPostsEN = [
     "title": "Amazon APRL Program 2026: Major Changes for High-Value FBA Sellers",
     "date": "January 20, 2026",
     "author": "Amz AI Agent",
-    "cover_image": "https://www.ecommercebytes.com/ec/wp-content/uploads/2017/06/amazon_lg-150x150.jpg",
+    "cover_image": "assets/images/blog_thumbs/return_policy.png",
     "tags": [
       "Amazon FBA",
       "APRL Program",
