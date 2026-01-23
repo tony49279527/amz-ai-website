@@ -109,10 +109,27 @@ async def get_available_models():
     }
 
 
-async def run_analysis_task(request: DiscoveryRequest):
+from fastapi import WebSocket
+from .progress import progress_manager
+import uuid
+
+# ... (Existing code)
+
+@app.websocket("/ws/progress/{task_id}")
+async def websocket_endpoint(websocket: WebSocket, task_id: str):
+    await progress_manager.connect(task_id, websocket)
+    try:
+        while True:
+            # Keep connection open, wait for client messages if needed
+            # For now, we only send server->client
+            await websocket.receive_text()
+    except Exception:
+        progress_manager.disconnect(task_id, websocket)
+
+async def run_analysis_task(request: DiscoveryRequest, task_id: str = None):
     """Background task to run analysis"""
     try:
-        report = await analyzer.analyze(request)
+        report = await analyzer.analyze(request, task_id)
         reports_store[report.report_id] = report
         
         # Send email with report
@@ -121,121 +138,48 @@ async def run_analysis_task(request: DiscoveryRequest):
         print(f"Report {report.report_id} completed and stored")
     except Exception as e:
         print(f"Error in analysis task: {str(e)}")
-        # TODO: Send error notification email
+        # If task_id exists, emit error
+        if task_id:
+            await progress_manager.emit(task_id, "Error", "Analysis Failed", 0, {"error": str(e)})
 
-
-@app.post("/api/discovery/analyze", response_model=DiscoveryResponse)
-async def analyze_product(
+@app.post("/api/discovery/start-task", response_model=DiscoveryResponse)
+async def start_analysis_task(
     request: DiscoveryRequest,
     background_tasks: BackgroundTasks
 ):
     """
-    Start a product discovery analysis
-    
-    This endpoint accepts the analysis request and starts processing in the background.
-    The user will receive the report via email when complete.
+    Start analysis with Real-time Progress Tracking
+    Returns a task_id immediately. Client should then connect to /ws/progress/{task_id}
     """
     try:
         # Validate request
         if not request.category or not request.keywords:
-            raise HTTPException(
-                status_code=400,
-                detail="Category and keywords are required"
-            )
+            raise HTTPException(status_code=400, detail="Category and keywords are required")
         
-        if not request.user_email or "@" not in request.user_email:
-            raise HTTPException(
-                status_code=400,
-                detail="Valid email address is required"
-            )
+        task_id = str(uuid.uuid4())
         
-        # Start analysis in background
-        background_tasks.add_task(run_analysis_task, request)
+        # Start analysis in background with task_id
+        background_tasks.add_task(run_analysis_task, request, task_id)
         
         return DiscoveryResponse(
             success=True,
-            message=f"Analysis started! Report will be sent to {request.user_email} within 5-10 minutes.",
-            estimated_delivery_minutes=10
-        )
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        print(f"Error starting analysis: {str(e)}")
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to start analysis: {str(e)}"
-        )
-
-
-@app.post("/api/discovery/analyze-sync")
-async def analyze_product_sync(request: DiscoveryRequest):
-    """
-    Synchronous analysis endpoint (for testing)
-    
-    This endpoint runs the analysis synchronously and returns the report immediately.
-    Use this for testing or when you need the report right away.
-    """
-    try:
-        report = await analyzer.analyze(request)
-        reports_store[report.report_id] = report
-        
-        # Return first 500 chars as preview
-        preview = report.report_markdown[:500] + "..."
-        
-        return DiscoveryResponse(
-            success=True,
-            message="Analysis complete!",
-            report_id=report.report_id,
-            report_preview=preview,
-            estimated_delivery_minutes=0
+            message="Analysis started. Connect to WebSocket for progress.",
+            estimated_delivery_minutes=10,
+            report_id=task_id  # Using report_id field to pass task_id for now
         )
         
     except Exception as e:
-        print(f"Error in sync analysis: {str(e)}")
-        raise HTTPException(
-            status_code=500,
-            detail=f"Analysis failed: {str(e)}"
-        )
-
-
-@app.get("/api/discovery/report/{report_id}")
-async def get_report(report_id: str):
-    """Get a completed report by ID"""
-    if report_id not in reports_store:
-        raise HTTPException(
-            status_code=404,
-            detail="Report not found"
-        )
-    
-    report = reports_store[report_id]
-    return report
-
-
-@app.get("/api/discovery/reports")
-async def list_reports():
-    """List all reports (for testing)"""
-    return {
-        "count": len(reports_store),
-        "reports": [
-            {
-                "report_id": r.report_id,
-                "keywords": r.keywords,
-                "generated_at": r.generated_at
-            }
-            for r in reports_store.values()
-        ]
-    }
-
+        print(f"Error starting analysis: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     print("Starting Product Discovery Service...")
     print("API will be available at: http://localhost:8000")
-    print("API docs at: http://localhost:8000/docs")
+    print("WebSocket at: ws://localhost:8000/ws/progress/{task_id}")
     
     uvicorn.run(
-        "main:app",
+        "discovery_service.main:app",
         host="0.0.0.0",
         port=8000,
-        reload=True  # Auto-reload on code changes
+        reload=True
     )

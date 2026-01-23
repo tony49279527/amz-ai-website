@@ -666,43 +666,39 @@ Present workflows in a structured table format, including:
 
         try {
             // Pro URL: Standard n8n with AI Agents
-            // Free URL: Simplified n8n with just Notification
-            let endpointUrl = 'https://tony4927.app.n8n.cloud/webhook/3f76a439-5a54-4d08-97cd-6e98d7b6e034'; // Default Pro
-
-            // === DATABASE INTEGRATION START ===
-            // Call our new backend to create a record in Supabase
-            // try {
-            //     const dbRes = await fetch('/api/analysis', {
-            //         method: 'POST',
-            //         headers: { 'Content-Type': 'application/json' },
-            //         body: JSON.stringify({
-            //             asin: payload.main_asins[0],
-            //             marketplace: payload.productSite
-            //         })
-            //     });
-            //     if (dbRes.ok) {
-            //         const dbData = await dbRes.json();
-            //         console.log('Database Record Created:', dbData.report_id);
-            //     } else {
-            //         console.warn('Database registration failed (server might be missing env keys)');
-            //     }
-            // } catch (dbErr) {
-            //     console.warn('Backend API not reachable, continuing in offline/demo mode:', dbErr);
-            // }
-            // === DATABASE INTEGRATION END ===
+            let endpointUrl = 'https://tony4927.app.n8n.cloud/webhook/3f76a439-5a54-4d08-97cd-6e98d7b6e034';
 
             if (!isPro) {
-                // Free Tier Webhook (Notification Only)
-                endpointUrl = 'https://tony4927.app.n8n.cloud/webhook/c6b3034f-250a-433f-9017-c14c3f8c7f9f';
+                // === FREE TIER: USE LOCAL BACKEND FOR REAL-TIME TRACKING ===
+                const backendPayload = {
+                    category: "General", // TODO: Add category input to form if needed
+                    keywords: payload.main_asins[0] + " " + (document.getElementById('comp-asin').value.trim().replace(/\n/g, ' ')), // simple concat for keywords
+                    marketplace: payload.productSite,
+                    user_email: payload.user_email,
+                    user_tier: "free",
+                    reference_asins: [payload.main_asins[0], ...payload.competitor_asins]
+                };
+
+                const res = await fetch('/api/discovery/start-task', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(backendPayload)
+                });
+
+                if (!res.ok) throw new Error("Backend start-task failed: " + res.statusText);
+
+                const data = await res.json();
+                const taskId = data.report_id;
+
+                // Redirect to new Transparent Processing Page
+                const email = encodeURIComponent(payload.user_email);
+                window.location.href = `processing.html?taskId=${taskId}&email=${email}&pro=false`;
+                return;
             }
 
-            // For the webhook, we might want to ensure mode: 'cors' or 'no-cors' depending on n8n config
-            // optimized: Use URLSearchParams for Free Tier to avoid CORS Preflight (Simple Request)
-            // optimized: Use URLSearchParams for BOTH Tiers to avoid CORS Preflight (Simple Request)
-            // This is safer for n8n webhooks which often reject OPTIONS requests.
+            // === PRO TIER: KEEP n8n LOGIC (Payment Flow) ===
             const formData = new URLSearchParams();
             for (const key in payload) {
-                // Handle arrays/objects by stringifying them so n8n receives them as strings
                 if (typeof payload[key] === 'object') {
                     formData.append(key, JSON.stringify(payload[key]));
                 } else {
@@ -712,82 +708,29 @@ Present workflows in a structured table format, including:
 
             let fetchOptions = {
                 method: 'POST',
-                // No custom headers allowed for Simple Request (Content-Type is auto-set to x-www-form-urlencoded)
                 body: formData
             };
 
             const response = await fetch(endpointUrl, fetchOptions);
 
-            // If it's the webhook, it might return a simple text or JSON. 
-            // We assume success if status is 200.
             if (response.ok) {
                 let data = {};
                 try {
                     data = await response.json();
                 } catch (e) {
-                    console.log('Response was not JSON, assuming success string');
+                    console.log('Response was not JSON');
                 }
 
-                // Determine Status based on Payment
-                const reportStatus = isPro ? 'Pending Final Payment' : 'Request Received';
-
-                // Construct Markdown (Mock or from Response) 
-                // If webhook returns result, use it. Otherwise use mock.
-                const result = data.result || {
-                    asin: payload.asin,
-                    market_analysis: {
-                        sentiment_score: 8.5,
-                        top_keywords: ["Quality", "Battery Life", "Value"],
-                        pain_points: ["Shipping delay", "Instruction clarity"]
-                    },
-                    marketing_suggestion: "Focus on battery life in ads."
-                };
-
-                const reportId = data.id || Date.now().toString();
-
-                const markdownContent = `
-# Analysis Report: ${result.asin}
-## Market Analysis
-- **Sentiment**: ${result.market_analysis?.sentiment_score || 8.5}/10
-- **Keywords**: ${(result.market_analysis?.top_keywords || []).join(', ')}
-### Pain Points
-${(result.market_analysis?.pain_points || []).map(p => `- ${p}`).join('\n')}
-## Suggestion
-> ${result.marketing_suggestion || "Analysis in progress..."}
-*(Generated via ${isPro ? 'Pro' : 'Free'} Tier)*
-`;
-
-                // Save to LocalStorage
-                const reports = JSON.parse(localStorage.getItem('my_reports') || '[]');
-                const newReport = {
-                    id: reportId,
-                    title: `Analysis for ${result.asin}`,
-                    asin: result.asin,
-                    marketplace: payload.marketplace,
-                    date: new Date().toISOString(),
-                    created_at: new Date().toISOString().split('T')[0],
-                    status: reportStatus, // 'Done' or 'Pending Final Payment'
-                    email: payload.user_email,
-                    content: markdownContent,
-                    is_pro: isPro
-                };
-                reports.unshift(newReport);
-                localStorage.setItem('my_reports', JSON.stringify(reports));
-
-                // Redirect
+                // Redirect standard flow
                 const email = encodeURIComponent(payload.user_email);
                 window.location.href = `processing.html?email=${email}&pro=${isPro}`;
 
             } else {
-                // If it's a 501/404 from local server (for Pro/API path that doesn't exist yet)
-                // we technically can fail, but for DEMO purposes with the webhook, we expect success.
                 const errText = await response.text();
                 throw new Error(`Server responded with ${response.status}: ${errText}`);
             }
         } catch (error) {
             console.error(error);
-            // Fallback for demo if API fails entirely (e.g. 501 on local dev for the /api route)
-            // But for the Webhook, we want to know if it fails.
             alert('Submission Error: ' + error.message);
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;

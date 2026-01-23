@@ -84,7 +84,7 @@ window.blogPostsEN = [
     "id": "amazon-listing-image-optimization-ai-visual-script",
     "title": "Stop \"Self-Indulgent\" Photography: How to Use AI to Generate \"Visual Scripts\" That Direct Photographers to Create High-Converting Images",
     "date": "September 1, 2025",
-    "author": "AMZ FlowAgent Team",
+    "author": "Amz AI Agent Team",
     "cover_image": "assets/images/blog_thumbs/visual_opt.png",
     "tags": [
       "Featured",
@@ -96,19 +96,19 @@ window.blogPostsEN = [
     "id": "amazon-competitor-analysis-efficiency-cost-calculator",
     "title": "Is Your Operations Team Still \"Hand-Rolling\" Competitor Analysis? Calculate the ¥5,000/Week \"Hidden Tax\" Being Wasted",
     "date": "August 30, 2025",
-    "author": "AMZ FlowAgent Team",
+    "author": "Amz AI Agent Team",
     "cover_image": "assets/images/blog_thumbs/efficiency.png",
     "tags": [
       "Efficiency Tool",
       "Hidden Tax"
     ],
-    "content": "<div class=\"article-content\">\n  <h2>Introduction: The \"Inefficient Diligence\" Illusion in the Office</h2>\n  <p>Walk into your operations office, and you might see this scene: keyboards clicking constantly, everyone staring at two screens, Excel spreadsheets stretched endlessly long, everyone working overtime. As the boss, you might feel reassured: the team is working hard.</p>\n  <p>But stop and ask yourself: Are they busy <strong>\"making decisions\"</strong> or busy <strong>\"moving data\"</strong>?</p>\n  <p>In the cross-border e-commerce industry, there's a terrifying phenomenon called \"inefficient diligence.\" Operations staff spend massive amounts of time manually collecting, cleaning, and translating data, but rarely have time to think about the logic behind the data. This isn't just a waste of time—it's an expensive <strong>\"hidden tax\"</strong> your business is paying.</p>\n\n  <h2>1. Let's Do the Math: Where Does ¥5,000 Go?</h2>\n  <p>Let's do a simple comparative analysis:</p>\n  <h3>Traditional Approach (The Old Way)</h3>\n  <ul>\n    <li><strong>Investment:</strong> 1 senior operations staff × 1 week full-time work (~40 hours)</li>\n    <li><strong>Actions:</strong> Open Amazon frontend → Copy-paste reviews → Put into translation software → Organize into Excel → Create pivot tables → Screenshot for PPT.</li>\n    <li><strong>Output:</strong> A possibly \"outdated\" static report with subjective bias.</li>\n    <li><strong>Hard Cost:</strong> Assuming senior operations monthly salary of 20k, one week costs approximately <strong>¥5,000</strong>.</li>\n  </ul>\n  \n  <h3>AMZ FlowAgent Approach (The AI Way)</h3>\n  <ul>\n    <li><strong>Investment:</strong> A few dozen minutes of waiting time.</li>\n    <li><strong>Actions:</strong> Enter ASIN → Click \"Start Analysis\" → System automatically crawls, denoises, and summarizes.</li>\n    <li><strong>Output:</strong> A dynamic in-depth report including sentiment analysis, scenario insights, and purchase motivations.</li>\n    <li><strong>Hard Cost:</strong> Close to zero (SaaS subscription fees amortized).</li>\n  </ul>\n\n  <h2>2. Free Your Hands: How AI Eliminates \"Data Dirty Work\"</h2>\n  <p>FlowAI Agent's core value isn't \"helping you write copy\"—it's <strong>\"helping you process millions of information streams\"</strong>.</p>\n  <ol>\n    <li><strong>Automatic Denoising:</strong> The system automatically identifies and removes fake reviews and irrelevant comments, keeping only genuine buyer feedback.</li>\n    <li><strong>Smart Summarization:</strong> Instantly reads through thousands of reviews, summarizing \"Top 5 Pain Points\" and \"Top 5 Highlights\" instead of leaving you staring at thousands of Excel rows.</li>\n    <li><strong>Cross-Language Extraction:</strong> Whether the source language is German, Japanese, or French, AI directly extracts the underlying logic without manual word-by-word translation.</li>\n  </ol>\n\n  <h2>3. Value Restoration: What Should Operations Staff Actually Do?</h2>\n  <p>When time spent \"moving data\" is saved, where should operations staff invest their time?</p>\n  <ul>\n    <li><strong>Deep Supply Chain Negotiations:</strong> Take the pain points analyzed by AI (e.g., product breaks easily) and negotiate improvement solutions with factories.</li>\n    <li><strong>Off-Site Promotion Planning:</strong> Research TikTok competitor content, plan marketing campaigns.</li>\n    <li><strong>Refined Ad Management:</strong> Based on \"high-conversion scenario keywords\" mined by AI, optimize PPC ad structure.</li>\n  </ul>\n\n  <h2>Conclusion: Don't Use Tactical Diligence to Cover Up Strategic Laziness</h2>\n  <p>Introducing AI tools (like AMZ FlowAgent) isn't about replacing operations—it's about <strong>upgrading operations</strong>. Transform your team from \"spreadsheet workers\" into \"product managers\" and \"growth hackers.\"</p>\n</div>"
+    "content": "<div class=\"article-content\">\n  <h2>Introduction: The \"Inefficient Diligence\" Illusion in the Office</h2>\n  <p>Walk into your operations office, and you might see this scene: keyboards clicking constantly, everyone staring at two screens, Excel spreadsheets stretched endlessly long, everyone working overtime. As the boss, you might feel reassured: the team is working hard.</p>\n  <p>But stop and ask yourself: Are they busy <strong>\"making decisions\"</strong> or busy <strong>\"moving data\"</strong>?</p>\n  <p>In the cross-border e-commerce industry, there's a terrifying phenomenon called \"inefficient diligence.\" Operations staff spend massive amounts of time manually collecting, cleaning, and translating data, but rarely have time to think about the logic behind the data. This isn't just a waste of time—it's an expensive <strong>\"hidden tax\"</strong> your business is paying.</p>\n\n  <h2>1. Let's Do the Math: Where Does ¥5,000 Go?</h2>\n  <p>Let's do a simple comparative analysis:</p>\n  <h3>Traditional Approach (The Old Way)</h3>\n  <ul>\n    <li><strong>Investment:</strong> 1 senior operations staff × 1 week full-time work (~40 hours)</li>\n    <li><strong>Actions:</strong> Open Amazon frontend → Copy-paste reviews → Put into translation software → Organize into Excel → Create pivot tables → Screenshot for PPT.</li>\n    <li><strong>Output:</strong> A possibly \"outdated\" static report with subjective bias.</li>\n    <li><strong>Hard Cost:</strong> Assuming senior operations monthly salary of 20k, one week costs approximately <strong>¥5,000</strong>.</li>\n  </ul>\n  \n  <h3>Amz AI Agent Approach (The AI Way)</h3>\n  <ul>\n    <li><strong>Investment:</strong> A few dozen minutes of waiting time.</li>\n    <li><strong>Actions:</strong> Enter ASIN → Click \"Start Analysis\" → System automatically crawls, denoises, and summarizes.</li>\n    <li><strong>Output:</strong> A dynamic in-depth report including sentiment analysis, scenario insights, and purchase motivations.</li>\n    <li><strong>Hard Cost:</strong> Close to zero (SaaS subscription fees amortized).</li>\n  </ul>\n\n  <h2>2. Free Your Hands: How AI Eliminates \"Data Dirty Work\"</h2>\n  <p>FlowAI Agent's core value isn't \"helping you write copy\"—it's <strong>\"helping you process millions of information streams\"</strong>.</p>\n  <ol>\n    <li><strong>Automatic Denoising:</strong> The system automatically identifies and removes fake reviews and irrelevant comments, keeping only genuine buyer feedback.</li>\n    <li><strong>Smart Summarization:</strong> Instantly reads through thousands of reviews, summarizing \"Top 5 Pain Points\" and \"Top 5 Highlights\" instead of leaving you staring at thousands of Excel rows.</li>\n    <li><strong>Cross-Language Extraction:</strong> Whether the source language is German, Japanese, or French, AI directly extracts the underlying logic without manual word-by-word translation.</li>\n  </ol>\n\n  <h2>3. Value Restoration: What Should Operations Staff Actually Do?</h2>\n  <p>When time spent \"moving data\" is saved, where should operations staff invest their time?</p>\n  <ul>\n    <li><strong>Deep Supply Chain Negotiations:</strong> Take the pain points analyzed by AI (e.g., product breaks easily) and negotiate improvement solutions with factories.</li>\n    <li><strong>Off-Site Promotion Planning:</strong> Research TikTok competitor content, plan marketing campaigns.</li>\n    <li><strong>Refined Ad Management:</strong> Based on \"high-conversion scenario keywords\" mined by AI, optimize PPC ad structure.</li>\n  </ul>\n\n  <h2>Conclusion: Don't Use Tactical Diligence to Cover Up Strategic Laziness</h2>\n  <p>Introducing AI tools (like Amz AI Agent) isn't about replacing operations—it's about <strong>upgrading operations</strong>. Transform your team from \"spreadsheet workers\" into \"product managers\" and \"growth hackers.\"</p>\n</div>"
   },
   {
     "id": "amazon-agency-sop-automation-ai-scalability",
     "title": "The SOP Automation Revolution: How to Use AI to Solve Cross-Border E-Commerce Team \"Talent Gaps\" and \"Service Standardization\" Challenges",
     "date": "August 28, 2025",
-    "author": "AMZ FlowAgent Team",
+    "author": "Amz AI Agent Team",
     "cover_image": "assets/images/blog_thumbs/sop.png",
     "tags": [
       "Team Management",
@@ -120,7 +120,7 @@ window.blogPostsEN = [
     "id": "reduce-amazon-fba-returns-packaging-ai-analysis",
     "title": "FBA Profit Killer: How to Use AI to Mine Million-Dollar \"Packaging Improvement\" Solutions from Negative Reviews",
     "date": "August 26, 2025",
-    "author": "AMZ FlowAgent Team",
+    "author": "Amz AI Agent Team",
     "cover_image": "assets/images/blog_thumbs/packaging.png",
     "tags": [
       "Return Rate Optimization",
@@ -132,7 +132,7 @@ window.blogPostsEN = [
     "id": "amazon-case-study-polishing-wheel-blue-ocean",
     "title": "Case Study: How an Ordinary \"Polishing Wheel\" Used AI to Discover Blue Oceans Overlooked by Giants",
     "date": "August 24, 2025",
-    "author": "AMZ FlowAgent Team",
+    "author": "Amz AI Agent Team",
     "cover_image": "assets/images/blog_thumbs/blue_ocean.png",
     "tags": [
       "Case Study",
@@ -144,7 +144,7 @@ window.blogPostsEN = [
     "id": "amazon-cosmo-rufus-algorithm-intent-graph",
     "title": "Decoding COSMO and Rufus Algorithms: How to Use \"Intent Graphs\" to Help Your Listing Survive in the AI Search Era",
     "date": "August 22, 2025",
-    "author": "AMZ FlowAgent Team",
+    "author": "Amz AI Agent Team",
     "cover_image": "assets/images/blog_thumbs/algo.png",
     "tags": [
       "Algorithm Decoded",
@@ -156,7 +156,7 @@ window.blogPostsEN = [
     "id": "agentic-ai-amazon-operations-2025",
     "title": "Goodbye \"Data Movers\": Why Agentic AI—Not More SaaS Tools—Is the 2025 Amazon Operations Decider",
     "date": "August 20, 2025",
-    "author": "AMZ FlowAgent Team",
+    "author": "Amz AI Agent Team",
     "cover_image": "assets/images/blog_thumbs/agentic.png",
     "tags": [
       "Industry Trends",

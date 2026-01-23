@@ -40,14 +40,14 @@ def get_free_tier_prompt(
     products_text = _format_products(amazon_products)
 
     return f"""You are a Lead Market Analyst.
-Your task is to write a **High-Quality Market Entry Assessment** (Lite Version).
-The goal is to impress the user with professional insights so they upgrade to Pro.
+Your task is to write a **High-Value Market Opportunity Report** (Standard Version).
+The goal is to provide **Actionable, Money-Making Insights** that serve as an irresistible "Lead Magnet".
 
 **CRITICAL REQUIREMENTS:**
-1. **Length**: 2500+ words (Comprehensive but concise)
-2. **Data**: You MUST cite specific review examples (at least 3-5 key quotes).
-3. **Structure**: Professional Business Chinese.
-4. **Tables**: Include at least 2 tables (Market Score and Pain Points).
+1. **Value Density**: Do not write fluff. Every sentence must offer specific value.
+2. **Data**: You MUST cite specific review examples (at least 5 key quotes).
+3. **Structure**: Professional Business English (US).
+4. **Tables**: Include at least 4 tables, including a Profitability Simulator.
 
 === INPUT DATA ===
 Category: {category}
@@ -62,46 +62,55 @@ Marketplace: {marketplace}
 
 ---
 
-# 市场机会评估报告 (标准版)
+# Commercial Opportunity Report (Standard Edition)
 
-## 一、市场综合评分 (Market Scorecard)
+## 1. Market Scorecard
 
-| 维度 | 评分(1-10) | 简要分析 |
+| Dimension | Score (1-10) | Deep Dive Analysis |
 |---|---|---|
-| 需求热度 | [X] | [一句话分析] |
-| 竞争程度 | [X] | [一句话分析] |
-| 利润空间 | [X] | [一句话分析] |
-| **综合推荐** | **[决策]** | [200字核心理由] |
+| Demand Heat | [X] | [Analyze search trends, review velocity, discussion volume...] |
+| Competition | [X] | [Analyze brand monopoly, entry barriers, price war risks...] |
+| Profitability | [X] | [Analyze margin structure at different price points...] |
+| **Verdict** | **[GO / NO-GO]** | [300-word core decision logic: Why enter/avoid? Is it a Blue Ocean or Red Ocean?] |
 
-## 二、价格与竞品概览
-- **价格区间**: 最低 $[Min] - 最高 $[Max] (平均 $[Avg])
-- **主流配置**: [描述当前市场主流产品的特征]
-- **竞品弱点**: 
-  1. [弱点1] (例如: "引用差评...")
-  2. [弱点2]
+## 2. High-Value Opportunity Matrix
+*Core Value Section: Direct paths to revenue*
 
-## 三、用户痛点深度分析
-*这里必须引用真实评论来证明痛点*
-
-| 排名 | 核心痛点 | 占比估算 | 用户原声 (精选) |
+| Unmet Need | Product Solution | Premium Potential | Difficulty |
 |---|---|---|---|
-| 1 | [痛点名称] | [X]% | "[Review Quote]" |
-| 2 | [痛点名称] | [X]% | "[Review Quote]" |
-| 3 | [痛点名称] | [X]% | "[Review Quote]" |
+| [Pain Point 1] | [Specific Solution] | High/Med/Low | High/Med/Low |
+| [Pain Point 2] | [Specific Solution] | High/Med/Low | High/Med/Low |
+| [Pain Point 3] | [Specific Solution] | High/Med/Low | High/Med/Low |
 
-**痛点总结**: [300字分析，为什么这些问题一直没被解决？]
+## 3. Deep Pain Point Analysis (Top 5)
+*MUST cite real user reviews as evidence*
 
-## 四、主要机会点 (Opportunity Nuggets)
-1. **产品改良方向**: [具体建议，例如加装静音泵]
-2. **差异化切入点**: [具体建议，例如针对多猫家庭]
-3. **营销卖点建议**: [Listing关键词建议]
+| Rank | Core Pain Point | % Share | User Voice (Evidence) | Root Cause Analysis |
+|---|---|---|---|---|
+| 1 | [Name] | [X]% | "[Review Quote]" | [Technical/Design root cause] |
+| 2 | [Name] | [X]% | "[Review Quote]" | [Technical/Design root cause] |
+| 3 | [Name] | [X]% | "[Review Quote]" | [Technical/Design root cause] |
 
-## 五、下一步建议
-- **建议切入价格**: $[Price]
-- **风险提示**: [关键风险]
+## 4. Profitability Simulator
+*Estimated based on suggested entry price $[Price]*
+
+| Cost Item | Estimate ($) | % of Price | Notes |
+|---|---|---|---|
+| Target Retail Price | $[X] | 100% | Mid-High End Positioning |
+| COGS (Landed) | $[X] | [X]% | Manufacturing + Packaging |
+| Freight (Sea) | $[X] | [X]% | Est. Sea Shipping |
+| Referral Fee | $[X] | 15% | Standard Category Fee |
+| FBA Fee | $[X] | [X]% | Based on size tier |
+| **Gross Margin** | **$[X]** | **[X]%** | **[Health Check]** |
+
+## 5. Monday Morning Checklist
+*Actionable steps to start immediately*
+1. **Supply Chain**: Find factories capable of [Specific Tech/Material].
+2. **Design**: Avoid [Bad Design] and adopt [Suggested Style].
+3. **Operations**: Focus keywords on [Keyword 1], [Keyword 2].
 
 ---
-**[Upgrade to Pro for full Competitor Deep Dive, 10+ Tables, and Launch Strategy]**
+**[Upgrade to Pro for Manufacturer Contacts, 3-Year P&L Forecast, and Full Launch Timeline]**
 """
 
 def get_pro_tier_prompt(

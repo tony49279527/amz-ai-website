@@ -40,7 +40,7 @@
 
             <!-- 1. Top Status Card -->
             <div class="proc-status-card">
-                <!-- Pro Badge -->
+                <!-- ... (existing badge logic) ... -->
                 <div id="pro-badge"
                     style="display: none; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border-radius: 4px; padding: 4px 12px; font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem; width: fit-content; margin-left: auto; margin-right: auto;">
                     💎 PREMIUM ANALYSIS IN PROGRESS
@@ -49,7 +49,7 @@
                     <div class="status-icon-check">✅</div>
                     <div class="header-content">
                         <h1>Submission Successful</h1>
-                        <p>We have received your request and started the AI analysis.</p>
+                        <p>We are initiating the AI Agent...</p>
                     </div>
                 </div>
 
@@ -63,45 +63,27 @@
                         <span class="value" id="display-email">...</span>
                     </div>
                     <div class="meta-item">
-                        <span class="label">Estimated Time</span>
-                        <span class="value" id="est-time-display">20 – 50 Minutes</span>
+                        <span class="label">Status</span>
+                        <span class="value" id="realtime-status-text"
+                            style="color: #2563eb; font-weight: bold;">Connecting...</span>
                     </div>
-                </div>
-
-                <div class="proc-alert">
-                    <span class="icon">ℹ️</span>
-                    You can safely close this page. We will notify you via email when complete.
                 </div>
             </div>
 
-            <!-- 2. Progress Tracker -->
+            <!-- NEW: Real-time Agent Terminal -->
             <div class="proc-section">
-                <div class="progress-tracker">
-                    <div class="progress-step completed">
-                        <div class="dot"></div>
-                        <span>Submitting</span>
+                <h2 class="section-title">Values AI Agent Live Log</h2>
+                <div id="agent-terminal"
+                    style="background: #1e1e2e; border-radius: 12px; padding: 20px; font-family: 'Courier New', monospace; color: #a6accd; height: 300px; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #313244;">
+                    <div
+                        style="border-bottom: 1px solid #313244; padding-bottom: 10px; margin-bottom: 15px; display: flex; gap: 8px;">
+                        <span style="width: 10px; height: 10px; background: #ff5f56; border-radius: 50%;"></span>
+                        <span style="width: 10px; height: 10px; background: #ffbd2e; border-radius: 50%;"></span>
+                        <span style="width: 10px; height: 10px; background: #27c93f; border-radius: 50%;"></span>
+                        <span style="margin-left: auto; font-size: 0.8rem; opacity: 0.7;">agent@amz-cloud:~</span>
                     </div>
-                    <div class="progress-step active" id="step-queued">
-                        <div class="dot">
-                            <div class="pulse"></div>
-                        </div>
-                        <span>Queued</span>
-                    </div>
-                    <div class="progress-step" id="step-collecting">
-                        <div class="dot"></div>
-                        <span>Collecting Data</span>
-                    </div>
-                    <div class="progress-step" id="step-analyzing">
-                        <div class="dot"></div>
-                        <span>Analyzing</span>
-                    </div>
-                    <div class="progress-step" id="step-writing">
-                        <div class="dot"></div>
-                        <span>Writing</span>
-                    </div>
-                    <div class="progress-step" id="step-sending">
-                        <div class="dot"></div>
-                        <span>Sending Email</span>
+                    <div id="terminal-content" style="font-size: 0.9rem; line-height: 1.6;">
+                        <div style="color: #555;">> Initializing secure connection...</div>
                     </div>
                 </div>
             </div>
@@ -110,29 +92,27 @@
             <div class="proc-section">
                 <h2 class="section-title">What Happens Next?</h2>
                 <div class="next-steps-grid">
-                    <div class="next-step-card">
+                    <div class="next-step-card active" id="card-research">
                         <div class="step-num">01</div>
-                        <h3>AI Analysis</h3>
-                        <p>Our agents browse Amazon, collect reviews, and generate deep insights.</p>
+                        <h3>Deep Research</h3>
+                        <p>Agent is browsing Reddit, YouTube, and Amazon for live data.</p>
                     </div>
-                    <div class="next-step-card">
+                    <div class="next-step-card" id="card-analyze">
                         <div class="step-num">02</div>
-                        <h3 id="step-2-title">Receive Preview</h3>
-                        <p id="step-2-desc">You'll get an email with a link to preview the report summary for free.</p>
+                        <h3>AI Reasoning</h3>
+                        <p>Claude 3.5 Sonnet is analyzing patterns and calculating margins.</p>
                     </div>
-                    <div class="next-step-card highlight">
+                    <div class="next-step-card highlight" id="card-report">
                         <div class="step-num">03</div>
-                        <h3 id="step-3-title">Unlock Full Report</h3>
-                        <p id="step-3-desc">If you like the summary, you can pay <strong>$29.99</strong> to unlock the
-                            full 8,000+ word
-                            analysis.</p>
+                        <h3 id="step-3-title">Ready!</h3>
+                        <p id="step-3-desc">The report will be sent to your email + unlocked here.</p>
                     </div>
                 </div>
 
                 <div class="action-row">
-                    <a href="index.html" class="btn btn-secondary">Return to Home</a>
                     <!-- Hidden button if reportId is known -->
-                    <a href="#" id="preview-btn" class="btn btn-primary" style="display: none;">View Preview</a>
+                    <a href="#" id="preview-btn" class="btn btn-primary"
+                        style="display: none; width: 100%; text-align: center;">View Report Now</a>
                 </div>
             </div>
 
@@ -198,182 +178,104 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Data Population
             const params = new URLSearchParams(window.location.search);
             const email = params.get('email');
-            const orderId = params.get('orderId') || generateOrderId();
-            const reportId = params.get('reportId');
-            const isPro = params.get('pro') === 'true';
+            const taskId = params.get('taskId') || params.get('report_id'); // Support both
+            const orderId = params.get('orderId') || 'ORD-' + (taskId ? taskId.substring(0, 8).toUpperCase() : 'UNKNOWN');
 
-            // === Dynamic Content Update (Free vs Pro) ===
-            const estTimeEl = document.getElementById('est-time-display');
-            const step2Title = document.getElementById('step-2-title');
-            const step2Desc = document.getElementById('step-2-desc');
-            const step3Title = document.getElementById('step-3-title');
-            const step3Desc = document.getElementById('step-3-desc');
+            // 1. Basic Info Populating
+            document.getElementById('display-order-id').innerText = orderId;
+            document.getElementById('display-email').innerText = email || 'user@example.com';
 
-            if (isPro) {
-                // PRO Mode
-                const badge = document.getElementById('pro-badge');
-                if (badge) badge.style.display = 'block';
-
-                if (estTimeEl) estTimeEl.textContent = '20 – 50 Minutes';
-
-                if (step2Title) step2Title.textContent = 'Receive Pro Report';
-                if (step2Desc) step2Desc.innerHTML = 'You will receive the full <strong>8,000+ word</strong> Deep Dive Analysis directly to your inbox.';
-
-                if (step3Title) step3Title.textContent = 'Final Verification';
-                if (step3Desc) step3Desc.textContent = 'Our experts review the report consistency before final delivery.';
+            // 2. WebSocket Connection
+            if (taskId) {
+                initWebSocket(taskId);
             } else {
-                // FREE Mode
-                if (estTimeEl) estTimeEl.textContent = '20 – 30 Minutes'; // User requested wait time for free too
-
-                if (step2Title) step2Title.textContent = 'Receive Free Report';
-                if (step2Desc) step2Desc.innerHTML = 'We are generating your <strong>3,000-word</strong> AI Analysis Report. Please wait patiently.';
-
-                if (step3Title) step3Title.textContent = 'Want Deeper Insights?';
-                if (step3Desc) step3Desc.innerHTML = 'Upgrade to Pro to unlock the full <strong>8,000+ word</strong> report with Competitor Deep Dives.';
-            }
-
-            // Set Order ID
-            document.getElementById('display-order-id').textContent = orderId;
-
-            // Set Email
-            if (email) {
-                const [u, d] = email.split('@');
-                const masked = u.length > 3 ? u.substring(0, 3) + '***' : '***';
-                document.getElementById('display-email').textContent = masked + '@' + (d || 'email.com');
-            } else {
-                document.getElementById('display-email').textContent = 'Your Email';
-            }
-
-            // Optional Preview Link
-            if (reportId) {
-                const btn = document.getElementById('preview-btn');
-                btn.style.display = 'inline-flex';
-                btn.href = `order.html?orderId=${orderId}&reportId=${reportId}&email=${encodeURIComponent(email || '')}`;
-            }
-
-            // 2. Progress Animation (Mock)
-            animateProgress();
-
-            // === PRO TRIGGER LOGIC (Post-Payment) ===
-            if (isPro) {
-                // Check if we have a pending payload from step 1
-                const storedPayload = localStorage.getItem('pending_pro_payload');
-                if (storedPayload) {
-                    try {
-                        const payload = JSON.parse(storedPayload);
-                        // Optional: Verify order ID matches if needed, but for now just trigger
-                        console.log('Found pending Pro payload, triggering analysis...', payload.order_id);
-
-                        // Set flag to prevent double trigger if they refresh immediately?
-                        // Actually localStorage.removeItem is safer.
-
-                        triggerProWebhook(payload).then(success => {
-                            if (success) {
-                                console.log('Pro Analysis Triggered Successfully');
-                                localStorage.removeItem('pending_pro_payload'); // Clear to prevent re-trigger
-                            } else {
-                                console.warn('Retrying Pro Analysis Trigger...');
-                                // Simple retry or keep in storage? Keep in storage for manual retry? 
-                                // For now, let's keep it in storage so a refresh MIGHT fix it, 
-                                // but we don't want infinite loops. 
-                                // Let's just remove it only on success.
-                            }
-                        });
-
-                    } catch (e) {
-                        console.error('Failed to parse pending payload', e);
-                    }
-                } else {
-                    console.log('No pending payload found. Assuming analysis already triggered or direct visit.');
-                }
+                // Fallback for demo without task ID
+                logToTerminal("System", "No Task ID found. Waiting for manual update...");
             }
         });
 
-        async function triggerProWebhook(payload) {
-            const endpointUrl = 'https://tony4927.app.n8n.cloud/webhook/3f76a439-5a54-4d08-97cd-6e98d7b6e034';
+        function initWebSocket(taskId) {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const socket = new WebSocket(protocol + '//' + window.location.host + '/ws/progress/' + taskId);
 
-            // Prepare FormData for CORS compatibility (Same as Free Tier)
-            const formData = new URLSearchParams();
-            for (const key in payload) {
-                if (typeof payload[key] === 'object') {
-                    formData.append(key, JSON.stringify(payload[key]));
+            socket.onopen = () => {
+                logToTerminal("Network", "Secure connection established.", "#4ade80");
+                document.getElementById('realtime-status-text').innerText = "Agent Active";
+            };
+
+            socket.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+
+                // 1. Log to Terminal
+                if (msg.details && msg.details.log) {
+                    logToTerminal(msg.step, msg.details.log);
                 } else {
-                    formData.append(key, payload[key]);
+                    logToTerminal(msg.step, msg.status);
                 }
-            }
 
-            try {
-                const response = await fetch(endpointUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: formData
-                });
+                // 2. Update Status Text
+                document.getElementById('realtime-status-text').innerText = `${msg.step}: ${msg.progress}%`;
 
-                if (response.ok) {
-                    return true;
-                } else {
-                    console.error('Webhook returned error:', response.status);
-                    return false;
+                // 3. Highlight Cards based on Step
+                highlightStep(msg.step);
+
+                // 4. Handle Specific Data (Optional visual candy)
+                if (msg.step === 'Amazon Data' && msg.details && msg.details.products) {
+                    logToTerminal("System", `Identified ${msg.details.products.length} target products.`, "#facc15");
                 }
-            } catch (err) {
-                console.error('Network error triggering webhook:', err);
-                return false;
-            }
+
+                // 5. Completion
+                if (msg.progress === 100 || msg.step === 'Complete') {
+                    handleCompletion(msg.details ? msg.details.report_id : null);
+                }
+            };
+
+            socket.onclose = () => {
+                logToTerminal("Network", "Connection closed.", "#94a3b8");
+            };
+
+            socket.onerror = (err) => {
+                logToTerminal("Error", "Connection lost. Retrying...", "#f87171");
+            };
         }
 
-        function generateOrderId() {
-            return 'ORD-' + Math.floor(Math.random() * 1000000);
+        function logToTerminal(source, message, color = "#a6accd") {
+            const term = document.getElementById('terminal-content');
+            const time = new Date().toLocaleTimeString('en-US', { hour12: false });
+            const line = document.createElement('div');
+            line.style.cssText = `margin-bottom: 4px; border-left: 2px solid ${color}; padding-left: 8px;`;
+            line.innerHTML = `<span style="opacity: 0.5; font-size: 0.8em;">[${time}]</span> <span style="color: ${color}; font-weight: bold;">${source}</span> <span>${message}</span>`;
+            term.appendChild(line);
+            term.scrollTop = term.scrollHeight;
         }
 
-        function animateProgress() {
-            const steps = ['queued', 'collecting', 'analyzing', 'writing'];
-            let current = 0;
+        function highlightStep(stepName) {
+            // Reset all
+            document.querySelectorAll('.next-step-card').forEach(el => el.classList.remove('active'));
 
-            const interval = setInterval(() => {
-                if (current >= steps.length) {
-                    // Loop back to analyzing/writing to show activity
-                    current = 2;
-                    // Reset UI for loop
-                    resetStepsFrom(2);
-                }
-
-                const stepId = `step-${steps[current]}`;
-                activateStep(stepId);
-
-                current++;
-            }, 5000 + Math.random() * 3000); // 5-8 seconds per step
-        }
-
-        function activateStep(id) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.add('active');
-                // Previous dot becomes completed (no pulse)
-                // Add 'completed' logic effectively
-                const prev = el.previousElementSibling;
-                if (prev) {
-                    prev.classList.remove('active');
-                    prev.classList.add('completed');
-                    const dot = prev.querySelector('.dot');
-                    dot.innerHTML = ''; // Remove pulse
-                }
-
-                // Add pulse to current
-                const dot = el.querySelector('.dot');
-                if (!dot.querySelector('.pulse')) {
-                    dot.innerHTML = '<div class="pulse"></div>';
-                }
+            if (stepName === 'Web Research') {
+                document.getElementById('card-research').classList.add('active');
+            } else if (stepName === 'Amazon Data' || stepName === 'AI Analysis') {
+                document.getElementById('card-analyze').classList.add('active');
+            } else if (stepName === 'Complete') {
+                document.getElementById('card-report').classList.add('active');
             }
         }
 
-        function resetStepsFrom(index) {
-            // Simple visual reset for looping animation if desired
-            // Or just keep it stuck at "Writing"
+        function handleCompletion(reportId) {
+            document.getElementById('realtime-status-text').innerText = "Completed";
+            document.getElementById('realtime-status-text').style.color = "#10b981";
+
+            // Show Button
+            const btn = document.getElementById('preview-btn');
+            btn.style.display = 'inline-block';
+            if (reportId) {
+                btn.href = `/api/discovery/report/${reportId}`;
+            }
+            btn.textContent = "Download Report";
+            logToTerminal("System", "Report generated successfully. Check your email.", "#4ade80");
         }
     </script>
 </body>

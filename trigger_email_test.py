@@ -13,7 +13,7 @@ payload = {
     "user_name": "Tony Lee",
     "user_email": "tonylueng27149@gmail.com",
     "user_industry": "Amazon Seller",
-    "user_tier": "pro"
+    "user_tier": "free"
 }
 
 print(f"Triggering analysis for: {payload['keywords']}...")

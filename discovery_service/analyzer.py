@@ -203,42 +203,73 @@ class ProductDiscoveryAnalyzer:
         
         return report
     
-    async def analyze(self, request: DiscoveryRequest) -> AnalysisReport:
+    async def analyze(self, request: DiscoveryRequest, task_id: str = None) -> AnalysisReport:
         """
         Main analysis workflow
         
         Args:
             request: Discovery request
+            task_id: Optional ID for WebSocket progress tracking
             
         Returns:
             Analysis report
         """
+        from .progress import progress_manager
+
+        async def emit(step: str, status: str, progress: int, details: dict = None):
+            if task_id:
+                try:
+                    await progress_manager.emit(task_id, step, status, progress, details)
+                except Exception as e:
+                    print(f"WS Emit Error: {e}")
+
         print(f"\n=== Starting Product Discovery Analysis ===")
         print(f"Category: {request.category}")
         print(f"Keywords: {request.keywords}")
-        print(f"Marketplace: {request.marketplace}")
-        print(f"User Tier: {request.user_tier}")
+        
+        await emit("Initialization", "Starting analysis workflow...", 5, {
+            "log": f"Target: {request.keywords} ({request.marketplace.value})",
+            "tier": request.user_tier
+        })
         
         # Step 1: Find research sources (Dicts with snippets)
         print("\n[1/4] Finding research sources...")
+        await emit("Web Research", "Searching DuckDuckGo for signals...", 10)
+        
         search_results = await self.find_research_sources(
             request.category,
             request.keywords,
             request.marketplace.value
         )
         
+        await emit("Web Research", f"Found {len(search_results)} potential sources", 20, {
+            "log": f"Top Source: {search_results[0]['title'] if search_results else 'None'}",
+            "sources_preview": [s['title'] for s in search_results[:5]]
+        })
+        
         # Step 2: Scrape web sources (or use snippets)
         print("\n[2/4] Scraping web sources...")
+        await emit("Web Research", "Scraping content from URL list...", 25)
+        
         web_sources = await self.scrape_web_sources(search_results)
+        
+        await emit("Web Research", f"Analysis ready for {len(web_sources)} sources", 40, {
+            "log": f"Scraped {len(web_sources)} pages successfully."
+        })
         
         # Step 3: Fetch Amazon data (if ASINs provided)
         print("\n[3/4] Fetching Amazon product data...")
+        await emit("Amazon Data", "Fetching real-time product data...", 50)
+        
         amazon_products = []
         if request.reference_asins:
             amazon_products = await self.fetch_amazon_data(
                 request.reference_asins,
                 request.marketplace.value
             )
+            await emit("Amazon Data", f"Retrieved {len(amazon_products)} products", 70, {
+                "products": [{"title": p.title[:30]+"...", "rating": p.rating, "reviews": p.review_count} for p in amazon_products]
+            })
         
         # Step 4: Generate report
         print("\n[4/4] Generating analysis report...")
@@ -250,6 +281,10 @@ class ProductDiscoveryAnalyzer:
             model = DEFAULT_MODEL_PRO
         else:
             model = DEFAULT_MODEL_FREE
+            
+        await emit("AI Analysis", f"Thinking with {model}...", 80, {
+             "log": f"Sending {len(web_sources)} sources + {len(amazon_products)} products to LLM."
+        })
         
         report_markdown = await self.generate_report(
             request.category,
@@ -261,6 +296,8 @@ class ProductDiscoveryAnalyzer:
             request.user_tier,
             None # TODO: Add custom_prompt to DiscoveryRequest model
         )
+        
+        await emit("AI Analysis", "Report generation complete!", 95)
         
         # Convert Markdown to HTML (simple conversion)
         import markdown
@@ -285,9 +322,9 @@ class ProductDiscoveryAnalyzer:
         )
         
         print(f"\n=== Analysis Complete ===")
-        print(f"Report ID: {report.report_id}")
-        print(f"Sources analyzed: {report.sources_count}")
-        print(f"ASINs analyzed: {report.asins_analyzed}")
-        print(f"Model used: {report.model_used}")
+        await emit("Complete", "Analysis finished successfully.", 100, {
+            "report_id": report.report_id,
+            "report_preview": report_markdown[:200]
+        })
         
         return report

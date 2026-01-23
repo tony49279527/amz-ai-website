@@ -44,6 +44,7 @@
                 <a href="discovery.html" class="active">Product Discovery</a>
                 <a href="cases.html">Cases</a>
                 <a href="blog.html">Blog</a>
+                <a href="pricing.html">Pricing</a>
             </div>
             <div class="nav-actions">
                 <a href="create.html" class="btn btn-primary" style="border-radius: 0.375rem;">Start Analysis</a>
@@ -775,7 +776,7 @@
                 console.log('Sending to Backend:', apiPayload);
 
                 // Call Backend API
-                fetch('/api/discovery/analyze', {
+                fetch('/api/discovery/start-task', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -790,23 +791,16 @@
                     })
                     .then(data => {
                         modal.style.display = 'none';
-                        if (data.success) {
-                            const successMsg = isProMode ?
-                                "Success! Your Pro Analysis has started. Report will be sent to " + userEmail + " shortly." :
-                                "Success! Your Free Analysis request is processing. Check your email (" + userEmail + ") in a few minutes.";
-                            alert(successMsg);
 
-                            // Reset form only on success
+                        if (data.report_id || data.task_id) {
+                            const taskId = data.report_id || data.task_id;
+                            // Redirect to Processing Page with Terminal
+                            window.location.href = `processing.html?taskId=${taskId}&email=${encodeURIComponent(userEmail)}`;
+                        } else if (data.success) {
+                            // Fallback if no task ID returned
+                            alert('Success! Request received.');
                             form.reset();
                             modalForm.reset();
-
-                            // Reset dropdowns
-                            if (typeof level2 !== 'undefined') {
-                                level2.innerHTML = '<option value="">-- Select Sub-Category --</option>';
-                                level3.innerHTML = '<option value="">-- Select Product Type --</option>';
-                                level2.disabled = true;
-                                level3.disabled = true;
-                            }
                         } else {
                             alert('Error: ' + (data.message || 'Unknown error'));
                         }
@@ -820,16 +814,6 @@
                         submitBtn.textContent = originalBtnText;
                         submitBtn.disabled = false;
                     });
-
-                // Reset form fields and category dropdowns after submission (or after simulated API call)
-                form.reset();
-                modalForm.reset();
-
-                // Reset category dropdowns
-                level2.innerHTML = '<option value="">-- Select Sub-Category --</option>';
-                level3.innerHTML = '<option value="">-- Select Product Type --</option>';
-                level2.disabled = true;
-                level3.disabled = true;
             });
         });
     </script>
