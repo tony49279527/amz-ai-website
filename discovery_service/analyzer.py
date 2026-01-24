@@ -345,7 +345,13 @@ class ProductDiscoveryAnalyzer:
         print("\n[3/5] Fetching YouTube sources...")
         await emit("YouTube Research", "Searching YouTube for reviews...", 35)
         
-        youtube_sources = await self.fetch_youtube_sources(request.keywords)
+        youtube_sources = []
+        try:
+            youtube_sources = await self.fetch_youtube_sources(request.keywords)
+        except Exception as e:
+            import traceback
+            print(f"Error fetching YouTube sources: {e}")
+            traceback.print_exc()
         
         await emit("YouTube Research", f"Got {len(youtube_sources)} video transcripts.", 45, {
             "log": f"Scraped captions from {len(youtube_sources)} YouTube videos."

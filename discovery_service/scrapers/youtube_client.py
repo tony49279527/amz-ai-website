@@ -32,32 +32,59 @@ class YouTubeClient:
         Returns up to `required_count` videos that have successfully extracted captions.
         """
         print(f"[YouTube] Searching for videos about: {keywords}")
+        unique_videos = {} # id -> (title, url)
         
-        # Step 1: Search YouTube for videos using a simple approach
-        video_ids = await self._search_youtube_simple(keywords, max_search)
-        print(f"[YouTube] Found {len(video_ids)} video IDs")
-        
-        # Step 2: Try to get captions for each, stop when we have enough
-        successful_sources = []
-        for video_id, title in video_ids:
-            if len(successful_sources) >= required_count:
-                break
+        try:
+            # Step 1: Search YouTube for videos
+            # Try multiple search variations to ensure results
+            search_queries = [keywords, f"{keywords} review", f"best {keywords}"]
+            
+            for query in search_queries:
+                if len(unique_videos) >= max_search:
+                    break
+                    
+                print(f"[YouTube] Querying: {query}...")
+                video_ids = await self._search_youtube_simple(query, max_search)
+                for vid, title in video_ids:
+                    if vid not in unique_videos:
+                        unique_videos[vid] = (title, f"https://www.youtube.com/watch?v={vid}")
+            
+            print(f"[YouTube] Found {len(unique_videos)} unique candidate videos")
+            
+            # Step 2: Try to get captions for each
+            successful_sources = []
+            for video_id, (title, url) in unique_videos.items():
+                if len(successful_sources) >= required_count:
+                    break
+                    
+                print(f"[YouTube] Checking captions for: {title[:30]}... ({video_id})")
+                captions = await self._get_transcript_async(video_id)
                 
-            captions = self._get_transcript(video_id)
-            if captions and len(captions) > 100:  # Minimum caption length
-                url = f"https://www.youtube.com/watch?v={video_id}"
-                successful_sources.append(YouTubeSource(
-                    video_id=video_id,
-                    title=title,
-                    url=url,
-                    captions=captions[:5000]  # Limit caption length
-                ))
-                print(f"[YouTube] ✓ Got captions for: {title[:50]}...")
-            else:
-                print(f"[YouTube] ✗ No captions for: {title[:50]}...")
-                
-        print(f"[YouTube] Successfully scraped {len(successful_sources)}/{required_count} videos")
-        return successful_sources
+                if captions and len(captions) > 100:
+                    successful_sources.append(YouTubeSource(
+                        video_id=video_id,
+                        title=title,
+                        url=url,
+                        captions=captions[:5000]
+                    ))
+                    print(f"[YouTube] ✓ Got captions for: {title[:30]}...")
+                else:
+                    print(f"[YouTube] ✗ No captions for: {title[:30]}...")
+                    
+            print(f"[YouTube] Successfully scraped {len(successful_sources)}/{required_count} videos")
+            return successful_sources
+            
+        except Exception as e:
+            import traceback
+            print(f"[YouTube] CRITICAL ERROR in search_and_get_captions: {e}")
+            traceback.print_exc()
+            return []
+    
+    async def _get_transcript_async(self, video_id: str) -> Optional[str]:
+        """Wrapper to run sync transcript API in threadpool"""
+        import asyncio
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(None, self._get_transcript, video_id)
     
     async def _search_youtube_simple(self, keywords: str, max_results: int) -> List[tuple]:
         """
