@@ -63,9 +63,13 @@ class ProductDiscoveryAnalyzer:
         try:
             with DDGS() as ddgs:
                 # DDGS returns: {'title', 'href', 'body'}
-                # Use html backend for better reliability in server environments
+                # Use simple backend for better reliability in server environments
                 # Increase max_results to 25 to ensure sufficient data volume for report
-                results = list(ddgs.text(search_query, max_results=25, backend="html"))
+                results = list(ddgs.text(search_query, max_results=25))
+                
+                if not results:
+                    print("No results via standard DDGS, trying safesearch off...")
+                    results = list(ddgs.text(search_query, max_results=25, safesearch="off"))
                 
                 if not results:
                     raise Exception("No results found via DDGS")
