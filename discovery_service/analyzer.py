@@ -139,58 +139,15 @@ class ProductDiscoveryAnalyzer:
             except Exception as e:
                 print(f"Google Search failed: {e}")
 
-        # 3. Last Resort: Generate dynamic fallback URLs based on keywords
+        # 3. Last Resort: If all web search fails, return empty list.
+        # We generally should not try to scrape "Search Result Pages" (like reddit search, verge search)
+        # because they are difficult to scrape (heavy JS) and don't contain the actual review content.
+        # It is better to fail Web Search gracefully and rely on YouTube transcripts (Step 3).
         if not results_data:
-            print("All search methods failed. Using dynamic fallback URLs.")
-            safe_keywords = keywords.replace(' ', '+')
-            safe_keywords_dash = keywords.replace(' ', '-')
+            print("All web search methods failed. Proceeding with 0 web sources (relying on YouTube).")
+            return []
             
-            # Generate multiple fallback sources that are likely to exist
-            fallback_sources = [
-                {
-                    "url": f"https://www.theverge.com/search?q={safe_keywords}",
-                    "title": f"The Verge: {keywords}",
-                    "body": f"The Verge reviews and news about {keywords}."
-                },
-                {
-                    "url": f"https://www.wired.com/search/?q={safe_keywords}&sort=score",
-                    "title": f"Wired: {keywords}",
-                    "body": f"Wired articles and reviews regarding {keywords}."
-                },
-                {
-                    "url": f"https://www.techradar.com/search?searchTerm={safe_keywords}",
-                    "title": f"TechRadar: {keywords} reviews",
-                    "body": f"In-depth tech product reviews for {keywords}."
-                },
-                {
-                    "url": f"https://www.tomsguide.com/search?searchTerm={safe_keywords}",
-                    "title": f"Tom's Guide: {keywords}",
-                    "body": f"Expert reviews and comparisons for {keywords}."
-                },
-                 {
-                    "url": f"https://www.cnet.com/search/?query={safe_keywords}",
-                    "title": f"CNET: {keywords} reviews",
-                    "body": f"Tech reviews and buying guides for {keywords}."
-                },
-                {
-                    "url": f"https://www.consumerreports.org/search/?query={safe_keywords}",
-                    "title": f"Consumer Reports: {keywords}",
-                    "body": f"Independent product testing and ratings for {keywords}."
-                },
-                {
-                    "url": f"https://www.nytimes.com/wirecutter/search/?s={safe_keywords}",
-                    "title": f"Wirecutter: {keywords} reviews",
-                    "body": f"Professional product testing and recommendations for {keywords}."
-                },
-                # Keep one Reddit fallback but down the list
-                {
-                    "url": f"https://old.reddit.com/search/?q={safe_keywords}&sort=relevance&t=year",
-                    "title": f"Reddit: {keywords} discussions",
-                    "body": f"User discussions and reviews about {keywords} on Reddit."
-                }
-            ]
-            
-            return fallback_sources[:10]  # Return up to 10 sources
+        return results_data[:20]
             
         return results_data[:20]
     
