@@ -109,23 +109,33 @@ class YouTubeClient:
                     
                 html = response.text
                 
-                # Extract video IDs from YouTube search results
-                # Pattern matches: "videoId":"XXXXXXXXXXX"
+                # Extract video data using a more robust pattern if possible, or just strict zip
+                # Primary Pattern: videoRenderer... videoId":"..."... title":{"runs":[{"text":"..."
+                
+                # Fallback to simple regex but filter out short titles/timestamps
                 video_pattern = r'"videoId":"([a-zA-Z0-9_-]{11})"'
-                title_pattern = r'"title":\{"runs":\[\{"text":"([^"]+)"\}\]'
+                # Title pattern often appears right after videoId in many contexts, but not always.
+                # A safer way is to find consistent blocks. 
+                # Simplification: Just capture IDs. We can fetch titles later or use placeholder.
+                # BUT we need titles for logs.
+                
+                # Let's try capturing IDs and just using "YouTube Video {id}" if title extraction is flaky.
+                # Or try to fix the title pattern to ignore "Intro" etc.
                 
                 video_ids = re.findall(video_pattern, html)
-                titles = re.findall(title_pattern, html)
                 
-                # Deduplicate while preserving order
+                # Deduplicate
                 seen = set()
-                results = []
-                for i, vid in enumerate(video_ids):
-                    if vid not in seen and len(results) < max_results:
+                unique_ids = []
+                for vid in video_ids:
+                    if vid not in seen:
                         seen.add(vid)
-                        title = titles[len(results)] if len(results) < len(titles) else f"Video about {keywords}"
-                        results.append((vid, title))
-                        
+                        unique_ids.append(vid)
+                
+                results = []
+                for vid in unique_ids[:max_results]:
+                     results.append((vid, f"YouTube Video {vid}")) # Use generic title to avoid regex mismatch crashing/confusion
+                     
                 if not results:
                     return self._get_fallback_videos(keywords)
                     
@@ -144,23 +154,29 @@ class YouTubeClient:
             ("kJQP7kiw5Fk", f"Best {keywords} Guide"),
         ]
     
+    
     def _get_transcript(self, video_id: str) -> Optional[str]:
         """
         Get captions/transcript for a YouTube video using youtube-transcript-api.
         """
         try:
+            # Import module directly to avoid name confusion
+            import youtube_transcript_api
             from youtube_transcript_api import YouTubeTranscriptApi
-            from youtube_transcript_api._errors import TranscriptsDisabled, NoTranscriptFound
             
+            # Debugging the weird AttributeError
+            # print(f"[YouTube] DEBUG: YouTubeTranscriptApi type: {type(YouTubeTranscriptApi)}")
+            # print(f"[YouTube] DEBUG: Dir: {dir(YouTubeTranscriptApi)}")
+            
+            # Try to get English transcript first
             try:
-                # Try to get English transcript first
                 transcript_list = YouTubeTranscriptApi.get_transcript(video_id, languages=['en', 'en-US', 'en-GB'])
-            except (TranscriptsDisabled, NoTranscriptFound):
-                try:
-                    # Try any available transcript
-                    transcript_list = YouTubeTranscriptApi.get_transcript(video_id)
-                except:
-                    return None
+            except Exception as e:
+                # If specifically TranscriptsDisabled or NoTranscriptFound, try generic
+                if "TranscriptsDisabled" in str(type(e)) or "NoTranscriptFound" in str(type(e)):
+                     transcript_list = YouTubeTranscriptApi.get_transcript(video_id)
+                else:
+                    raise e
             
             # Combine all transcript pieces
             full_text = " ".join([item['text'] for item in transcript_list])
@@ -171,6 +187,7 @@ class YouTubeClient:
             return None
         except Exception as e:
             print(f"[YouTube] Transcript extraction error: {e}")
+            # If AttributeError persists, it implies library version issue or shadowing.
             return None
     
     def _extract_video_id(self, url: str) -> str:
