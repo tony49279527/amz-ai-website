@@ -675,6 +675,7 @@ Present workflows in a structured table format, including:
                     keywords: payload.main_asins[0] + " " + (document.getElementById('comp-asin').value.trim().replace(/\n/g, ' ')), // simple concat for keywords
                     marketplace: payload.productSite,
                     user_email: payload.user_email,
+                    user_name: payload.user_name,
                     user_tier: "free",
                     reference_asins: [payload.main_asins[0], ...payload.competitor_asins]
                 };
