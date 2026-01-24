@@ -669,32 +669,8 @@ Present workflows in a structured table format, including:
             let endpointUrl = 'https://tony4927.app.n8n.cloud/webhook/3f76a439-5a54-4d08-97cd-6e98d7b6e034';
 
             if (!isPro) {
-                // === FREE TIER: USE LOCAL BACKEND FOR REAL-TIME TRACKING ===
-                const backendPayload = {
-                    category: "General", // TODO: Add category input to form if needed
-                    keywords: payload.main_asins[0] + " " + (document.getElementById('comp-asin').value.trim().replace(/\n/g, ' ')), // simple concat for keywords
-                    marketplace: payload.productSite,
-                    user_email: payload.user_email,
-                    user_name: payload.user_name,
-                    user_tier: "free",
-                    reference_asins: [payload.main_asins[0], ...payload.competitor_asins]
-                };
-
-                const res = await fetch('/api/discovery/start-task', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(backendPayload)
-                });
-
-                if (!res.ok) throw new Error("Backend start-task failed: " + res.statusText);
-
-                const data = await res.json();
-                const taskId = data.report_id;
-
-                // Redirect to new Transparent Processing Page
-                const email = encodeURIComponent(payload.user_email);
-                window.location.href = `processing.html?taskId=${taskId}&email=${email}&pro=false`;
-                return;
+                // === FREE TIER: USE n8n WEBHOOK ===
+                endpointUrl = 'https://tony4927.app.n8n.cloud/webhook/c6b3034f-250a-433f-9017-c14c3f8c7f9f';
             }
 
             // === PRO TIER: KEEP n8n LOGIC (Payment Flow) ===
