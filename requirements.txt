@@ -3,3 +3,10 @@ feedparser
 openai
 beautifulsoup4
 lxml
+fastapi
+uvicorn
+pydantic
+python-dotenv
+requests
+duckduckgo_search
+googlesearch-python

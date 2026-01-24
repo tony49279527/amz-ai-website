@@ -34,9 +34,9 @@ SCRAPINGBEE_BASE_URL = "https://app.scrapingbee.com/api/v1/"
 
 # Email Settings (for sending reports)
 SMTP_HOST = "smtp.gmail.com"
-SMTP_PORT = 587
+SMTP_PORT = 465
 SMTP_USER = os.getenv("SMTP_USER", "")
-SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "").replace(" ", "")
 
 # Report Settings
 MAX_SEARCH_RESULTS = 10  # Max websites/videos to scrape

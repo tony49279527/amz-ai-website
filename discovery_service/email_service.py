@@ -100,8 +100,21 @@ async def send_email_report(report: AnalysisReport, is_pro_flow: bool = False):
 
         # Connect to server
         print(f"Connecting to SMTP server {SMTP_HOST}:{SMTP_PORT}...")
-        server = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
-        server.starttls()  # Secure the connection
+        
+        server = None
+        port = int(SMTP_PORT)
+        
+        if port == 465:
+            # SSL Connection (Implicit)
+            print("Using SMTP_SSL (Implicit SSL)")
+            server = smtplib.SMTP_SSL(SMTP_HOST, port)
+            # server.starttls() is NOT needed for SMTP_SSL
+        else:
+            # TLS Connection (Explicit)
+            print("Using SMTP (StartTLS)")
+            server = smtplib.SMTP(SMTP_HOST, port)
+            server.starttls()  # Secure the connection
+            
         server.login(SMTP_USER, SMTP_PASSWORD)
         
         # Send email

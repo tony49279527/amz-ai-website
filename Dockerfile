@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 8080
 
 # Start the server
-CMD ["python", "server.py"]
+CMD ["uvicorn", "discovery_service.main:app", "--host", "0.0.0.0", "--port", "8080"]

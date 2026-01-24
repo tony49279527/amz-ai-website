@@ -175,6 +175,33 @@ async def start_analysis_task(
         print(f"Error starting analysis: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/test-email")
+async def test_email_endpoint(email: str):
+    """Immediate test endpoint to verify email delivery"""
+    try:
+        from .email_service import send_email_report
+        from .models import AnalysisReport
+        import datetime
+        
+        mock_report = AnalysisReport(
+            report_id="test-immediate",
+            user_email=email,
+            keywords="Immediate Connection Test",
+            category="Debugging",
+            marketplace="US",
+            generated_at=str(datetime.datetime.now()),
+            model_used="system-test",
+            sources_count=0,
+            asins_analyzed=0,
+            report_markdown="# Connection Successful\n\nThis email confirms that the Amz AI backend can successfully send emails via SMTP (SSL/465).",
+            report_html="<div style='font-family:sans-serif; padding:20px; border:1px solid #ddd; border-radius:8px;'><h1>✅ Connection Successful</h1><p>This email confirms that the <strong>Amz AI backend</strong> can successfully send emails via SMTP (SSL/465).</p><p>If you are seeing this, the deployment is correct.</p></div>"
+        )
+        
+        await send_email_report(mock_report, is_pro_flow=False)
+        return {"status": "success", "message": f"Test email sent to {email}"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
 if __name__ == "__main__":
     print("Starting Product Discovery Service...")
     print("API will be available at: http://localhost:8000")
