@@ -596,9 +596,10 @@ Present workflows in a structured table format, including:
             // For this sandbox/demo, we'll ALSO unlock features so the user sees the effect immediately if they return.
             // Or if it's a new tab, we rely on local storage (not fully implemented here for cross-tab).
             // For demo purposes, we unlock:
-            if (typeof window.unlockProFeatures === 'function') {
-                window.unlockProFeatures();
-            }
+            // 1. Removed invalid sandbox unlock call to prevent premature success alert
+            // if (typeof window.unlockProFeatures === 'function') {
+            //     window.unlockProFeatures();
+            // }
 
             // Store FULL PAYLOAD for fallback/auto-start on processing.html
             const payload = preparePayload(true);
