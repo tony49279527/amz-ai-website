@@ -81,6 +81,10 @@ async def read_css():
 async def read_js():
     return FileResponse('script_v2.js')
 
+@app.get("/sitemap.xml")
+async def read_sitemap():
+    return FileResponse('sitemap.xml')
+
 
 # Global analyzer instance
 analyzer = ProductDiscoveryAnalyzer()
