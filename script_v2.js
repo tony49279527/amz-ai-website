@@ -1,4 +1,4 @@
-
+console.log('SCRIPT_V2_LOADED_TOP');
 
 const initApp = () => {
     // === MOBILE MENU TOGGLE ===
@@ -6,8 +6,12 @@ const initApp = () => {
     const navLinks = document.querySelector('.nav-links');
     const navActions = document.querySelector('.nav-actions');
 
+    console.log('Mobile Menu Init:', { mobileMenuBtn, navLinks });
+
     if (mobileMenuBtn && navLinks) {
-        mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent bubbling issues
+            console.log('Mobile menu clicked');
             const isOpen = navLinks.classList.toggle('active');
             if (navActions) navActions.classList.toggle('active', isOpen);
 
@@ -730,77 +734,67 @@ Present workflows in a structured table format, including:
             autoResizeTextarea(customPrompt);
         }
     }
-}
 
-// === HERO SEARCH HANDLER (Index Page) ===
-const heroForm = document.getElementById('hero-search-form');
-if (heroForm) {
-    heroForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const input = document.getElementById('hero-asin-input');
-        const errorMsg = document.getElementById('hero-error-msg');
-        if (input) {
-            const val = input.value.trim();
-            // Simple regex for ASIN-like format (10 alphanumeric)
-            if (val.length < 5) {
-                if (errorMsg) errorMsg.style.display = 'block';
-                return;
-            }
-            // Redirect to create.html with ASIN
-            window.location.href = `create.html?asin=${encodeURIComponent(val)}`;
-        }
-    });
-}
+    // === HERO SEARCH HANDLER (Index Page) ===
+    // (Redundant heroForm logic removed)
 
-// === PAYMENT UI ENHANCEMENTS ===
-function setupPaymentLoading(btnId) {
-    const btn = document.getElementById(btnId);
-    if (btn) {
-        btn.addEventListener('click', function (e) {
-            // If it's a link (polar), we want it to open, but still show loading
-            if (this.disabled) return;
+    // === PAYMENT UI ENHANCEMENTS ===
+    function setupPaymentLoading(btnId) {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+            btn.addEventListener('click', function (e) {
+                // If it's a link, we want it to open, but still show loading
+                if (this.disabled) return;
 
-            const originalText = this.innerHTML;
+                const originalText = this.innerHTML;
 
-            // Styling
-            this.classList.add('processing');
-            this.style.opacity = '0.8';
+                // Styling
+                this.classList.add('processing');
+                this.style.opacity = '0.8';
 
-            if (this.tagName === 'BUTTON') {
-                // Only disable buttons to prevent double-submit, links need to remain clickable (or just clicked once)
-                this.disabled = true;
-                this.textContent = 'Processing...';
-            } else {
-                // For links, just visual feedback
-                this.style.pointerEvents = 'none';
-                const textSpan = this.querySelector('span');
-                if (textSpan) {
-                    textSpan.textContent = textSpan.textContent + ' (Opening...)';
+                if (this.tagName === 'BUTTON') {
+                    // Only disable buttons to prevent double-submit
+                    this.disabled = true;
+                    this.textContent = 'Processing...';
                 } else {
-                    // fallback if no span
-                    if (!this.innerText.includes('Opening')) {
-                        this.innerText = this.innerText + ' (Opening...)';
+                    // For links, just visual feedback
+                    this.style.pointerEvents = 'none';
+                    const textSpan = this.querySelector('span');
+                    if (textSpan) {
+                        textSpan.textContent = textSpan.textContent + ' (Opening...)';
+                    } else {
+                        // fallback if no span
+                        if (!this.innerText.includes('Opening')) {
+                            this.innerText = this.innerText + ' (Opening...)';
+                        }
                     }
                 }
-            }
 
-            // Revert after 5s
-            setTimeout(() => {
-                this.classList.remove('processing');
-                this.style.opacity = '1';
-                this.style.pointerEvents = 'auto';
-                if (this.tagName === 'BUTTON') this.disabled = false;
-                this.innerHTML = originalText;
-            }, 5000);
-        });
+                // Revert after 5s
+                setTimeout(() => {
+                    this.classList.remove('processing');
+                    this.style.opacity = '1';
+                    this.style.pointerEvents = 'auto';
+                    if (this.tagName === 'BUTTON') this.disabled = false;
+                    this.innerHTML = originalText;
+                }, 5000);
+            });
+        }
     }
-}
 
-setupPaymentLoading('pay-deposit-btn');    // Stripe
-setupPaymentLoading('pay-polar-deposit-btn'); // Polar
-setupPaymentLoading('pay-balance-btn');    // Balance
-};
+    // === FAQ ACCORDION HANDLER (Fixed) ===
+    // (Redundant FAQ logic removed)
 
+    // === PAYMENT LOADING STATE ===
+    setupPaymentLoading('pay-button');
+    setupPaymentLoading('pay-deposit-btn');
+    setupPaymentLoading('submit-payment-btn');
+    setupPaymentLoading('pay-polar-btn');
+    setupPaymentLoading('pay-polar-deposit-btn');
+    setupPaymentLoading('pay-polar-balance-btn');
+    setupPaymentLoading('pay-balance-btn');
+
+}; // End of initApp
 
 // Ensure DOM is fully loaded before initializing
 if (document.readyState === 'loading') {

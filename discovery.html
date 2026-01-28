@@ -70,8 +70,7 @@
                         <div class="form-group" style="grid-column: 1 / -1;">
                             <label>Product Category *</label>
                             <p class="helper-text">Select the category hierarchy for your product research</p>
-                            <div
-                                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.5rem;">
+                            <div class="category-select-container">
                                 <select id="category-level-1" required>
                                     <option value="">-- Select Main Category --</option>
                                 </select>
@@ -116,8 +115,7 @@
                                     style="color: var(--primary-color); font-weight: 600;">Upgrade to Pro</a> to select
                                 multiple focus areas.
                             </p>
-                            <div class="analysis-focus-cards"
-                                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.75rem;">
+                            <div class="analysis-focus-cards">
                                 <!-- Market Entry - Default for Free -->
                                 <div class="focus-card active" id="focus-market-entry" data-value="market-entry"
                                     style="padding: 1rem; border: 2px solid var(--primary-color); border-radius: 0.75rem; background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(37, 99, 235, 0.05)); cursor: pointer; transition: all 0.2s;">
@@ -465,7 +463,7 @@
             </div>
         </div>
     </footer>
-    <script src="script_v2.js?v=3"></script>
+    <script src="script_v2.js?v=4"></script>
     <script src="data/amazon_categories.js"></script>
     <script>
         // Product Discovery specific form handling
