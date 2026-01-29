@@ -34,6 +34,10 @@ PRO_MODELS = [
     "deepseek/deepseek-v3.2-speciale",
 ]
 
+# Free tier source limits
+FREE_WEB_SOURCES_COUNT = 3
+FREE_YOUTUBE_SOURCES_COUNT = 3
+
 # ScrapingBee Settings
 SCRAPINGBEE_BASE_URL = "https://app.scrapingbee.com/api/v1/"
 
