@@ -7,6 +7,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import uvicorn
 import os
+import httpx
+from pydantic import BaseModel as PydanticBaseModel
+from typing import Optional
 
 from .models import DiscoveryRequest, DiscoveryResponse, UserTier
 from .analyzer import ProductDiscoveryAnalyzer
@@ -267,63 +270,149 @@ async def test_email_endpoint(email: str, type: str = "success"):
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
+# === Contact Form Endpoint ===
+class ContactFormRequest(PydanticBaseModel):
+    name: str
+    email: str
+    subject: str
+    message: str
 
-@app.get("/api/discovery-report/{report_id}")
-async def get_discovery_report(report_id: str):
-    """
-    Get discovery report data for the payment preview page.
-    Returns report metadata and executive summary for preview.
-    """
-    import re
-    
-    # Check if report exists in store
-    if report_id not in reports_store:
-        raise HTTPException(status_code=404, detail="Report not found")
-    
-    report = reports_store[report_id]
-    
-    # Extract executive summary from markdown
-    executive_summary = ""
-    if report.report_markdown:
-        # Try to find Executive Summary or first major section
-        patterns = [
-            r'## Executive Summary\s*\n([\s\S]*?)(?=\n## |\Z)',
-            r'## Summary\s*\n([\s\S]*?)(?=\n## |\Z)',
-            r'## Market Entry Strategy\s*\n([\s\S]*?)(?=\n## |\Z)',
-            r'## Overview\s*\n([\s\S]*?)(?=\n## |\Z)',
-        ]
-        
-        for pattern in patterns:
-            match = re.search(pattern, report.report_markdown)
-            if match:
-                executive_summary = match.group(1).strip()[:2000]
-                break
-        
-        # Fallback: take first 1500 chars after first heading
-        if not executive_summary:
-            lines = report.report_markdown.split('\n')
-            content_start = False
-            content = []
-            for line in lines:
-                if line.startswith('#') and not content_start:
-                    content_start = True
-                    continue
-                if content_start:
-                    if line.startswith('## ') and len(content) > 100:
-                        break  # Stop at next major heading
-                    content.append(line)
-            executive_summary = '\n'.join(content)[:1500]
-    
-    return {
-        "report_id": report.report_id,
-        "keywords": report.keywords,
-        "category": report.category,
-        "user_email": report.user_email,
-        "generated_at": report.generated_at,
-        "executive_summary": executive_summary,
-        "sections_count": 8,  # Fixed for now
-        "is_paid": False  # Would check payment status in production
-    }
+@app.post("/api/contact")
+async def handle_contact_form(req: ContactFormRequest):
+    """Handle contact form submission via SMTP email"""
+    try:
+        from .config import SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD
+        import smtplib
+        from email.mime.text import MIMEText
+        from email.mime.multipart import MIMEMultipart
+
+        if not SMTP_USER or not SMTP_PASSWORD:
+            raise HTTPException(status_code=503, detail="Email service not configured")
+
+        msg = MIMEMultipart("alternative")
+        msg["From"] = SMTP_USER
+        msg["To"] = SMTP_USER  # Send to ourselves
+        msg["Subject"] = f"[Contact Form] {req.subject}"
+        msg["Reply-To"] = req.email
+
+        html_body = f"""
+        <div style="font-family: sans-serif; padding: 20px;">
+            <h2>New Contact Form Submission</h2>
+            <p><strong>Name:</strong> {req.name}</p>
+            <p><strong>Email:</strong> {req.email}</p>
+            <p><strong>Subject:</strong> {req.subject}</p>
+            <hr>
+            <p><strong>Message:</strong></p>
+            <p>{req.message}</p>
+        </div>
+        """
+        msg.attach(MIMEText(html_body, "html"))
+
+        if int(SMTP_PORT) == 465:
+            server = smtplib.SMTP_SSL(SMTP_HOST, int(SMTP_PORT))
+        else:
+            server = smtplib.SMTP(SMTP_HOST, int(SMTP_PORT))
+            server.starttls()
+        server.login(SMTP_USER, SMTP_PASSWORD)
+        server.sendmail(SMTP_USER, SMTP_USER, msg.as_string())
+        server.quit()
+
+        return {"status": "success", "message": "Your message has been sent. We'll get back to you soon."}
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Contact form error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to send message. Please try again later.")
+
+# === Backend Proxy Endpoints ===
+# These proxy n8n webhook calls so that webhook URLs are not exposed in frontend code.
+N8N_CHECKOUT_URL = os.getenv("N8N_CHECKOUT_WEBHOOK_URL", "")
+N8N_PRO_ANALYSIS_URL = os.getenv("N8N_PRO_ANALYSIS_WEBHOOK_URL", "")
+N8N_SEND_REPORT_URL = os.getenv("N8N_SEND_REPORT_WEBHOOK_URL", "")
+
+class CheckoutRequest(PydanticBaseModel):
+    amount: str = "4.99"
+    order_id: str
+    success_url: str
+    cancel_url: str
+
+class SendReportRequest(PydanticBaseModel):
+    order_id: str
+    action: str = "send_full_report"
+    resume_url: Optional[str] = None
+
+@app.post("/api/proxy/create-checkout")
+async def proxy_create_checkout(req: CheckoutRequest):
+    """Proxy Stripe checkout creation to n8n (keeps webhook URL server-side)"""
+    if not N8N_CHECKOUT_URL:
+        raise HTTPException(status_code=503, detail="Payment service not configured")
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            resp = await client.post(N8N_CHECKOUT_URL, data={
+                "amount": req.amount,
+                "order_id": req.order_id,
+                "success_url": req.success_url,
+                "cancel_url": req.cancel_url,
+            })
+            resp.raise_for_status()
+            return resp.json()
+    except Exception as e:
+        print(f"Checkout proxy error: {e}")
+        raise HTTPException(status_code=502, detail="Payment service unavailable")
+
+@app.post("/api/proxy/pro-analysis")
+async def proxy_pro_analysis(payload: dict):
+    """Proxy Pro analysis submission to n8n"""
+    if not N8N_PRO_ANALYSIS_URL:
+        raise HTTPException(status_code=503, detail="Pro analysis service not configured")
+    try:
+        form_data = {}
+        for key, value in payload.items():
+            if isinstance(value, (list, dict)):
+                import json
+                form_data[key] = json.dumps(value)
+            else:
+                form_data[key] = str(value)
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            resp = await client.post(N8N_PRO_ANALYSIS_URL, data=form_data)
+            resp.raise_for_status()
+            try:
+                return resp.json()
+            except Exception:
+                return {"status": "ok"}
+    except Exception as e:
+        print(f"Pro analysis proxy error: {e}")
+        raise HTTPException(status_code=502, detail="Pro analysis service unavailable")
+
+@app.post("/api/proxy/send-full-report")
+async def proxy_send_full_report(req: SendReportRequest):
+    """Proxy full report trigger to n8n"""
+    if not N8N_SEND_REPORT_URL:
+        raise HTTPException(status_code=503, detail="Report service not configured")
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            resp = await client.post(N8N_SEND_REPORT_URL, data={
+                "order_id": req.order_id,
+                "action": req.action,
+            })
+            resp.raise_for_status()
+            return {"status": "ok"}
+    except Exception as e:
+        print(f"Send report proxy error: {e}")
+        raise HTTPException(status_code=502, detail="Report service unavailable")
+
+@app.get("/api/proxy/resume-workflow")
+async def proxy_resume_workflow(resume_url: str):
+    """Proxy n8n resume URL call so the actual URL stays server-side"""
+    if not resume_url:
+        raise HTTPException(status_code=400, detail="resume_url is required")
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            resp = await client.get(resume_url)
+            return {"status": "ok", "code": resp.status_code}
+    except Exception as e:
+        print(f"Resume workflow proxy error: {e}")
+        raise HTTPException(status_code=502, detail="Resume failed")
 
 if __name__ == "__main__":
     print("Starting Product Discovery Service...")

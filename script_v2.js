@@ -317,6 +317,10 @@ Present workflows in a structured table format, including:
     });
 
     // === PRO FEATURE INTERACTION ===
+    // TODO: Pro unlock state is currently client-side only. For production,
+    // validate Pro status via a backend API (e.g. check payment record in
+    // Supabase) before enabling premium features. Users can currently bypass
+    // this via browser DevTools.
     let isProIntent = false;
 
     const proLockedSection = document.querySelector('.pro-locked');
@@ -575,8 +579,40 @@ Present workflows in a structured table format, including:
             alert('Payment successful! (Sandbox mode) Pro features are now unlocked.');
             if (paymentModal) paymentModal.classList.remove('active');
 
-            if (typeof window.unlockProFeatures === 'function') {
-                window.unlockProFeatures();
+            // 2. Call backend proxy to get Stripe Link (webhook URL stays server-side)
+            try {
+                const response = await fetch('/api/proxy/create-checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        amount: '4.99',
+                        order_id: orderId,
+                        success_url: window.location.origin + `/processing.html?pro=true&orderId=${orderId}&email=${encodeURIComponent(userEmail)}`,
+                        cancel_url: window.location.href
+                    })
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.detail || 'Payment service error');
+                }
+
+                const data = await response.json();
+                console.log('Checkout response:', data);
+
+                // Handle both object {url:...} and array [{url:...}] formats
+                const paymentUrl = data.url || (Array.isArray(data) && data[0] && data[0].url);
+
+                if (paymentUrl) {
+                    window.location.href = paymentUrl; // Redirect to Stripe
+                } else {
+                    throw new Error('No payment URL returned');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Payment Error: ' + err.message);
+                payDepositBtn.disabled = false;
+                payDepositBtn.textContent = 'Try Again';
             }
         });
     }
@@ -661,30 +697,20 @@ Present workflows in a structured table format, including:
         const payload = preparePayload(isPro);
 
         try {
-            // Pro URL: Standard n8n with AI Agents
-            let endpointUrl = 'https://tony4927.app.n8n.cloud/webhook/3f76a439-5a54-4d08-97cd-6e98d7b6e034';
+            // Pro URL: routed through backend proxy (webhook URL stays server-side)
+            let endpointUrl = '/api/proxy/pro-analysis';
 
             if (!isPro) {
                 // === FREE TIER: USE n8n WEBHOOK ===
                 endpointUrl = 'https://tony4927.app.n8n.cloud/webhook/c6b3034f-250a-433f-9017-c14c3f8c7f9f';
             }
 
-            // === PRO TIER: KEEP n8n LOGIC (Payment Flow) ===
-            const formData = new URLSearchParams();
-            for (const key in payload) {
-                if (typeof payload[key] === 'object') {
-                    formData.append(key, JSON.stringify(payload[key]));
-                } else {
-                    formData.append(key, payload[key]);
-                }
-            }
-
-            let fetchOptions = {
+            // === PRO TIER: Submit via backend proxy ===
+            const response = await fetch(endpointUrl, {
                 method: 'POST',
-                body: formData
-            };
-
-            const response = await fetch(endpointUrl, fetchOptions);
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
             if (response.ok) {
                 let data = {};

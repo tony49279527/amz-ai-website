@@ -8,10 +8,9 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# API Keys
-SCRAPINGBEE_API_KEY = "FZRSC69J3MPE5OO5FYJKEZFGI2XWG65IQA2V86EFJWKF9ARVGV0AIPMTSJ74XL0FV3EZIL95B7ZQI1XR"
-
-RAPIDAPI_KEY = "35d443d327msh77164428609687ep1ee4b4jsn763b388ea69a"
+# API Keys (all loaded from environment variables)
+SCRAPINGBEE_API_KEY = os.getenv("SCRAPINGBEE_API_KEY", "")
+RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY", "")
 RAPIDAPI_HOST = "real-time-amazon-data.p.rapidapi.com"
 
 # Google Custom Search API (Official)
@@ -19,22 +18,20 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_SEARCH_API_KEY", "AIzaSyAmGiYGIdcpKtwiOqnvVEd
 GOOGLE_CX = os.getenv("GOOGLE_SEARCH_CX", "655e35aac5de844c7")
 
 # OpenRouter API (for LLM)
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")  # You'll need to set this
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 
 # Model Configuration
-DEFAULT_MODEL_FREE = "google/gemini-3-flash-preview"  # Free users - Gemini 3 Flash
-DEFAULT_MODEL_PRO = "anthropic/claude-3.5-sonnet"  # Pro users - Claude 3.5 Sonnet
+DEFAULT_MODEL_FREE = "anthropic/claude-3.5-sonnet"  # Free users
+DEFAULT_MODEL_PRO = "anthropic/claude-sonnet-4.5"  # Pro users default
 
-# Free Tier Source Limits (must successfully scrape this many)
-FREE_WEB_SOURCES_COUNT = 3
-FREE_YOUTUBE_SOURCES_COUNT = 3
-
-# Available Pro Models
+# Available Pro Models (must match frontend select options)
 PRO_MODELS = [
-    "anthropic/claude-3.5-sonnet",
-    "openai/gpt-4-turbo",
-    "google/gemini-pro-1.5",
-    "meta-llama/llama-3.1-405b"
+    "anthropic/claude-sonnet-4.5",
+    "google/gemini-3-pro-preview",
+    "openai/gpt-5.2-pro",
+    "openai/gpt-5.2-chat",
+    "qwen/qwen3-v1-235b-a22b-thinking",
+    "deepseek/deepseek-v3.2-speciale",
 ]
 
 # ScrapingBee Settings
