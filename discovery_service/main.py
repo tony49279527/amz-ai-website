@@ -1,10 +1,11 @@
 """
 FastAPI Main Application for Product Discovery Service
 """
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException, BackgroundTasks, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from starlette.middleware.base import BaseHTTPMiddleware
 import uvicorn
 import os
 import httpx
@@ -21,6 +22,22 @@ app = FastAPI(
     description="AI-powered Amazon product discovery and analysis service",
     version="1.0.0"
 )
+
+
+# Cache control middleware
+class CacheControlMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        path = request.url.path
+        if path.endswith(".html") or path == "/":
+            response.headers["Cache-Control"] = "no-cache"
+        elif path.endswith((".css", ".js")):
+            response.headers["Cache-Control"] = "public, max-age=3600"
+        elif path.endswith((".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico")):
+            response.headers["Cache-Control"] = "public, max-age=86400"
+        return response
+
+app.add_middleware(CacheControlMiddleware)
 
 # Enable CORS for frontend
 app.add_middleware(
