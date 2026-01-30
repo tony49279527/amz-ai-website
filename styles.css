@@ -1845,7 +1845,59 @@ textarea {
 .step.blink {
     opacity: 1;
     color: var(--text-color);
+
     animation: blink 1.5s infinite;
+}
+
+/* Terminal Styles */
+.terminal-window {
+    background: #1e1e2e;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid #313244;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    overflow: hidden;
+    font-family: 'Courier New', monospace;
+}
+
+.terminal-header {
+    background: #1e1e2e;
+    padding: 15px 20px 10px;
+    border-bottom: 1px solid #313244;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.terminal-body {
+    padding: 10px 20px 20px;
+    overflow-y: auto;
+    flex: 1;
+    color: #a6accd;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Custom Scrollbar for Terminal */
+.terminal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+    background: #1e1e2e;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background: #313244;
+    border-radius: 4px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb:hover {
+    background: #45475a;
 }
 
 .step-dot {
