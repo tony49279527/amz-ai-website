@@ -27,7 +27,8 @@
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="menu-icon-open">
                     <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                 </svg>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="menu-icon-close" style="display:none;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="menu-icon-close"
+                    style="display:none;">
                     <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                 </svg>
             </button>
@@ -62,7 +63,8 @@
                     <div class="header-content">
                         <h1>Submission Successful</h1>
                         <p>We are initiating the AI Agent...</p>
-                        <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.5rem;">⏱ Estimated time: 10–20 minutes. You can close this page — the report will be sent to your email when ready.</p>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.5rem;">⏱ Estimated time: 10–20
+                            minutes. You can close this page — the report will be sent to your email when ready.</p>
                     </div>
                 </div>
 
@@ -184,7 +186,9 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="footer-copyright">© <script>document.write(new Date().getFullYear())</script> Amz AI Agent. All rights reserved.</p>
+                <p class="footer-copyright">©
+                    <script>document.write(new Date().getFullYear())</script> Amz AI Agent. All rights reserved.
+                </p>
             </div>
         </div>
     </footer>
@@ -266,7 +270,7 @@
                 if (wsRetryCount < WS_MAX_RETRIES) {
                     wsRetryCount++;
                     const delay = Math.pow(2, wsRetryCount) * 1000; // 2s, 4s, 8s, 16s, 32s
-                    logToTerminal("Network", `Connection lost. Reconnecting in ${delay/1000}s... (${wsRetryCount}/${WS_MAX_RETRIES})`, "#f59e0b");
+                    logToTerminal("Network", `Connection lost. Reconnecting in ${delay / 1000}s... (${wsRetryCount}/${WS_MAX_RETRIES})`, "#f59e0b");
                     setTimeout(() => initWebSocket(taskId), delay);
                 } else {
                     logToTerminal("Error", "Unable to reconnect. Please refresh the page.", "#f87171");
@@ -285,7 +289,7 @@
             const time = new Date().toLocaleTimeString('en-US', { hour12: false });
             const line = document.createElement('div');
             line.style.cssText = `margin-bottom: 4px; border-left: 2px solid ${color}; padding-left: 8px;`;
-            const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+            const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
             line.innerHTML = `<span style="opacity: 0.5; font-size: 0.8em;">[${time}]</span> <span style="color: ${color}; font-weight: bold;">${esc(source)}</span> <span>${esc(message)}</span>`;
             term.appendChild(line);
             term.scrollTop = term.scrollHeight;
@@ -316,6 +320,49 @@
             }
             btn.textContent = "Download Report";
             logToTerminal("System", "Report generated successfully. Check your email.", "#4ade80");
+        }
+        async function triggerPendingAnalysis(payload) {
+            logToTerminal("System", "Payment confirmed. Starting analysis...", "#facc15");
+
+            try {
+                // Remove the payload from storage so we don't trigger it again on refresh
+                // (Unless we want to allow refresh to retry? Better to clear it on success)
+
+                const response = await fetch('/api/discovery/start-task', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success && data.report_id) {
+                    logToTerminal("System", "Analysis task started successfully.", "#4ade80");
+                    logToTerminal("System", `Task ID: ${data.report_id}`, "#a6accd");
+
+                    // Clear pending payload only after success
+                    localStorage.removeItem('pending_analysis_payload');
+
+                    // Initialize WebSocket
+                    initWebSocket(data.report_id);
+
+                    // Update URL so refresh uses the new ID
+                    const newUrl = new URL(window.location.href);
+                    newUrl.searchParams.set('taskId', data.report_id);
+                    window.history.pushState({}, '', newUrl);
+
+                } else {
+                    throw new Error(data.message || "Failed to start task");
+                }
+
+            } catch (error) {
+                logToTerminal("Error", `Failed to start analysis: ${error.message}`, "#f87171");
+                console.error(error);
+            }
         }
     </script>
 </body>

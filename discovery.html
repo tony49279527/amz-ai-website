@@ -556,13 +556,47 @@
             if (payDepositBtn) {
                 payDepositBtn.addEventListener('click', async function () {
                     const proEmail = document.getElementById('pro-email-input').value.trim();
+
+                    // Validate Email
                     if (!proEmail) {
                         alert('Please enter your email address');
                         return;
                     }
 
+                    // Validate Main Inputs
+                    const category1 = document.getElementById('category-level-1').value;
+                    const keywords = document.getElementById('product-keywords').value.trim();
+
+                    if (!category1 || !keywords) {
+                        alert('Please select a Main Category and enter Product Keywords first.');
+                        paymentModal.style.display = 'none';
+                        return;
+                    }
+
                     payDepositBtn.disabled = true;
                     payDepositBtn.textContent = 'Processing...';
+
+                    // Construct Payload for Post-Payment
+                    const payload = {
+                        category: [
+                            category1,
+                            document.getElementById('category-level-2').value,
+                            document.getElementById('category-level-3').value
+                        ].filter(Boolean).join(' > '),
+                        keywords: keywords,
+                        marketplace: document.getElementById('marketplace').value,
+                        reference_asins: document.getElementById('product-asins').value.split('\n').map(a => a.trim()).filter(a => a),
+                        user_email: proEmail,
+                        user_tier: 'pro'
+                    };
+
+                    // Generate Order ID
+                    const orderId = 'ORD-' + Date.now().toString(36).toUpperCase();
+
+                    // Save to LocalStorage for retrieval on success page
+                    localStorage.setItem('pending_analysis_payload', JSON.stringify(payload));
+                    localStorage.setItem('pending_email', proEmail);
+                    localStorage.setItem('pending_order_id', orderId);
 
                     try {
                         const resp = await fetch('/api/proxy/create-checkout', {
@@ -570,9 +604,10 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 amount: '4.99',
-                                order_id: 'disc-' + Date.now(),
-                                success_url: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
-                                cancel_url: window.location.href
+                                order_id: orderId,
+                                success_url: window.location.origin + '/processing.html?taskId={CHECKOUT_SESSION_ID}&report_id=' + orderId, // Fallback URL
+                                cancel_url: window.location.href,
+                                customer_email: proEmail
                             })
                         });
                         const data = await resp.json();
@@ -583,6 +618,7 @@
                         }
                     } catch (e) {
                         alert('Payment service unavailable. Please try again later.');
+                        console.error(e);
                         payDepositBtn.disabled = false;
                         payDepositBtn.textContent = 'Pay $4.99 Deposit with Stripe';
                     }
