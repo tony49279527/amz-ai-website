@@ -107,47 +107,7 @@
                             </select>
                         </div>
 
-                        <!-- Analysis Focus - Styled Cards -->
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label>Analysis Focus</label>
-                            <p class="helper-text" id="focus-helper">Free users get Market Entry assessment.
-                                <a href="#" id="upgrade-focus-link"
-                                    style="color: var(--primary-color); font-weight: 600;">Upgrade to Pro</a> to select
-                                multiple focus areas.
-                            </p>
-                            <div class="analysis-focus-cards">
-                                <!-- Market Entry - Default for Free -->
-                                <div class="focus-card active" id="focus-market-entry" data-value="market-entry"
-                                    style="padding: 1rem; border: 2px solid var(--primary-color); border-radius: 0.75rem; background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(37, 99, 235, 0.05)); cursor: pointer; transition: all 0.2s;">
-                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎯</div>
-                                    <h4 style="margin: 0 0 0.25rem 0; font-size: 0.95rem;">Market Entry</h4>
-                                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">Should I
-                                        enter this market?</p>
-                                    <span class="focus-badge"
-                                        style="display: inline-block; margin-top: 0.5rem; font-size: 0.7rem; background: var(--primary-color); color: white; padding: 0.125rem 0.5rem; border-radius: 9999px;">Default</span>
-                                </div>
-                                <!-- Differentiation - Locked for Free -->
-                                <div class="focus-card locked" id="focus-differentiation" data-value="differentiation"
-                                    style="padding: 1rem; border: 2px solid var(--border-color); border-radius: 0.75rem; background: var(--bg-secondary); opacity: 0.7; cursor: not-allowed; transition: all 0.2s; position: relative;">
-                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💡</div>
-                                    <h4 style="margin: 0 0 0.25rem 0; font-size: 0.95rem;">Differentiation</h4>
-                                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">How can I
-                                        stand out?</p>
-                                    <span class="lock-badge"
-                                        style="position: absolute; top: 0.5rem; right: 0.5rem;">🔒</span>
-                                </div>
-                                <!-- Pricing - Locked for Free -->
-                                <div class="focus-card locked" id="focus-pricing" data-value="pricing"
-                                    style="padding: 1rem; border: 2px solid var(--border-color); border-radius: 0.75rem; background: var(--bg-secondary); opacity: 0.7; cursor: not-allowed; transition: all 0.2s; position: relative;">
-                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💰</div>
-                                    <h4 style="margin: 0 0 0.25rem 0; font-size: 0.95rem;">Pricing Strategy</h4>
-                                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">What price
-                                        point works?</p>
-                                    <span class="lock-badge"
-                                        style="position: absolute; top: 0.5rem; right: 0.5rem;">🔒</span>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <!-- Reference ASINs (OPTIONAL) - Moved UP -->
                         <div class="form-group" style="grid-column: 1 / -1;">
@@ -220,6 +180,55 @@
                                 </div>
                                 <h3 class="config-title">Analysis Configuration</h3>
                                 <div class="config-grid">
+                                    <!-- Analysis Focus - Moved to Pro Section -->
+                                    <div class="form-group" style="grid-column: 1 / -1;">
+                                        <label>Analysis Focus</label>
+                                        <p class="helper-text" id="focus-helper">Free users get Market Entry assessment.
+                                            <a href="#" id="upgrade-focus-link"
+                                                style="color: var(--primary-color); font-weight: 600;">Upgrade to
+                                                Pro</a> to select
+                                            multiple focus areas.
+                                        </p>
+                                        <div class="analysis-focus-cards">
+                                            <!-- Market Entry - Default for Free -->
+                                            <div class="focus-card active" id="focus-market-entry"
+                                                data-value="market-entry"
+                                                style="padding: 1rem; border: 2px solid var(--primary-color); border-radius: 0.75rem; background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(37, 99, 235, 0.05)); cursor: pointer; transition: all 0.2s;">
+                                                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎯</div>
+                                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.95rem;">Market Entry</h4>
+                                                <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">
+                                                    Should I
+                                                    enter this market?</p>
+                                                <span class="focus-badge"
+                                                    style="display: inline-block; margin-top: 0.5rem; font-size: 0.7rem; background: var(--primary-color); color: white; padding: 0.125rem 0.5rem; border-radius: 9999px;">Default</span>
+                                            </div>
+                                            <!-- Differentiation - Locked for Free -->
+                                            <div class="focus-card locked" id="focus-differentiation"
+                                                data-value="differentiation"
+                                                style="padding: 1rem; border: 2px solid var(--border-color); border-radius: 0.75rem; background: var(--bg-secondary); opacity: 0.7; cursor: not-allowed; transition: all 0.2s; position: relative;">
+                                                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💡</div>
+                                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.95rem;">Differentiation
+                                                </h4>
+                                                <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">
+                                                    How can I
+                                                    stand out?</p>
+                                                <span class="lock-badge"
+                                                    style="position: absolute; top: 0.5rem; right: 0.5rem;">🔒</span>
+                                            </div>
+                                            <!-- Pricing - Locked for Free -->
+                                            <div class="focus-card locked" id="focus-pricing" data-value="pricing"
+                                                style="padding: 1rem; border: 2px solid var(--border-color); border-radius: 0.75rem; background: var(--bg-secondary); opacity: 0.7; cursor: not-allowed; transition: all 0.2s; position: relative;">
+                                                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💰</div>
+                                                <h4 style="margin: 0 0 0.25rem 0; font-size: 0.95rem;">Pricing Strategy
+                                                </h4>
+                                                <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">
+                                                    What price
+                                                    point works?</p>
+                                                <span class="lock-badge"
+                                                    style="position: absolute; top: 0.5rem; right: 0.5rem;">🔒</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- Row 1: Report Language & LLM Model -->
                                     <div class="form-group">
                                         <label>Report Language <span class="lock-icon">🔒</span></label>
