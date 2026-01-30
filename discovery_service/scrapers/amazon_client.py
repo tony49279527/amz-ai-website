@@ -176,3 +176,39 @@ class AmazonClient:
                 products.append(result)
         
         return products
+    async def search_products(self, query: str, country: str = "US", limit: int = 10) -> List[str]:
+        """
+        Search for products and return list of ASINs
+        """
+        url = f"{self.base_url}/search"
+        params = {
+            "query": query,
+            "country": country,
+            "sort_by": "RELEVANCE",
+            "page": "1"
+        }
+        
+        print(f"[Amazon Search] Searching for '{query}' in {country}...")
+        
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                response = await client.get(url, headers=self.headers, params=params)
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    products = data.get("data", {}).get("products", [])
+                    
+                    asins = []
+                    for p in products:
+                        if p.get("asin"):
+                            asins.append(p.get("asin"))
+                            
+                    print(f"[Amazon Search] Found {len(asins)} ASINs")
+                    return asins[:limit]
+                else:
+                    print(f"[Amazon Search] Error {response.status_code}: {response.text}")
+                    return []
+                    
+        except Exception as e:
+            print(f"[Amazon Search] Exception: {str(e)}")
+            return []

@@ -350,9 +350,39 @@ class ProductDiscoveryAnalyzer:
                 request.reference_asins,
                 request.marketplace.value
             )
+        else:
+            # Auto-discovery mode
+            print(f"[Amazon] No ASINs provided. Auto-discovering products for '{request.keywords}'...")
+            await emit("Amazon Data", f"Searching for '{request.keywords}'...", 55)
+            
+            try:
+                found_asins = await self.amazon_client.search_products(
+                    request.keywords, 
+                    request.marketplace.value, 
+                    limit=5  # Analyze top 5 products
+                )
+                
+                if found_asins:
+                    await emit("Amazon Data", f"Found {len(found_asins)} products. Fetching details...", 60)
+                    amazon_products = await self.fetch_amazon_data(
+                        found_asins,
+                        request.marketplace.value
+                    )
+                else:
+                    print("[Amazon] Search returned no ASINs.")
+                    await emit("Amazon Data", "No matching products found on Amazon.", 60, {"log": "Search returned 0 results."})
+            except Exception as e:
+                print(f"[Amazon] Auto-discovery error: {e}")
+                await emit("Amazon Data", "Error during product auto-discovery.", 60, {"log": str(e)})
+
+        if amazon_products:
             await emit("Amazon Data", f"Retrieved {len(amazon_products)} products", 65, {
                 "products": [{"title": p.title[:30]+"...", "rating": p.rating, "reviews": p.review_count} for p in amazon_products]
             })
+        else:
+             # Fallback if Amazon fails completely
+             print("[Analyzer] Amazon data fetch failed or returned 0 items.")
+             await emit("Amazon Data", "Could not retrieve product data.", 65)
         
         # Step 5: Generate report
         print("\n[5/5] Generating analysis report...")
