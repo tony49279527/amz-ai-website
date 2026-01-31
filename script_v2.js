@@ -693,15 +693,10 @@ Present workflows in a structured table format, including:
         const payload = preparePayload(isPro);
 
         try {
-            // Pro URL: routed through backend proxy (webhook URL stays server-side)
-            let endpointUrl = '/api/proxy/pro-analysis';
+            // All requests routed through backend proxy for security
+            // This removes the hardcoded n8n webhook from client-side code
+            let endpointUrl = '/api/proxy/analysis-request';
 
-            if (!isPro) {
-                // === FREE TIER: USE n8n WEBHOOK ===
-                endpointUrl = 'https://tony4927.app.n8n.cloud/webhook/c6b3034f-250a-433f-9017-c14c3f8c7f9f';
-            }
-
-            // === PRO TIER: Submit via backend proxy ===
             const response = await fetch(endpointUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -719,6 +714,7 @@ Present workflows in a structured table format, including:
                 // Redirect standard flow
                 const email = encodeURIComponent(payload.user_email);
                 const orderId = encodeURIComponent(payload.order_id);
+                // taskId might be returned by the proxy if it starts the task immediately
                 const taskId = data.taskId || data.report_id || '';
 
                 // Store for fallback

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -67,43 +67,7 @@
 <body>
     <!-- Navbar -->
     <header role="banner">
-        <nav class="navbar" aria-label="Main navigation">
-            <div class="nav-container">
-                <!-- Mobile Menu Button -->
-                <button class="mobile-menu-btn" aria-label="Toggle Menu">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="menu-icon-open">
-                        <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" />
-                    </svg>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="menu-icon-close"
-                        style="display:none;">
-                        <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                </button>
-
-                <a href="index.html" class="logo">
-                    <!-- SVG Logo - "A" Design -->
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="2" y="2" width="20" height="20" rx="6" fill="#2563eb" />
-                        <path d="M12 5L6 19H9L10.5 15H13.5L15 19H18L12 5ZM11.25 12.5L12 10L12.75 12.5H11.25Z"
-                            fill="white" />
-                    </svg>
-                    <span class="logo-text">Amz AI Agent</span>
-                </a>
-
-                <div class="nav-links">
-                    <a href="index.html" class="active">Home</a>
-                    <a href="create.html">Competitor Analysis</a>
-                    <a href="discovery.html">Product Discovery</a>
-                    <a href="cases.html">Cases</a>
-                    <a href="blog.html">Blog</a>
-                    <a href="pricing.html">Pricing</a>
-                </div>
-                <div class="nav-actions">
-                    <a href="create.html" class="btn btn-primary" style="border-radius: 0.375rem;">Start Analysis</a>
-                </div>
-            </div>
-        </nav>
+        <div id="navbar-placeholder"></div>
     </header>
 
     <!-- Main Content -->
@@ -134,7 +98,7 @@
                 <div style="margin-top: 1.5rem;">
                     <a href="cases.html" class="btn"
                         style="background: rgba(255,255,255,0.15); color: #fff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s ease;">
-                        📊 View Case Studies
+                        📂 View Case Studies
                     </a>
                 </div>
             </div>
@@ -152,13 +116,13 @@
                         <div style="font-size: 2rem; margin-bottom: 0.75rem;">🎯</div>
                         <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Competitor Analysis</h3>
                         <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1rem;">Already have a product? Enter your ASIN and competitor ASINs to get a deep-dive comparison report.</p>
-                        <span style="color: var(--primary-color); font-weight: 600; font-size: 0.9rem;">Start Analysis →</span>
+                        <span style="color: var(--primary-color); font-weight: 600; font-size: 0.9rem;">Start Analysis →/span>
                     </a>
                     <a href="discovery.html" style="text-decoration: none; background: var(--bg-primary); border: 2px solid var(--border-color); border-radius: 1rem; padding: 2rem; transition: all 0.2s; display: block;">
                         <div style="font-size: 2rem; margin-bottom: 0.75rem;">🔍</div>
                         <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Product Discovery</h3>
                         <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1rem;">Still researching? Pick a category and let AI find market gaps, pain points, and entry opportunities.</p>
-                        <span style="color: var(--primary-color); font-weight: 600; font-size: 0.9rem;">Discover Products →</span>
+                        <span style="color: var(--primary-color); font-weight: 600; font-size: 0.9rem;">Discover Products →/span>
                     </a>
                 </div>
             </div>
@@ -321,7 +285,7 @@
             </div>
         </section>
 
-        <!-- Testimonials Section -->
+                <!-- Testimonials Section -->
         <section class="testimonials-section">
             <div class="container">
                 <div class="section-header">
@@ -434,45 +398,10 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer" role="contentinfo">
-        <div class="container">
-            <!-- Top: Brand + Tagline -->
-            <div class="footer-top">
-                <h3 class="footer-logo">Amz AI Agent</h3>
-                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
-            </div>
-
-            <!-- Middle: 3 Link Columns -->
-            <div class="footer-columns">
-                <div class="footer-col">
-                    <h4>Product</h4>
-                    <a href="create.html">Competitor Analysis</a>
-                    <a href="discovery.html">Product Discovery</a>
-                    <a href="reports.html">Analysis Reports</a>
-                    <a href="pricing.html">Pricing</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <a href="blog.html">Blog</a>
-                    <a href="cases.html">Case Studies</a>
-                    <a href="faq.html">FAQ</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Company</h4>
-                    <a href="about.html">About Us</a>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms of Service</a>
-                </div>
-            </div>
-
-            <!-- Bottom: Copyright + Contact -->
-            <div class="footer-bottom">
-                <p class="footer-copyright">© <script>document.write(new Date().getFullYear())</script> Amz AI Agent. All rights reserved.</p>
-                <a href="contact.html" class="footer-contact">Contact Us</a>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-placeholder"></div>
     <script src="script_v2.js?v=4"></script>
+<script src='js/components.js'></script>
 </body>
 
 </html>
+

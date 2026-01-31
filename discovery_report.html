@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -157,7 +157,7 @@
         }
 
         .report-section.unlocked h2::before {
-            content: '✓';
+            content: '✅;
             background: #10b981;
             color: white;
             width: 1.5rem;
@@ -367,40 +367,7 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="2" width="20" height="20" rx="6" fill="#2563eb" />
-                    <path d="M7 12H17M7 8H17M7 16H13" stroke="white" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                <span class="logo-text">Amz AI Agent</span>
-            </a>
-
-            <!-- Mobile Menu Button -->
-            <button class="mobile-menu-btn" aria-label="Toggle Menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="menu-icon-open">
-                    <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="menu-icon-close"
-                    style="display:none;">
-                    <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-            </button>
-
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="create.html">Competitor Analysis</a>
-                <a href="discovery.html" class="active">Product Discovery</a>
-                <a href="cases.html">Cases</a>
-                <a href="blog.html">Blog</a>
-                <a href="pricing.html">Pricing</a>
-            </div>
-            <div class="nav-actions">
-                <a href="discovery.html" class="btn btn-primary">Start Analysis</a>
-            </div>
-        </div>
-    </nav>
+    <div id="navbar-placeholder"></div>
 
     <!-- Report Header -->
     <header class="discovery-report-header">
@@ -582,8 +549,8 @@
     <!-- Payment Modal -->
     <div class="payment-modal" id="payment-modal">
         <div class="payment-modal-content" style="position: relative;">
-            <button class="close-modal" onclick="closePaymentModal()">×</button>
-            <div class="icon">🔓</div>
+            <button class="close-modal" onclick="closePaymentModal()">脳</button>
+            <div class="icon">馃敁</div>
             <h2>Unlock Your Full Report</h2>
             <p class="subtitle">Get instant access to all 8 sections with actionable insights</p>
 
@@ -628,38 +595,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-top">
-                <h3 class="footer-logo">Amz AI Agent</h3>
-                <p class="footer-tagline">AI Amazon Competitor Review Analysis Platform</p>
-            </div>
-            <div class="footer-columns">
-                <div class="footer-col">
-                    <h4>Product</h4>
-                    <a href="create.html">Competitor Analysis</a>
-                    <a href="discovery.html">Product Discovery</a>
-                    <a href="pricing.html">Pricing</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <a href="blog.html">Blog</a>
-                    <a href="cases.html">Case Studies</a>
-                    <a href="faq.html">FAQ</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Company</h4>
-                    <a href="about.html">About Us</a>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms of Service</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p class="footer-copyright">© <script>document.write(new Date().getFullYear())</script> Amz AI Agent. All rights reserved.</p>
-                <a href="contact.html" class="footer-contact">Contact Us</a>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-placeholder"></div>
 
     <script src="script_v2.js?v=4"></script>
     <script>
@@ -696,7 +632,7 @@
                 document.querySelector('.preview-badge').style.display = 'none';
 
                 closePaymentModal();
-                alert('🎉 Payment Successful! Your full report is now unlocked.');
+                alert('馃帀 Payment Successful! Your full report is now unlocked.');
 
                 // Update URL
                 const url = new URL(window.location.href);
@@ -771,6 +707,8 @@
             }
         });
     </script>
+<script src='js/components.js'></script>
 </body>
 
 </html>
+
