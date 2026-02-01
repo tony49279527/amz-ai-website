@@ -2,6 +2,21 @@
 window.blogPostsCN = [];
 window.blogPostsEN = [
   {
+    "id": "amazon-fba-fee-change-2026-removal-disposal-charges",
+    "title": "Amazon FBA Fee Change 2026: New Per-Unit Removal & Disposal Charges Explained",
+    "date": "February 01, 2026",
+    "author": "Amz AI Agent",
+    "cover_image": "assets/images/blog_thumbs/amazon-fba-fee-change-2026-removal-disposal-charges.webp",
+    "tags": [
+      "Amazon FBA",
+      "FBA Fee Change 2026",
+      "Amazon Seller Central",
+      "FBA Removal Fees",
+      "Amazon Inventory Management"
+    ],
+    "content": "<div>        <h1>Amazon FBA Fee Change 2026: Critical Updates for Sellers on Removal & Disposal Charges</h1>        <img src='https://www.ecommercebytes.com/ec/wp-content/uploads/2017/06/amazon_lg-150x150.jpg' alt='Amazon FBA Fee Change 2026 - New Removal and Disposal Fee Structure' class='rounded-lg my-4 w-full object-cover'>        <p>Amazon has announced a significant modification to its FBA fee structure, effective 2026. While the fee amounts remain unchanged, the Amazon FBA Fee Change 2026 introduces a new per-unit charging system for removal and disposal services. This shift affects how and when sellers are billed for managing their inventory in Amazon's fulfillment centers.</p>        <h2>Understanding the Amazon FBA Fee Change 2026 in Detail</h2>        <p>The core change revolves around timing and implementation rather than cost. Instead of bulk charging, Amazon will now process removal and disposal fees on a per-unit basis at the time each unit is removed or disposed of. For sellers utilizing our <a href='/index.html'>Amz AI Agent tools</a>, these changes can be monitored and managed effectively to optimize inventory decisions.</p>        <h2>Impact on Amazon Sellers: What You Need to Know</h2>        <p>This new charging method brings several implications for FBA sellers:</p>        <ul>            <li>More transparent cost tracking</li>            <li>Immediate fee application upon removal/disposal</li>            <li>Better inventory management opportunities</li>        </ul>        <h2>3 Essential Steps to Prepare for the Change</h2>        <ul>            <li>Audit current inventory levels and removal patterns</li>            <li>Update financial tracking systems for per-unit charges</li>            <li>Review and revise inventory management strategies</li>        </ul>        <h2>Frequently Asked Questions About the FBA Fee Change</h2>        <p>Still have questions? Check our comprehensive <a href='/faq.html'>FBA FAQ</a> or review these common queries:</p>        <h3>When exactly does this fee structure change take effect?</h3>        <p>The new per-unit charging system will be implemented in 2026. Amazon will provide specific dates closer to the rollout.</p>        <h3>Will this affect the actual cost of removal and disposal?</h3>        <p>No, the fee amounts themselves remain unchanged. Only the timing and method of charging are being modified.</p>        <h3>How can sellers prepare for this change?</h3>        <p>Sellers should review their inventory management practices, update their accounting systems, and consider using automated tools to track per-unit charges more effectively.</p>        <h2>Conclusion and Next Steps</h2>        <p>While this Amazon FBA Fee Change 2026 doesn't alter the actual costs, it requires sellers to adapt their operational and financial tracking systems. Stay informed about these changes and optimize your FBA strategy accordingly.</p>        <p>How do you think this new per-unit charging system will impact your Amazon business? Share your thoughts and strategies in the comments below.</p>    </div>"
+  },
+  {
     "id": "amazon-safe-t-claims-window-30-days-2026-update",
     "title": "Amazon SAFE-T Claims Window Reduced to 30 Days: Critical 2026 Update for FBA Sellers",
     "date": "January 30, 2026",
